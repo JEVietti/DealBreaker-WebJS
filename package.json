@@ -1,0 +1,21 @@
+{
+  "name": "dealbreaker-js",
+  "version": "1.0.0",
+  "description": "DealBreaker Website Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+   "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken":"*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "author": "Joseph Vietti",
+  "license": "ISC"
+}
