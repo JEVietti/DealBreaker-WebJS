@@ -91,10 +91,11 @@ testem.log
 /typings
 
 # e2e
-/e2e/*.js
-/e2e/*.map
+angular-src/e2e/*.js
+angular-src/e2e/*.map
 
 #System Files
 .DS_Store
 Thumbs.db
 
+angular-src/e2e/
