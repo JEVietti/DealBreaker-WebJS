@@ -1,10 +1,47 @@
-<div *ngIf="user">
-  <h2 class="page-header"> {{user.name}}</h2>
-    <ul class="list-group">
-      <li class="list-group-item">Username: {{user.username}}</li>
-      <li class="list-group-item">Email: {{user.email}}</li>
-    </ul>
+<div *ngIf="profile">
+       <div id="profile">
+        <div id = "profileImages" class = "img-responsive">
+            <img id="bannerImage" *ngIf="!profile.bannerImage" src="/assets/images/defaultBanner.jpg" alt="Banner Picture"/> 
+            <img id="profileImage" *ngIf="!profile.profileImage" src="/assets/images/defaultProfilePic.png" alt="Profile Picture"/>   
+            <li class="list-group-item" id="profileName"> {{profile.fname}} {{profile.lname}}  </li>     
+        </div>
+
+        <div class = "profileContents">
+            
+            <div id="userInfo">
+              <li class="list-group-item" style="text-align: center; font-size: 22px;" id="userText"> Sex: {{profile.sex}}   |   Sexual Orienation: {{profile.sexualOrientation}}   |   Location: {{profile.location}} </li>
+            </div>
+
+            <div id="bio">
+              <h3 style = text-align:center;> Biography</h3>
+              <li class="list-group-item" id="bioText"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium quo vel dicta natus eos excepturi qui fugiat, nisi iure consequuntur, eius nam ut deleniti, nihil atque laboriosam animi facere. Officiis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga provident minima laborum autem placeat quam illo, natus saepe recusandae voluptas nobis rem cumque quod odio unde corrupti asperiores eligendi error.</li>
+            </div>
+            
+             <div id="dealbreakers">
+              <h3 style = text-align:center;> Deal Breakers</h3>
+              <li class="list-group-item"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium quo vel dicta natus eos excepturi qui fugiat, nisi iure consequuntur, eius nam ut deleniti, nihil atque laboriosam animi facere. Officiis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga provident minima laborum autem placeat quam illo, natus saepe recusandae voluptas nobis rem cumque quod odio unde corrupti asperiores eligendi error.</li>
+            </div>
+
+            <div id="qualities" class = "row-fluid">
+                <div class="col-md-6">
+                    <h3> Good Qualities </h3>
+                    <ul>
+                      <li class="list-group-item"> Moody</li>
+                      <li class="list-group-item"> Dorky</li>
+                    </ul>
+                </div>
+                <div  class="col-md-6">
+                    <h3> Bad Qualities </h3>
+                    <ul>
+                      <li class="list-group-item"> Moody</li>
+                      <li class="list-group-item"> Dorky</li>
+                    </ul>
+                </div>            
+            </div> 
+        </div>
+    </div>
 </div>
-<div *ngIf="user == null">
-<h2 class="page-header">User Not Found!</h2>
+
+<div *ngIf="profile == null">
+  <h2 class="page-header">User Not Found!</h2>
 </div>

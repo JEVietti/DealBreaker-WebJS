@@ -4,26 +4,63 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/db');
 const User = require('../models/user');
+const UserController = require('../controllers/user');
 
-//Register
-router.post('/register', (req, res, next)=>{
+//Validate and Create the User, by checking against the DB
+//If a username is taken -> false
+//else if an email is taken -> false
+//otherwise attempt to create User , catch errors
+//return the messages with request
+function validateCreate(req, res){
+    
+    const uname = req.body.username;
+    const email = req.body.email;
+
     let newUser = new User({
         name: req.body.name,
-        email: req.body.email,
-        username: req.body.username,
+        email: email,
+        username: uname,
         password: req.body.password
     });
 
-    User.addUser(newUser, (err, user)=>{
-        if(err){
-            res.json({success:false, msg:"Failed to Register User"});
-        
-        }else{
-            res.json({success:true, msg:"Registered User"});
-            
-        }
+     //Username already exists
+    User.checkUsername(uname,(err, result)=>{
+         if(err) throw err;
+         if(result != null){
+            return res.json({success:false, msg:"Username Already exists!"});                    
+         }
+         else{ //Check for email
+             User.checkEmail(email, (err, result)=>{
+                if(err) throw err;
+                 //console.log(res);
+                 if(result != null){
+                    return res.json({success:false, msg:"Email already tied to an account!"});                            
+                 }
+                 else{ //Try to add the user 
+                    User.addUser(newUser, (err, user)=>{
+                        if(err){
+                            return res.json({success:false, msg:"Failed to Register User"});
+                            
+                        }else{
+                            return res.json({success:true, msg:"Registered User"});    
+                        }
 
+                        });
+
+                 }
+                
+            });
+
+        }
+        
+        
     });
+}
+
+//Register
+router.post('/register', (req, res, next)=>{
+   
+    UserController.create(req, res);
 
 });
 

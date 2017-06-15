@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user:Object;
+  profile:Object;
    //private sub: Subscription;
    private id: any;
   constructor(
@@ -19,7 +19,9 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+  
+  ngAfterContentInit() {
     this.route.params.subscribe((params: Params)=>{
       this.id = params['id'];
       console.log(this.id);
@@ -27,7 +29,8 @@ export class ProfileComponent implements OnInit {
     //If the route doesnt have a /id
     if(this.id === undefined){
        this.authService.getProfile().subscribe(profile => {
-        this.user = profile.user;
+        this.profile = profile.profile;
+        console.log(this.profile);
     },
     err=>{
       console.log(err);
@@ -38,10 +41,12 @@ export class ProfileComponent implements OnInit {
        this.authService.getProfileById(this.id).subscribe(profile => {
          //console.log(profile.success);
         if(profile.success){
-            this.user = profile.user;
+          console.log("Success!");
+            this.profile = profile.profile;
+            console.log(this.profile);
         }
         else {
-          this.user = null;
+          this.profile = null;
         }
       
         

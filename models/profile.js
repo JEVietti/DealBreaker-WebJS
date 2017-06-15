@@ -52,7 +52,16 @@ module.exports.getProfileByUsername = function(username, callback){
     Profile.findOne(query, callback);
 }
 
-module.exports.addProfile = function(newProfile, callback){
+module.exports.create = function(newProfile, callback){
+
+    newProfile.save(callback);
+}
+
+module.exports.update = function(newProfile, callback){
+
+    newProfile.save(callback);
+}
+module.exports.delete = function(newProfile, callback){
 
     newProfile.save(callback);
 }

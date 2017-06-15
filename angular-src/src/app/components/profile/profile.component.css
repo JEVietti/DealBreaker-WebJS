@@ -1,0 +1,94 @@
+
+.profileContent{
+    position:absolute;
+
+
+}
+
+img {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+
+}
+
+ul {
+    padding-left: 0px;
+}
+
+
+#profileInfo{
+   position: absolute; 
+   bottom: 10px; 
+   left: 0; 
+   width: 100%; 
+   text-align: center;
+   -webkit-text-fill-color: white;
+   padding-bottom: 15px;
+}
+
+
+#bannerImage{
+    width: 100%;
+    max-height: 400px;
+    height: auto;
+    background-size: cover;
+}
+
+#profileImage{
+    text-align: center;
+    height: auto;
+    width: 30%;
+    vertical-align: middle;
+    position:relative;
+    margin-top: -200px; 
+    padding-bottom: 20px;
+}
+
+#profileName {
+    top: 0;
+    text-align: center;
+    font: bold;
+    font-size: 48px;
+    padding-bottom: 15px;
+}
+
+.nav{
+    padding-bottom: 0px;
+}
+
+#qualities {
+ font-size: 20px;
+ text-align: center;
+}
+
+#badQualities {
+float: left;
+width: 50%;
+}
+
+#goodQualities {
+    float: right;
+    width: 50%;
+}
+
+
+#menu {
+    float:right;
+    top:0;
+}
+
+#messageMenu {
+    float:left;
+    top:0;
+
+}

@@ -49,5 +49,16 @@ module.exports.comparePassword = function(password, hash, callback){
     });
 }
 
+module.exports.checkUsername = function(uname, callback){
+    const query = {username: uname};
+    User.findOne(query, callback);
+}
+
+module.exports.checkEmail = function(email, callback){
+    const query = {email: email};
+    User.findOne(query, callback);
+}
+
+
 
 

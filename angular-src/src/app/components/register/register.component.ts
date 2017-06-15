@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
             return true;
         }
         else{
-          this.flashMessage.show("Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 3000});
+          this.flashMessage.show(data.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 3000});
           return false;
         }
       });
