@@ -48,10 +48,11 @@ require('./config/passport')(passport);
 //Requests to domain/users => users file
 app.use('/users', users);
 app.use('/profile', profiles);
+app.use('/', profiles);
 
 //routing server paths
 //Index Path
-app.get('/', (req, res)=>{
+app.get('*', (req, res)=>{
 
     res.send('Invalid Endpoint');
 

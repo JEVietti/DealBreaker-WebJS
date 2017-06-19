@@ -15,19 +15,23 @@ import { BrowseComponent } from './components/browse/browse.component';
 
 import {ValidateService} from './services/validate.service';
 import {AuthService} from './services/auth.service';
-//import {AuthGuard} from './guards/auth.guard';
+import {AuthGuard} from './guards/auth.guard';
 import {FlashMessagesModule} from 'angular2-flash-messages';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+
 
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent}, 
   {path: 'login', component: LoginComponent}, 
-  {path: 'profile', children:[
+  {path: 'profile', canActivate:[AuthGuard], children:[
     {path:'', component: ProfileComponent},
     {path:':id', component: ProfileComponent},
   ]},
-  {path: 'dashboard', component: DashboardComponent}   
+  {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ]
 
 @NgModule({
@@ -39,7 +43,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     HomeComponent,
-    BrowseComponent
+    BrowseComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [AuthService, ValidateService],
+  providers: [AuthService, ValidateService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,7 +7,7 @@ export class ValidateService {
 
   //Registration Validation
   validateRegister(user){
-    return !(user.name == undefined || user.email == undefined || user.username == undefined || user.password == undefined);
+    return !(user.fname == undefined || user.lname == undefined || user.email == undefined || user.username == undefined || user.password == undefined);
     
   }
 

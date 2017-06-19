@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const config = '../config/db';
+var ObjectID = require('mongodb').ObjectID;
 
 const UserSchema = mongoose.Schema({
-    name:{
+    fname:{
+        type: String
+    },
+    lname:{
         type: String
     },
     email:{
@@ -57,6 +61,15 @@ module.exports.checkUsername = function(uname, callback){
 module.exports.checkEmail = function(email, callback){
     const query = {email: email};
     User.findOne(query, callback);
+}
+
+module.exports.deleteUser = function(userID, callback){
+    userID = new ObjectID(userID);
+    const userObj = {
+        _id : userID
+    }
+    console.log(userID);
+    User.remove(userObj, callback);
 }
 
 

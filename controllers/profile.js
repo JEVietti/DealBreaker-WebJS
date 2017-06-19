@@ -5,20 +5,21 @@ var ObjectID = require('mongodb').ObjectID;
 var get = function getProfile(req, res){
 
     console.log("Reached Profile GET!");
-    var username = req.query.user;
+    var username = req.query.profile;
     const url = req.url;
 
     if(username == undefined){
         username = url.replace("/", "");
     }
-    if(url === "/"){
+    if(username === "profile/" || username==="profile"){
         username = undefined;
     }
-     console.log(username);
+     console.log("Username: " + username);
  //If User is not specified - empty url or / url
   if(username === undefined){
       var response = {"success": false};
     const uid = req.user._id;
+    console.log('By ID');
     Profile.getProfileById(uid, (err, profile)=>{
         console.log(profile);
         if(err){

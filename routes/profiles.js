@@ -11,7 +11,7 @@ const ProfileController = require('../controllers/profile');
 
 
 //Profile Creation
-router.post('/create', passport.authenticate('jwt', {session:false}), (req, res, next)=>{
+router.post('*', passport.authenticate('jwt', {session:false}), (req, res, next)=>{
     
     const uid = new ObjectID(req.user._id);
 
@@ -40,7 +40,7 @@ router.post('/create', passport.authenticate('jwt', {session:false}), (req, res,
 
 });
 
-router.put('/update', passport.authenticate('jwt', {session:false}), (req, res, next)=>{
+router.put('*', passport.authenticate('jwt', {session:false}), (req, res, next)=>{
     const uid = new ObjectID(req.user._id);
 
     let newProfile = new Profile({
@@ -72,8 +72,9 @@ router.put('/update', passport.authenticate('jwt', {session:false}), (req, res, 
 
 
 //Profile - Protected by Auhentication
-router.get('*', passport.authenticate('jwt', {session:false}), (req, res, next)=>{
+router.get('/:profile', passport.authenticate('jwt', {session:false}), (req, res, next)=>{
     //Call to Profile Controller
+    console.log('Profile');
     ProfileController.get(req, res);
 });
 

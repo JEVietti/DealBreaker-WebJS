@@ -40,17 +40,12 @@ ul {
 #bannerImage{
     width: 100%;
     max-height: 400px;
-    height: auto;
     background-size: cover;
 }
 
 #profileImage{
-    text-align: center;
-    height: auto;
     width: 30%;
-    vertical-align: middle;
     position:relative;
-    margin-top: -200px; 
     padding-bottom: 20px;
 }
 

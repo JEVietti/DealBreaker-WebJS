@@ -4,6 +4,8 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 
+declare const $: any;
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,7 +13,8 @@ import {Router} from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   
-  name: String;
+  fname: String;
+  lname: String;
   username: String;
   email: String;
   password: String;
@@ -33,7 +36,8 @@ export class RegisterComponent implements OnInit {
     
     //User Object 
     const user = {
-      name: this.name,
+      fname: this.fname,
+      lname: this.lname,      
       username: this.username,
       email: this.email,
       password: this.password,
@@ -65,6 +69,7 @@ export class RegisterComponent implements OnInit {
     }
     else if(!this.validateService.validateEmail(user.email)){
        this.flashMessage.show("Invalid Email", {cssClass: 'alert-danger', timeout: 3000});
+      //$('#email').addClass("invalid");
       return false;
     }
     else if(!this.validateService.validatePassword(user.password, user.cpassword)){

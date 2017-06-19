@@ -8,20 +8,29 @@ import 'rxjs/add/operator/map';
 export class AuthService {
   authToken: any;
   user: any;
+  profile: any;
 
   constructor(private http:Http) { }
 
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
+    return this.http.post('http://localhost:3000/users/', user, {headers: headers})
       .map(res=> res.json());
   }
 
   authenticateUser(user){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
+    return this.http.post('http://localhost:3000/users/auth', user, {headers: headers})
+      .map(res=> res.json());
+  }
+
+  deleteUser(){
+     let headers = new Headers();
+     this.loadToken();
+     headers.append('Authorization', this.authToken);
+     return this.http.delete('http://localhost:3000/users/', {headers: headers})
       .map(res=> res.json());
   }
 
@@ -37,7 +46,7 @@ export class AuthService {
   getProfileById(id){
       let headers = new Headers();
       let params: URLSearchParams = new URLSearchParams();
-      params.set('user', id);
+      params.set('profile', id);
 
      this.loadToken();
      headers.append('Authorization', this.authToken);
@@ -55,6 +64,10 @@ export class AuthService {
 
   loadToken(){
     this.authToken = localStorage.getItem('id_token'); 
+  }
+
+  loadProfile(){
+    this.profile = localStorage.getItem('user');
   }
 
   loggedIn(){

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const config = '../config/db';
 
 const ProfileSchema = mongoose.Schema({
-
+              
                 username: {
                     id: "/properties/user_info/properties/userName",
                     type: String
