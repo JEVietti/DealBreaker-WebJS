@@ -1,0 +1,73 @@
+.center-focus {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.header {
+  margin-top:0;
+  margin-bottom: 5px;
+}
+
+
+.parallax-container {
+  max-height: 500px;
+}
+
+
+
+.container {
+  margin-bottom: 0;
+  margin-top : 0;
+}
+
+.grad-dark{
+
+  background: lightgray; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, lightgray, pink); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, lightgray, pink); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, lightgray, pink); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, lightgray, pink); /* Standard syntax */
+
+}
+
+.margin-bot-rm{
+  margin-bottom: 0px; 
+
+}
+
+.tagline {
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+
+.button-front-left {
+  position: absolute;
+   bottom: 0;
+   left:0;
+   left: 50%;
+   margin-right:0px;   
+   margin-left: 20px;
+   margin-bottom: 10px;
+}
+
+.button-front-right {
+  position: absolute;
+   margin-top: 50px;
+   bottom: 0;
+   right:0;
+   right: 50%;
+   margin-left: 0px;   
+   margin-right:0px;
+   margin-bottom: 10px;
+}
+
+.heading {
+  font-size: 28px;
+}
+
+.desc{
+    font-size: 18px;
+      font-weight: 300;
+}

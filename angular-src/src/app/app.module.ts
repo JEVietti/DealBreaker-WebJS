@@ -18,6 +18,8 @@ import {AuthService} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ProfileSetupComponent } from './components/profile-setup/profile-setup.component';
 
 
 
@@ -27,7 +29,8 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent}, 
   {path: 'profile', canActivate:[AuthGuard], children:[
     {path:'', component: ProfileComponent},
-    {path:':id', component: ProfileComponent},
+    { path:'setup', component: ProfileSetupComponent},    
+    {path:':id', component: ProfileComponent}
   ]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: '404', component: NotFoundComponent},
@@ -44,7 +47,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     HomeComponent,
     BrowseComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    FooterComponent,
+    ProfileSetupComponent
   ],
   imports: [
     BrowserModule,

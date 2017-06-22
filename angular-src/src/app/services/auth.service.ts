@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthService {
   authToken: any;
-  user: any;
+  public user: any;
   profile: any;
 
   constructor(private http:Http) { }
@@ -64,6 +64,7 @@ export class AuthService {
 
   loadToken(){
     this.authToken = localStorage.getItem('id_token'); 
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   loadProfile(){
@@ -71,6 +72,8 @@ export class AuthService {
   }
 
   loggedIn(){
+    this.loadToken();
+    
     return tokenNotExpired('id_token');
   }
 

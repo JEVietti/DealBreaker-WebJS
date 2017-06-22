@@ -114,7 +114,8 @@ var auth = function authUser(req, res){
                 token: 'JWT ' + token,
                 user : {
                     id: user._id,
-                    name: user.name,
+                    fname: user.fname,
+                    lname: user.lname,                    
                     username: user.username,
                     email: user.email
                 }

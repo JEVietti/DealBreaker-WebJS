@@ -1,21 +1,22 @@
 <nav>
       <div class="nav-wrapper">
         <a href="/" class="brand-logo center">DealBreaker </a>
-        <a href="/" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="left hide-on-med-and-down">
+        <a href="/" data-activates="mobile-nav" class=" hide-on-med-and-up button-collapse"><i class=" hide-on-med-and-up material-icons">menu</i></a>
+        <ul class="left hide-on-small-only">
         <li ><a [routerLink] = "['/']">Home</a></li>
+        <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li>
+        
         </ul>
-        <ul class="right hide-on-med-and-down">
-       <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li>
-            <li *ngIf="authService.loggedIn()"><a  [routerLink] = "['/profile']"> Profile </a></li>
+        <ul class="right hide-on-small-only">
+            <li *ngIf="authService.loggedIn()"><a  [routerLink] = "['/profile']"> {{authService.user.fname}} </a></li>
             <li *ngIf="!authService.loggedIn()" ><a [routerLink] = "['/login']">Login</a></li>
             <li *ngIf="!authService.loggedIn()"><a [routerLink] = "['/register']">Register</a></li>
             <li *ngIf="authService.loggedIn()"><a (click)= "onLogoutClick()" href=""> Logout</a></li>
             </ul>
-        <ul class="side-nav" id="mobile-demo">
+        <ul class="side-nav" id="mobile-nav">
             <li ><a [routerLink] = "['/']">Home</a></li>
             <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li>
-            <li *ngIf="authService.loggedIn()"><a  [routerLink] = "['/profile']"> Profile </a></li>
+            <li *ngIf="authService.loggedIn()"><a  [routerLink] = "['/profile']"> {{authService.user.fname}} </a></li>
             <li *ngIf="!authService.loggedIn()" ><a [routerLink] = "['/login']">Login</a></li>
             <li *ngIf="!authService.loggedIn()"><a [routerLink] = "['/register']">Register</a></li>
             <li *ngIf="authService.loggedIn()"><a (click)= "onLogoutClick()" href=""> Logout</a></li>

@@ -1,0 +1,14 @@
+nav{
+    padding-left:10px;
+    padding-right: 15px;
+}
+
+.grad-dark{
+
+  background: lightgray; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, lightgray, pink); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, lightgray, pink); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, lightgray, pink); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, lightgray, pink); /* Standard syntax */
+
+}

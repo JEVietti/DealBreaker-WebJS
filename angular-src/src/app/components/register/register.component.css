@@ -1,4 +1,11 @@
 .material-icons.pink-dark { color: #E75480; }
+
 form{
  padding-left: 15px;
+ margin-bottom: 300px;
+}
+
+
+i{
+   padding-top: 10px;
 }

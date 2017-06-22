@@ -1,0 +1,27 @@
+  <footer id="footer" class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Dealbreaker Dating</h5>
+                <p class="grey-text text-lighten-4">Know before you start!</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                 <ul>
+            <li ><a class="pink-text text-darken-2" [routerLink] = "['/']">Home</a></li>
+            <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/dashboard']">Dashboard</a></li>
+            <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/profile']"> {{authService.user.fname}} </a></li>
+            <li *ngIf="!authService.loggedIn()" ><a class="pink-text text-darken-3" [routerLink] = "['/login']">Login</a></li>
+            <li *ngIf="!authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/register']">Register</a></li>
+            <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" (click)= "onLogoutClick()" href=""> Logout</a></li>
+        </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © Dealbreaker Dating
+            <a class="pink-text text-darken-3 right" href="#!">Contact</a>
+        </div>
+      </div>
+  </footer>
