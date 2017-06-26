@@ -1,3 +1,11 @@
+/* Home Component: Landing Page for Website Description
+ * As well as some small navigation and suggestions such as
+ * what the website does for the user as well as 
+ * the directing the user to register and login.
+ * 
+ * 
+*/
+
 import { Component, OnInit } from '@angular/core';
 declare const $: any;
 @Component({

@@ -9,8 +9,9 @@
 }
 
 
+
 .parallax-container {
-  max-height: 500px;
+  max-height: 600px;
 }
 
 
@@ -70,4 +71,8 @@
 .desc{
     font-size: 18px;
       font-weight: 300;
+}
+
+h5 {
+  margin-top:0px;
 }
