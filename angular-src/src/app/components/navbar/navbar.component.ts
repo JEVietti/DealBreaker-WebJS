@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+ 
   }
 
   //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page

@@ -10,7 +10,7 @@
                  <ul>
             <li ><a class="pink-text text-darken-2" [routerLink] = "['/']">Home</a></li>
             <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/dashboard']">Dashboard</a></li>
-            <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/profile']"> {{authService.user.fname}} </a></li>
+            <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/profile']"> profile </a></li>
             <li *ngIf="!authService.loggedIn()" ><a class="pink-text text-darken-3" [routerLink] = "['/login']">Login</a></li>
             <li *ngIf="!authService.loggedIn()"><a class="pink-text text-darken-3" [routerLink] = "['/register']">Register</a></li>
             <li *ngIf="authService.loggedIn()"><a class="pink-text text-darken-3" (click)= "onLogoutClick()" href=""> Logout</a></li>

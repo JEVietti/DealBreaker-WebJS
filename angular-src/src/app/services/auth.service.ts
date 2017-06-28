@@ -75,6 +75,7 @@ export class AuthService {
 //Load specifically the User Data Object from storage
   loadUser(){
     this.profile = localStorage.getItem('user');
+
   }
 
 //Check if the Users that logged in by checking if Auth Token is still valid

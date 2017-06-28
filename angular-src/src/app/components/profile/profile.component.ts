@@ -12,27 +12,55 @@ import {AuthService} from '../../services/auth.service';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 //import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
-
+declare const $: any;
+var slider =  $('.slider');
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile:Object;
+  profile:any;
   sub: any;
+  image:{_id:Number,url:String};
+  gallery: any[] = [];
    //private sub: Subscription;
    private id: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService
-  ) { }
+  ) { 
+      this.initProfile();      
+    
+   }
 
-  ngOnInit() {}
-  
-  ngAfterContentInit() {
-    //Subscribe to the route by an id: username
+  ngOnInit() {
+  }
+
+    ngAfterContentInit() {
+    
+      $(document).ready(function(){
+
+        if($('.carousel.carousel-slider').hasClass('initialized')){
+
+           slider.removeClass('initialized');
+
+        }
+        $('.carousel').carousel();
+        $('.materialboxed').materialbox();
+         //$('.carousel.carousel-slider').carousel(); 
+         
+            
+      });
+  }
+
+  ngOnChange(){
+    
+  }
+
+initProfile(){
+  //Subscribe to the route by an id: username
    this.sub = this.route.params.subscribe((params: Params)=>{
       this.id = params['id'];
       console.log(this.id);
@@ -41,15 +69,31 @@ export class ProfileComponent implements OnInit {
     if(this.id === undefined){
       //Request the Profile, Same as User tha has been logged in
        this.authService.getProfile().subscribe(profile => {
-         //Profile Exists
-        if(profile.profile.get != undefined){
-          this.profile = profile.profile;
-          console.log(this.profile);
-        //Profile Does not exist - reroute to the setup page: components/profile-setup
-        } else{
-          console.log(profile.profile);
-          this.router.navigate(['profile/setup']);
-        }      
+         if(profile != undefined){
+             //Profile Exists
+            if(profile.success){
+              //console.log(profile);
+              this.profile = profile.profile;
+            
+              var images = (this.profile.images);
+              for(var i=0; i<images.length; i++){
+                this.gallery.push(images[i].url);
+              }
+                $(document).ready(function(){
+                  $('.carousel').carousel();
+                   $('.materialboxed').materialbox();
+                  // $('.carousel.carousel-slider').carousel();      
+                  
+                });
+              
+              console.log(this.gallery);
+              console.log(this.profile);
+            //Profile Does not exist - reroute to the setup page: components/profile-setup
+            } else {
+              console.log(profile.profile);
+              this.router.navigate(['profile/setup']);
+            }     
+         } 
     },
     err=>{
       console.log(err);
@@ -62,9 +106,22 @@ export class ProfileComponent implements OnInit {
          //console.log(profile.success);
          //if profile found display its contents
         if(profile.success){
-          console.log("Success!");
-            this.profile = profile.profile;
-            console.log(this.profile);
+           console.log(profile);
+              this.profile = profile.profile;
+            
+              var images = (this.profile.images);
+              for(var i=0; i<images.length; i++){
+                this.gallery.push(images[i].url);
+              }
+                $(document).ready(function(){
+                  $('.carousel').carousel();
+                   $('.materialboxed').materialbox();
+                  // $('.carousel.carousel-slider').carousel();      
+                  
+                });
+              
+              console.log(this.gallery);
+              console.log(this.profile);
         }
         //otherwise set to null, which in teh callback will display User Not Found!
         else {
@@ -75,7 +132,6 @@ export class ProfileComponent implements OnInit {
       console.log(err);
     });  
   }
-     
 }
 
 //If path changes - destroy the object and the subscribe rx/js

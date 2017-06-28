@@ -2,29 +2,15 @@
 .profileContent{
     position:absolute;
 
-
 }
 
-img {
-    position: relative;
-    width: 100%;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.row {
+    height: 600px !important;
 }
 
-
-.imageContainer {
-    position: relative;
-    width: 100%;
-
+.materialboxed .active{
+    left: 0 !important;
 }
-
-ul {
-    padding-left: 0px;
-}
-
 
 #profileInfo{
    position: absolute; 
@@ -36,25 +22,38 @@ ul {
    padding-bottom: 15px;
 }
 
-
-#bannerImage{
-    width: 100%;
-    max-height: 400px;
-    background-size: cover;
+.carousel {
+      height: 600px !important;
 }
 
-#profileImage{
-    width: 30%;
-    position:relative;
-    padding-bottom: 20px;
+.carousel-item a {
+    max-height: 100% !important;
+    min-width: 400px !important;
+    
 }
+
+.carousel .carousel-item {
+    display: none;
+    width: 400px !important;
+    height: 400px !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+img {
+    width:100%;
+}
+
 
 #profileName {
     top: 0;
     text-align: center;
     font: bold;
     font-size: 48px;
-    padding-bottom: 15px;
+    padding-bottom: 0px;
+    padding-top: 15px;
+    margin: 0 0 0 0;
 }
 
 .nav{
@@ -64,6 +63,11 @@ ul {
 #qualities {
  font-size: 20px;
  text-align: center;
+}
+
+#bioText {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
 }
 
 #badQualities {

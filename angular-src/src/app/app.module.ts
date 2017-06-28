@@ -32,6 +32,7 @@ import {FlashMessagesModule} from 'angular2-flash-messages';
 
 
 
+
 //Application Routing in which the path -> component, 
 //each path can be protected by an guard - AuthGuard: logged in status
 //see guards/auth.guard.tcs for implementation
@@ -61,7 +62,7 @@ const appRoutes: Routes = [
     BrowseComponent,
     NotFoundComponent,
     FooterComponent,
-    ProfileSetupComponent
+    ProfileSetupComponent  
   ],
   imports: [
     BrowserModule,
@@ -69,6 +70,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
+    
   ],
   providers: [AuthService, ValidateService, AuthGuard],
   bootstrap: [AppComponent]

@@ -10,9 +10,33 @@
           <i class="material-icons prefix pink-dark">perm_identity</i>                               
           <input [(ngModel)]="lname" name="lname" id="lname" type="text" class="validate">
           <label for="lname">Last Name</label>
-        </div>
-        
+        </div>  
       </div>
+      <div class="row">
+        <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark">perm_contact_calendar</i>
+         <div class="col s2">
+           
+          <select class="browser-default" type="number" [(ngModel)] = "dobMonth" name = "dobMonth" id="dobMonth">
+            <option value="" disabled selected="selected">Month</option>
+            <option *ngFor="let monthPair of monthPairs" [ngValue] = "monthPair.value" > {{monthPair.label}} </option>
+          </select>
+          <label>Month</label>
+        </div>
+         <div class=" col s1">
+            <select class="browser-default" type="number" [(ngModel)] = "dobDay" name='dobDay' id='dobDay'>
+               <option value="" disabled selected="selected">Day</option>
+                <option *ngFor="let day of dayList" [ngValue] = "day" > {{day}} </option>
+          </select>
+          <label>Day</label>
+        </div>
+         <div class="col s2">
+            <select class="browser-default" [(ngModel)] = "dobYear" name="dobYear" id="dobYear">
+                   <option value="" disabled selected="selected">Year</option>
+                 <option *ngFor="let year of yearList" [ngValue] = "year" > {{year}} </option>
+                </select>
+          <label>Year</label>
+        </div>
+    </div>
       <div class="row">
         <div class="input-field col s12">
            <i class="material-icons prefix pink-dark">account_circle</i>

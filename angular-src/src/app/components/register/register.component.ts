@@ -12,6 +12,7 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 
+
 declare const $: any;
 
 @Component({
@@ -23,6 +24,13 @@ export class RegisterComponent implements OnInit {
   //Class Variables - form Model for binding
   fname: String; //name
   lname: String;
+  monthPairs : any[];
+  yearList: number[] = [];
+  dayList: number[] = [];
+  dobMonth: number;
+  dobDay: number;
+  dobYear: number;
+  birthdate: String;
   username: String; //unique username/id
   email: String; //unique email
   password: String; //password for auth
@@ -33,21 +41,40 @@ export class RegisterComponent implements OnInit {
       private validateService: ValidateService, 
       private flashMessage: FlashMessagesService,
       private authService: AuthService,
-      private router: Router
-
+      private router: Router,
+     
   ) { }
 
+  
+
   ngOnInit() {
+
+    this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
+    
+
+    var currentYear = new Date().getFullYear();
+    for(var i=currentYear; i >= currentYear-100; i--){
+      this.yearList.push(i);
+    }  
+
+    this.dayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+}
+
+
+  ngAfterContentInit(){  
   }
 
 //Form Submission
   onRegisterSubmit(){
     console.log("Registration Submitted!");
-    
+    //Initialize birthdate in dd-mm-yyyy format
+    this.birthdate = this.dobDay + "-" + this.dobMonth + "-" + this.dobYear;
+     console.log(this.birthdate);
     //User Object 
     const user = {
       fname: this.fname,
       lname: this.lname,      
+      birthdate: this.birthdate,
       username: this.username,
       email: this.email,
       password: this.password,
@@ -57,6 +84,7 @@ export class RegisterComponent implements OnInit {
   //The Validation Registration for form being filled 
     if(this.validateRegister(user)){
       console.log("Validated")
+     
       //Register User - subscribe for API response
       this.authService.registerUser(user).subscribe(data => {
        //Register success, redirect for user to log in
@@ -90,6 +118,14 @@ export class RegisterComponent implements OnInit {
     //Password Mismatch
     else if(!this.validateService.validatePassword(user.password, user.cpassword)){
       this.flashMessage.show("Passwords do not match!", {cssClass: 'alert-danger', timeout: 3000});
+      return false;
+    }
+    else if(!this.validateService.validateDate(user.birthdate)){
+      this.flashMessage.show("Invalid Date, please use a real date!", {cssClass: 'alert-danger', timeout: 3000});
+      return false;
+    }
+    else if(this.validateService.validateDOB(user.birthdate)){
+      this.flashMessage.show("You must be 18 years or older!", {cssClass: 'alert-danger', timeout: 3000});
       return false;
     }
     

@@ -44,7 +44,39 @@ export class ValidateService {
   validateLogin(user){
     return !(user.username == undefined || user.password == undefined);
   }
+  
+  //Validate date format as to being a valid date
+  validateDate(birthdate){
+    var d = new Date(birthdate);
+    if ( Object.prototype.toString.call(d) === "[object Date]" ) { // it is a date
+        if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
+          // date is not valid
+          console.log("Not a real date!");
+          return false;
+        }
+        else {
+          // date is valid
+          console.log("date is valid and real");
+          return true;
+        }
+    } else {
+        // not a date
+        console.log("Date is invalid format!");
+        return false;
+    }
 
+  }
+
+  //Validate the DOB of being at least 18 yearsold 
+  validateDOB(birthdate){
+    let ageMS = Date.parse(Date()) - Date.parse(birthdate);
+    let age = new Date();
+    age.setTime(ageMS);
+    let ageYear = age.getFullYear() - 1970;
+    console.log(ageYear);
+    
+    return ageYear < 18;
+  }
 
   //Profile Validation- Profile Creation
 

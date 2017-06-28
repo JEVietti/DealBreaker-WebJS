@@ -1,71 +1,61 @@
-//Server Entry Point File: Front Controller
+// Server Entry Point File: Front Controller
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const cors = require('cors');
-const passport = require('passport');
-const mongoose = require('mongoose');
-/*  
+const express = require('express')
+const bodyParser = require('body-parser')
+const path = require('path')
+const cors = require('cors')
+const passport = require('passport')
+const mongoose = require('mongoose')
+/*
     const fs = require('fs');
     const expressValidator = require('express-validator');
 */
-const dbConfig = require('./config/db');//config file
+const dbConfig = require('./config/db')// config file
 
-//Database - Mongoose Setup
-mongoose.connect(dbConfig.database); //config file
-//Testing Connection
-mongoose.connection.on('connected',()=>{
-    console.log("DB connection successful " + dbConfig.database);
+// Database - Mongoose Setup
+mongoose.connect(dbConfig.database) // config file
+// Testing Connection
+mongoose.connection.on('connected', () => {
+  console.log('DB connection successful ' + dbConfig.database)
+})
+// Error checking on DB
+mongoose.connection.on('error', (err) => {
+  console.log('DB Error: ' + err)
+})
 
-});
-//Error checking on DB
-mongoose.connection.on('error',(err)=>{
-    console.log("DB Error: " + err);
+const app = express()
+const port = process.env.PORT || 3000
+const users = require('./routes/users')
+const profiles = require('./routes/profiles')
+const images = require('./routes/images')
 
-});
+// CORS MiddleWare
+app.use(cors())
 
-const app = express();
-const port = process.env.PORT || 3000;
-const users = require('./routes/users');
-const profiles = require('./routes/profiles');
+// Set Static Angular Folder Framework
+app.use(express.static(path.join(__dirname, 'public')))
 
-//CORS MiddleWare
-app.use(cors());
+// BodyParser Middleware
+app.use(bodyParser.json())
 
-//Set Static Angular Folder Framework
-app.use(express.static(path.join(__dirname, 'public')));
+// Passport MiddleWare - passportjwt
+app.use(passport.initialize())
+app.use(passport.session())
 
-//BodyParser Middleware
-app.use(bodyParser.json());
+require('./config/passport')(passport)
 
-//Passport MiddleWare - passportjwt
-app.use(passport.initialize());
-app.use(passport.session());
+// Requests to domain/users => users file
+app.use('/users', users)
+app.use('/profile', profiles)
+// app.use('/', profiles);
+app.use('/images', images)
 
-require('./config/passport')(passport);
+// routing server paths
+app.get('*', (req, res) => {
+  res.send('Invalid Endpoint')
+})
 
-//Requests to domain/users => users file
-app.use('/users', users);
-app.use('/profile', profiles);
-app.use('/', profiles);
-
-//routing server paths
-//Index Path
-app.get('*', (req, res)=>{
-
-    res.send('Invalid Endpoint');
-
-});
-
-//server on port:
-app.listen(port, ()=>{
-    console.log("Server started on port " + port);
-
-});
-
-
-
-
-
-
+// server on port:
+app.listen(port, () => {
+  console.log('Server started on port ' + port)
+})
