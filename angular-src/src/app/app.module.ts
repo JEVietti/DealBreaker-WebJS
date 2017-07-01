@@ -7,9 +7,10 @@
 //Base package modules needed for implementation
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {RouterModule, Routes, ActivatedRoute, Params} from '@angular/router';
+
 
 //User Created Components
 import { AppComponent } from './app.component';
@@ -27,8 +28,12 @@ import { ProfileSetupComponent } from './components/profile-setup/profile-setup.
 //user Created or Customized Services and Providers
 import {ValidateService} from './services/validate.service';
 import {AuthService} from './services/auth.service';
+import {ImagesService} from './services/images.service';
+import {ProfileService} from './services/profile.service';
 import {AuthGuard} from './guards/auth.guard';
 import {FlashMessagesModule} from 'angular2-flash-messages';
+import { ImagesComponent } from './components/images/images.component';
+import { BirthdateComponent } from './components/birthdate/birthdate.component';
 
 
 
@@ -42,7 +47,8 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent}, 
   {path: 'profile', canActivate:[AuthGuard], children:[
     {path:'', component: ProfileComponent},
-    { path:'setup', component: ProfileSetupComponent},    
+    { path:'setup', component: ProfileSetupComponent},
+    { path:'images', component: ImagesComponent},            
     {path:':id', component: ProfileComponent}
   ]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
@@ -62,17 +68,20 @@ const appRoutes: Routes = [
     BrowseComponent,
     NotFoundComponent,
     FooterComponent,
-    ProfileSetupComponent  
+    ProfileSetupComponent,
+    ImagesComponent,
+    BirthdateComponent  
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
     
   ],
-  providers: [AuthService, ValidateService, AuthGuard],
+  providers: [AuthService, ValidateService, AuthGuard, ImagesService, ProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,32 +4,29 @@ const router = express.Router()
 const passport = require('passport')
 require('jsonwebtoken')
 require('../config/db')
-const Images = require('../models/profile')
-var ObjectID = require('mongodb').ObjectID
 const ImageController = require('../controllers/images')
 
-// Initial Image Creation
+// HTTP GET Request: Getting Images of the Same User, Read
+router.get('/:profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  ImageController.getByUsername(req, res)
+})
+
+// HTTP GET Request: Getting Images of the Same User, Read
+router.get('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  ImageController.get(req, res)
+})
+
+// HTTP POST Request: Initial Image Creation
 router.post('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-  const uid = new ObjectID(req.user._id)
-
-  let newImage = new Images({
-    _id: uid,
-    url: req.image.url
-  })
-
-  Images.create(newImage, (err, user) => {
-    if (err) {
-      res.json({success: false, msg: 'Failed to Add Image'})
-    } else {
-      res.json({success: true, msg: 'Image Added'})
-    }
-  })
+  ImageController.create(req, res)
 })
 
 router.put('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-  const uid = new ObjectID(req.user._id)  
-  Images.update(newImage)
+  ImageController.update(req, res)
+})
 
+router.delete('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  ImageController.delete(req, res)
 })
 
 module.exports = router

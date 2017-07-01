@@ -68,7 +68,7 @@ export class RegisterComponent implements OnInit {
   onRegisterSubmit(){
     console.log("Registration Submitted!");
     //Initialize birthdate in dd-mm-yyyy format
-    this.birthdate = this.dobDay + "-" + this.dobMonth + "-" + this.dobYear;
+    this.birthdate = this.dobYear + "-" + this.dobMonth + "-" + this.dobDay;
      console.log(this.birthdate);
     //User Object 
     const user = {

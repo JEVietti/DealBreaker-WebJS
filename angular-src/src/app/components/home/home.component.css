@@ -76,3 +76,8 @@
 h5 {
   margin-top:0px;
 }
+
+.main {
+  padding-top: 50px;
+  min-height: 600px;
+}

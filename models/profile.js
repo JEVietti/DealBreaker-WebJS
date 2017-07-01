@@ -26,12 +26,6 @@ const ProfileSchema = mongoose.Schema({
     upsert: true
   },
 
-  height: {
-    id: '/properties/user_info/properties/height',
-    type: Number,
-    upsert: true
-  },
-
   lname: {
     id: '/properties/user_info/properties/lastName',
     type: String,
@@ -56,7 +50,7 @@ const ProfileSchema = mongoose.Schema({
     upsert: true
   },
 
-  bio: {
+  biography: {
     type: String,
     upsert: true
   },
@@ -66,12 +60,12 @@ const ProfileSchema = mongoose.Schema({
     upsert: true
   }],
 
-  goodQ: [{
+  goodQualities: [{
     type: String,
     upsert: true
   }],
 
-  badQ: [{
+  badQualities: [{
     type: String,
     upsert: true
   }],
@@ -91,14 +85,15 @@ const Profile = module.exports = mongoose.model('Profile', ProfileSchema)
 // Populate the data after query using the same ID
 module.exports.getProfileById = function (id, callback) {
   const query = {_id: id}
-  Profile.findOne(query).populate('images').exec(callback)
+  Profile.findOne(query).populate('images').lean().exec(callback)
 }
 
 // Populate the data of the profile binded to the username,
 // the id of the username is then used to populate their images data.
 module.exports.getProfileByUsername = function (username, callback) {
   const query = {username: username}
-  Profile.findOne(query).populate('images').exec(callback)
+  const data = Profile.findOne(query).populate('images')
+  data.lean().exec(callback)
 }
 
 // Create method in which the data is saved with the passed in data from request
@@ -109,8 +104,9 @@ module.exports.create = function (newProfile, callback) {
 
 // Update Method
 module.exports.update = function (newProfile, callback) {
-  newProfile.save(callback)
+  Profile.findByIdAndUpdate(newProfile._id, newProfile).exec(callback)
 }
+
 // Delete Method: passed the profile/user id which is encoded in the jwt token
 // the jwt token is parsed and decoded in the respective controller
 module.exports.delete = function (profileID, callback) {

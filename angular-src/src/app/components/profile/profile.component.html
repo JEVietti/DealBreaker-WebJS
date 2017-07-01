@@ -1,49 +1,56 @@
 <div *ngIf="profile">
-       <div class="container">
-        <div class="row-fluid" *ngIf="gallery != undefined && gallery.length > 0">
+       <div class="container-fluid">
+        <div class="row-fluid" *ngIf="gallery.length > 0">
           <div  class="carousel center">  
             <a *ngFor="let image of gallery" class="carousel-item"><img class=" materialboxed" src={{image}}></a>
          </div>
          </div>
+       
+         <div>
+          <div *ngIf="profile.images === null" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
+            <img class="responsive-img center defaultProfile" src="../assets/images/defaultProfilePic.png">
+          </div>
+         </div>
+          
+         
 
-        <div class = "profileContents">
+        <div class = "container">
              <p class="list-group-item" id="profileName"> {{profile.fname}} {{profile.lname}}  </p>  
             <div id="userInfo">
-              <p class="list-group-item" style="text-align: center; font-size: 22px;" id="userText"> Sex: {{profile.sex}}   |   Sexual Orienation: {{profile.sexualOrientation}}   |   Location: {{profile.location}} </p>
+              <p class="list-group-item" style="text-align: center; font-size: 22px;" id="userText"> Age: {{this.age}}   |   Sex: {{profile.sex}}   |   Sexual Orienation: {{profile.sexualOrientation}}   |   Location: {{profile.location}} </p>
             </div>
 
-            <div id="bio">
-              <h3 class="center"> Biography</h3>
-              <p class="list-group-item center" id="bioText"> {{profile.bio}} </p>
+            <div style="padding-top: 10px;" id="bio">
+              <h4 class="center"> Biography</h4>
+              <p class="list-group-item center" id="bioText"> {{profile.biography}} </p>
             </div>
+            <div style="padding-top: 15px;" class="row center">
             
-             <div id="qualities" class = "row-fluid">
-                <div class="col-md-3">
-              <h3 class="center">Deal Breakers</h3>
-              <ul>
-              <p *ngFor="let db of profile.dealbreakers" class="list-group-item"> {{db}} </p>
-              </ul>
-              </div>
-
-            <div id="qualities" class = "row-fluid">
-                <div class="col-md-3">
-                    <h3> Good Qualities </h3>
+                  <h4 class="center">Dealbreakers</h4>
+                  <ul>
+                  <li *ngFor="let db of profile.dealbreakers" class="list-group-item flow-text"> {{db}} </li>
+                  </ul>
+            
+               </div>
+             <div id="qualities" class = " row center">
+                <div class="col s6">
+                    <h4> Good Qualities</h4>
                     <ul>
-                      <p *ngFor="let gq of profile.goodQualities" class="list-group-item"> {{gq}} </p>
+                      <li *ngFor="let gq of profile.goodQualities" class="list-group-item"> {{gq}} </li>
                     </ul>
                 </div>
-                <div  class="col-md-3">
-                    <h3> Bad Qualities </h3>
+                
+                <div class="col s6">
+                    <h4> Bad Qualities</h4>
                     <ul>
-                      <p *ngFor="let bq of profile.badQualities" class="list-group-item"> {{bq}} </p>
-                    </ul>
-                </div>            
-            </div> 
+                      <li *ngFor="let bq of profile.badQualities" class="list-group-item"> {{bq}} </li>
+                    </ul>           
+                </div> 
             </div>            
         </div>
     </div>
 </div>
 
-<div *ngIf="profile == null">
+<div *ngIf="profile === null">
   <h2 class="page-header">User Not Found!</h2>
 </div>

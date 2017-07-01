@@ -28,6 +28,8 @@ const port = process.env.PORT || 3000
 const users = require('./routes/users')
 const profiles = require('./routes/profiles')
 const images = require('./routes/images')
+const AWS = require('aws-sdk')
+AWS.config.loadFromPath('./config/s3Config.json')
 
 // CORS MiddleWare
 app.use(cors())
@@ -49,6 +51,38 @@ app.use('/users', users)
 app.use('/profile', profiles)
 // app.use('/', profiles);
 app.use('/images', images)
+
+app.get('/sign-s3', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  const s3 = new AWS.S3()
+
+  const fileName = req.query.fileName
+  const fileType = req.query.fileType
+
+  console.log(fileName)
+  console.log(fileType)  
+
+  const folderName = req.user.username
+  const s3Params = {
+    Bucket: 'dealbreakerjs',
+    Key: folderName + '/' + fileName,
+    Expires: 3600,
+    ContentType: fileType,
+    ACL: 'public-read'
+  }
+  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+    if (err) {
+      console.log(err)
+      return res.end()
+    }
+    console.log(data)
+    const returnData = {
+      signedRequest: data,
+      url: `https://s3-us-west-1.amazonaws.com/dealbreakerjs/${folderName}/${fileName}`
+    }
+    res.json(returnData)
+    res.end()
+  })
+})
 
 // routing server paths
 app.get('*', (req, res) => {

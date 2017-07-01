@@ -12,3 +12,9 @@ nav{
   background: linear-gradient(to bottom right, lightgray, pink); /* Standard syntax */
 
 }
+
+#logo:hover {
+  text-shadow: 1px 1px 1px pink; 
+  -webkit-transition:all 0.7s ease-in-out;
+    text-align: center;
+}

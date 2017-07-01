@@ -7,6 +7,13 @@ radio {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+i {
+    padding-top: 10px;
+}
+
+.material-icons.pink-dark { color: #E75480; }
+
 /*
 * {
   background: #000 !important;
@@ -15,3 +22,4 @@ radio {
 
  }
  */
+ .pac-container { z-index: 10000 !important; }

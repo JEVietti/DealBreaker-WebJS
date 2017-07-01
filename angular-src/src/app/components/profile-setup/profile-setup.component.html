@@ -1,5 +1,5 @@
 <h2 class = "header pink-text flow-text"> Profile Setup/Update </h2>
-<form (submit) = "onProfileSubmit()">
+<form #setupForm="ngForm">
       
       <div class="row">
         <div class="input-field col s6">
@@ -17,36 +17,61 @@
       <div class = "row">
       <div class=" col s6">
         
-          <h6 class="grey-text">Sex</h6>
+    <label>Sex</label>         
           <p>
-              <input class="radio" name="group-sex" value="Male" type="radio" id="male" />
+              <input [(ngModel)] = "sex" class="radio" name="sex" value="Male" type="radio" id="male" />
               <label for="male">Male</label>
               <br><br>
-              <input class="radio" name="group-sex" value="Female" type="radio" id="female" />
+              <input [(ngModel)] = "sex" class="radio" name="sex" value="Female" type="radio" id="female" />
               <label for="female">Female</label>
           </p>
       </div>
 
-      <div class="input-field col s6">
-    <select>
-      <option value="" disabled selected>What's your sexuality</option>
-      <option value="Asexual">Asexual</option>
-      <option value="Bisexual">Bisexual</option>
-      <option value="Homosexual">Homosexual</option>
-      <option value="Heterosexual">Heterosexual</option>
+      <div class="col s6">
+    <label>Sexual Orientation</label>        
+    <select class="browser-default" type="string" [(ngModel)] = "sexualOrientation" name = "sexualOrientation" id="sexualOrientation">
+        <option value="" disabled selected="selected">What's your sexuality?</option>
+        <option *ngFor="let sexuality of sexualities" [ngValue] = "sexuality" > {{sexuality}} </option>
     </select>
-    <label>Sexual Orientation</label>
   </div>
 </div>
-<div class="row">
-  <h6 class="grey-text">Birthdate</h6>
- <input type="date" class="datepicker" id="birthdate">
+ <div class="row">
+        <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark">perm_contact_calendar</i>
+         <div class="col s3">
+           
+          <select class="browser-default" type="string" [(ngModel)] = "dobMonth" name = "dobMonth" id="dobMonth">
+            <option value="" disabled selected="selected">Month</option>
+            <option *ngFor="let monthPair of monthPairs" [ngValue] = "monthPair.value" > {{monthPair.label}} </option>
+          </select>
+          <label>Month</label>
+        </div>
+         <div class=" col s3">
+            <select class="browser-default" type="number" [(ngModel)] = "dobDay" name='dobDay' id='dobDay'>
+               <option value="" disabled selected="selected">Day</option>
+                <option *ngFor="let day of dayList" [ngValue] = "day" > {{day}} </option>
+          </select>
+          <label>Day</label>
+        </div>
+         <div class="col s3">
+            <select class="browser-default" [(ngModel)] = "dobYear" name="dobYear" id="dobYear">
+                   <option value="" disabled selected="selected">Year</option>
+                 <option *ngFor="let year of yearList" [ngValue] = "year" > {{year}} </option>
+                </select>
+          <label>Year</label>
+        </div>
+    </div>
+  
+  <div class="row">
+    <div class="input-field col s6">
+      <input  [(ngModel)] = "location" name ="location" id="locationSearch" type="text" placeholder="City, State, Country" size="50">
+      <label>Location</label>
+    </div>
+  </div>
 
-</div>
 
   <div class="row">
       <div class="input-field col s12">
-        <textarea id="biography" class="materialize-textarea" data-length="200"></textarea>
+        <textarea id="biography" class="materialize-textarea" data-length="400"></textarea>
         <label for="textarea1">Biography</label>
       </div>
   </div>
@@ -55,20 +80,20 @@
 
     <div class="input-field col s4">
       <h6 class="grey-text">Deal Breakers</h6>  
-      <div id="dealbreakers" class="chips chips-placeholder">
+      <div id="dealbreakers"  name="dealBreakers"   class="chips chips-placeholder">
       </div>
     </div>
 
     <div class="input-field col s4">
       <h6 class="grey-text">Good Qualities</h6>
-      <div id="goodQualities" class="chips chips-placeholder">
+      <div id="goodQualities"  name="goodQualities"   class="chips chips-placeholder">
  
       </div>
     </div> 
 
     <div class="input-field col s4">
       <h6 class="grey-text">Bad Qualities</h6>  
-      <div id="badQualities" class="chips chips-placeholder">
+      <div id="badQualities"  name="badQualities"  class="chips chips-placeholder">
    
       </div>
     </div>
@@ -102,7 +127,7 @@
     </div>
   </div>
     -->
-  <input type="submit" class="btn btn-primary pink" value="Submit">
+  <input type="button"  (click) = "onSetupSubmit(setupForm)" class="btn btn-primary pink" value="submit">
 </form>
 
   

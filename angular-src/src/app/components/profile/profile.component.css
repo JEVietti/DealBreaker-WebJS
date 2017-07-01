@@ -4,13 +4,6 @@
 
 }
 
-.row {
-    height: 600px !important;
-}
-
-.materialboxed .active{
-    left: 0 !important;
-}
 
 #profileInfo{
    position: absolute; 
@@ -24,6 +17,8 @@
 
 .carousel {
       height: 600px !important;
+    background-color: whitesmoke;
+      
 }
 
 .carousel-item a {
@@ -34,11 +29,12 @@
 
 .carousel .carousel-item {
     display: none;
-    width: 400px !important;
-    height: 400px !important;
+    width: 500px !important;
+    height: 500px !important;
     position: absolute;
     top: 0;
     left: 0;
+    margin-top: 10px;
 }
 
 img {
@@ -60,26 +56,10 @@ img {
     padding-bottom: 0px;
 }
 
-#qualities {
- font-size: 20px;
- text-align: center;
-}
-
 #bioText {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
 }
-
-#badQualities {
-float: left;
-width: 50%;
-}
-
-#goodQualities {
-    float: right;
-    width: 50%;
-}
-
 
 #menu {
     float:right;
@@ -89,5 +69,37 @@ width: 50%;
 #messageMenu {
     float:left;
     top:0;
+
+}
+
+img{
+   
+    margin: auto;
+    text-align: center !important;
+    
+}
+
+.materialboxed {
+    max-height: 480px;
+}
+
+.materialboxed.active {
+    max-height: 1000px !important;
+}
+
+#qualities {
+    font-size: 20px;
+    
+  
+}
+
+li.list-group-item:hover {
+    width: auto;
+
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+        -webkit-transition:all 0.7s ease-in-out;
+        
+        
 
 }

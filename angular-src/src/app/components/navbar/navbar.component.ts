@@ -1,6 +1,6 @@
 /* Navbar Created with Materialize.css
  * uses jquery for materialize.css instantiation
- * as well as protecting routes with AuthGuard 
+ * as well as protecting routes protected with AuthGuard 
  * 
  * Navbar transforms based on size from horizontal navigation
  * to a side bar based on pixel width using materialize and houses the way to logout
@@ -23,22 +23,19 @@ declare const $: any;
 
 export class NavbarComponent implements OnInit {
 
-  
-
+  public name: String;
+  private login: Boolean;
   constructor(
       private authService: AuthService,
       private flashMessage: FlashMessagesService,
       private router: Router
-  ) { }
-
-  ngOnInit() {
- 
-  }
-
-  //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page
-  ngAfterContentInit() {
-        $(document).ready(function() {
-                $(".button-collapse").sideNav();
+  ) {    this.login = false;
+           $(document).ready(function() {
+               $(".button-collapse").sideNav();
+                $(".dropdown-button").dropdown({
+            hover: true,
+            stopPropagation: false // Stops event propagation
+        });
                 $('.button-collapse').sideNav({
       menuWidth: 200, // Default is 300
       edge: 'left', // Choose the horizontal origin
@@ -47,7 +44,23 @@ export class NavbarComponent implements OnInit {
     }
   );
         });
+   }
+
+  ngOnInit() {
+    
+ 
   }
+
+  //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page
+  ngAfterContentInit() {
+ 
+  }
+
+  ngOnChanges(){
+    
+  }
+
+  
 
 //Logout Notify the user of logout and destroy the tokens in local storage using AuthService
 //route back to home after logout
