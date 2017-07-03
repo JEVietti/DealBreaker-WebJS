@@ -2,10 +2,17 @@
 
 form{
  padding-left: 15px;
- margin-bottom: 300px;
 }
 
 i{
    padding-top: 10px;
    color: pink;
+}
+
+.link {
+    padding-right: 15px;     
+}
+
+.link:hover{
+    text-decoration: underline !important;
 }

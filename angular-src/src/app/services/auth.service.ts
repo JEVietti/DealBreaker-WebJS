@@ -15,7 +15,7 @@ import {tokenNotExpired} from 'angular2-jwt';
 
 import 'rxjs/add/operator/map'; //map the data 
 
-const ROOT_URL = 'http://localhost:3000';
+const ROOT_URL = 'http://localhost:8000';
 
 @Injectable()
 export class AuthService {
@@ -23,15 +23,16 @@ export class AuthService {
   authToken: any; //JWT auth token
   profile: any; //profile data - *** To be Moved to Profile service ***
   public name: String;
-  
+  isDev: boolean;
   //Inject the HTTP Module
-  constructor(private http:Http) { }
+  constructor(private http:Http) { this.isDev = true; }
 
 //Register User Requests to API EndPoint
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(ROOT_URL + '/users/', user, {headers: headers})
+    const ep = this.prepEndpoint('/api/users/')
+    return this.http.post(ep, user, {headers: headers})
       .map(res=> res.json());
   }
 
@@ -39,7 +40,8 @@ export class AuthService {
   authenticateUser(user){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(ROOT_URL + '/users/auth', user, {headers: headers})
+    const ep = this.prepEndpoint('/api/users/auth')    
+    return this.http.post(ep, user, {headers: headers})
       .map(res=> res.json());
   }
 
@@ -48,7 +50,56 @@ export class AuthService {
      let headers = new Headers();
      this.loadToken();
      headers.append('Authorization', this.authToken);
-     return this.http.delete(ROOT_URL + '/users/', {headers: headers})
+    const ep = this.prepEndpoint('/api/users/')     
+     return this.http.delete(ep, {headers: headers})
+      .map(res=> res.json());
+  }
+
+  updatePassword(update){
+     let headers = new Headers();
+     this.loadToken();
+     headers.append('Authorization', this.authToken);
+    const ep = this.prepEndpoint('/api/users/')     
+     return this.http.put(ep, update ,{headers: headers})
+      .map(res=> res.json());
+  }
+  
+
+  forgotUsername(req){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');    
+    const ep = this.prepEndpoint('/api/users/forgot/username')     
+    return this.http.post(ep, req ,{headers: headers})
+    .map(res=> res.json());
+  }
+
+
+  forgotPassword(req){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');    
+    const ep = this.prepEndpoint('/api/users/forgot/password')     
+    return this.http.post(ep, req ,{headers: headers})
+    .map(res=> res.json());
+  }
+
+
+  resetPassword(update){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');    
+    const token = update.token
+    const ep = this.prepEndpoint('/api/users/reset/')     
+    return this.http.post(ep + token, update ,{headers: headers})
+    .map(res=> res.json());
+  }
+
+
+  updateEmail(update){
+    let headers = new Headers();
+     this.loadToken();
+    headers.append('Content-Type', 'application/json');     
+     headers.append('Authorization', this.authToken);
+    const ep = this.prepEndpoint('/api/users/')     
+     return this.http.put(ep, update ,{headers: headers})
       .map(res=> res.json());
   }
 
@@ -86,6 +137,15 @@ export class AuthService {
   logout(){
     this.authToken = null;
     localStorage.clear();
+  }
+
+  
+ prepEndpoint(ep){
+    if(this.isDev){
+      return ROOT_URL+ep;
+    } else {
+      return ep;
+    }
   }
 
 }

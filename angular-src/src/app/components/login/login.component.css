@@ -2,5 +2,13 @@
 
 form{
  padding-left: 15px;
- margin-bottom: 300px;
+
+}
+
+.link {
+    padding-right: 15px;     
+}
+
+.link:hover{
+    text-decoration: underline !important;
 }

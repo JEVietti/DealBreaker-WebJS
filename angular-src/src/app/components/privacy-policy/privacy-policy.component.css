@@ -1,0 +1,4 @@
+div#policy {
+      height:auto !important; /* real browsers */
+     height:100% !important; /* IE6: treaded as min-height*/
+}

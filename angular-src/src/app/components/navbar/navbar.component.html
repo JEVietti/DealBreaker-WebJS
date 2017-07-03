@@ -17,11 +17,12 @@
             </ul>
        
         <ul *ngIf="authService.loggedIn()"  class="right hide-on-small-only">
-            <li> <a class='dropdown-button' data-beloworigin="true" data-activates='dropdown1'> {{authService.getName()}}</a>
-                 <ul id="dropdown1" class="dropdown-content">
+            <li> <a class='dropdown-button' data-beloworigin="true" data-activates='profileDropDown'> {{authService.getName()}}</a>
+                 <ul id="profileDropDown" class="dropdown-content">
                     <li ><a [routerLink] = "['/profile']" class="pink-text">Profile</a></li>
                     <li ><a [routerLink] = "['/profile/images']" class="pink-text">Images</a></li>
-
+                    <li ><a [routerLink] = "['/profile/setup']" class="pink-text">Edit</a></li>                                        
+                    <li ><a [routerLink] = "['/account']" class="pink-text">Settings</a></li>                    
                 </ul>
             </li>
             <li ><a (click)= "onLogoutClick()" href=""> Logout</a></li>
@@ -37,7 +38,9 @@
             <li ><a [routerLink] = "['/']">Home</a></li>
             <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
             <li><a  [routerLink] = "['/profile']"> {{authService.getName()}} </a></li>            
-            <li><a [routerLink] = "['/profile/images']">Images</a></li>        
+            <li><a [routerLink] = "['/profile/images']">Images</a></li>   
+             <li ><a [routerLink] = "['/profile/setup']" class="pink-text">Edit</a></li>                                        
+            <li ><a [routerLink] = "['/account']" class="pink-text">Settings</a></li>        
             <li><a (click)= "onLogoutClick()" href=""> Logout</a></li>
         </ul>
       </div>

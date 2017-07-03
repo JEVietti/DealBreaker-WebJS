@@ -1,4 +1,4 @@
-<h2  class="page-header red-text">Login</h2>
+<h3  class="page-header center red-text">Login</h3>
 <form (submit) = "onLoginSubmit()">
  
  <div class="row">
@@ -18,5 +18,10 @@
   </div>
 
    <input type="submit" class="btn btn-primary red" value="Submit">
+   <br />
+   <br />
+   
+   <a class="link pink-text" [routerLink] = "['/forgot/username']"> Forgot Username </a>
+   <a class="link pink-text" [routerLink] = "['/forgot/password']"> Forgot Password </a>
    
 </form>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ImagesService} from '../../services/images.service';
 import {Router, ActivatedRoute, Params} from '@angular/router';
+import {FlashMessagesService} from 'angular2-flash-messages';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -16,7 +17,9 @@ export class ImagesComponent implements OnInit {
   constructor(
       private router: Router,
       private route: ActivatedRoute,
-      private imageService: ImagesService
+      private imageService: ImagesService,
+      private flashMessage: FlashMessagesService,
+
   ) { }
 
   ngOnInit() {
@@ -36,8 +39,14 @@ export class ImagesComponent implements OnInit {
           reader.onload = (function(file) {
                 return function(e) {
                   var preview = document.createElement("img");
+                  var imageList = document.getElementById('list')
                   preview.src=e.target.result
                   preview.title=file.name
+                  preview.width = 200
+                  preview.height = 200
+                  if(imageList.hasChildNodes()){
+                    imageList.removeChild(imageList.lastChild)
+                  }
                   document.getElementById('list').appendChild(preview)
                 };
           })(this.file);
@@ -61,10 +70,10 @@ uploadFile(){
         this.imageService.saveImage(this.imageURL).subscribe(res => {
          if(res.success){
           //Notify User Image Uploaded and Saved
-           console.log('User Image Saved!')
-           console.log(res)
+          this.flashMessage.show("Image added successfully!", {cssClass: 'alert-success', timeout: 3000});              
+
         } else {
-  
+          this.flashMessage.show("Failed to add image, try again later!", {cssClass: 'alert-danger', timeout: 3000});                
          }
        })
     } else {

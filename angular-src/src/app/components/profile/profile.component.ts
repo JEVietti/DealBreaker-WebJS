@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
   image:{_id:Number,url:String};
   gallery: any[] = [];
   age: Number;
+  location: String;
    //private sub: Subscription;
    private id: any;
   constructor(
@@ -39,14 +40,15 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-    ngAfterContentInit() {
+  ngAfterContentInit() {
     
+  }
+
+  ngAfterViewInit(){
       $(document).ready(function(){
 
         if($('.carousel.carousel-slider').hasClass('initialized')){
-
            slider.removeClass('initialized');
-
         }
         $('.carousel').carousel();
         $('.materialboxed').materialbox();
@@ -75,6 +77,8 @@ initProfile(){
             if(profile.success){
               //console.log(profile);
               this.profile = profile.profile;
+              
+              this.location = this.profile.location[0].city + ", " + this.profile.location[0].state + ", " + this.profile.location[0].country 
                 console.log(this.profile.birthdate)
               this.age = this.profileService.calculateAge(this.profile.birthdate);                              
               if(this.profile.images != null){

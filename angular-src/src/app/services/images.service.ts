@@ -4,12 +4,12 @@ import {tokenNotExpired} from 'angular2-jwt';
 import {AuthService} from '../services/auth.service'
 import 'rxjs/add/operator/map'; //map the data 
 
-const ROOT_URL = 'http://localhost:3000';
+const ROOT_URL = 'http://localhost:8000';
 
 @Injectable()
 export class ImagesService {
-
-  constructor(private http:Http, private auth: AuthService) { }
+  isDev: boolean;
+  constructor(private http:Http, private auth: AuthService) { this.isDev = true }
 
 
   getSignedURL(file){
@@ -17,7 +17,8 @@ export class ImagesService {
      headers.append('Authorization', this.auth.authToken);    
     this.auth.loadAuthToken(); //load the Auth Token
     headers.append('Content-Type', 'application/json');
-    return this.http.get(ROOT_URL+`/sign-s3?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`, {headers: headers})
+    const ep = this.prepEndpoint(`/api/sign-s3?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`)
+    return this.http.get(ep, {headers: headers})
     .map(res => res.json());
   }
 
@@ -35,8 +36,17 @@ export class ImagesService {
     this.auth.loadAuthToken(); //load the Auth Token
      headers.append('Authorization', this.auth.authToken);
     headers.append('Content-Type', 'application/json');
-   return  this.http.post(ROOT_URL + '/images', {gallery:{url: url} }, {headers: headers})
+    const ep = this.prepEndpoint('/api/images')
+   return  this.http.post(ep, {gallery:{url: url} }, {headers: headers})
     .map(res => res.json())
+  }
+
+  prepEndpoint(ep){
+    if(this.isDev){
+      return ROOT_URL + ep;
+    } else {
+      return ep;
+    }
   }
 
 }

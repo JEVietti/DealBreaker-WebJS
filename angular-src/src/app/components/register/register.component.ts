@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit {
   email: String; //unique email
   password: String; //password for auth
   cpassword: String;
+  terms: boolean = false;
 
 //Inject the modules for use in Clas - Component
   constructor(
@@ -49,8 +50,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
 
-    this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
-    
+    this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];   
 
     var currentYear = new Date().getFullYear();
     for(var i=currentYear; i >= currentYear-100; i--){
@@ -58,17 +58,26 @@ export class RegisterComponent implements OnInit {
     }  
 
     this.dayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+  
+ 
 }
 
 
-  ngAfterContentInit(){  
+  ngAfterContentInit(){ 
+    
   }
 
 //Form Submission
   onRegisterSubmit(){
-    console.log("Registration Submitted!");
+    //console.log("Registration Submitted!");
     //Initialize birthdate in dd-mm-yyyy format
+      if( $('#terms').is(':checked')){
+       this.terms = true
+    }
+  
+
     this.birthdate = this.dobYear + "-" + this.dobMonth + "-" + this.dobDay;
+      
      console.log(this.birthdate);
     //User Object 
     const user = {
@@ -83,7 +92,7 @@ export class RegisterComponent implements OnInit {
 
   //The Validation Registration for form being filled 
     if(this.validateRegister(user)){
-      console.log("Validated")
+      //console.log("Validated")
      
       //Register User - subscribe for API response
       this.authService.registerUser(user).subscribe(data => {
@@ -94,7 +103,7 @@ export class RegisterComponent implements OnInit {
             return true;
       //Otherwise Advise the User from server response msg or notfiy something is wrong and to try later.  
       } else{
-          this.flashMessage.show(data.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 3000});
+          this.flashMessage.show(data.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 5000});
           return false;
         }
       });
@@ -106,29 +115,32 @@ export class RegisterComponent implements OnInit {
   private validateRegister(user){
     //All fields entered
     if(!this.validateService.validateRegister(user)){
-      this.flashMessage.show("Fill in all fields", {cssClass: 'alert-danger', timeout: 3000});
+      this.flashMessage.show("Fill in all fields", {cssClass: 'alert-danger', timeout: 5000});
       return false;
     }
     //Email formatted correctly
     else if(!this.validateService.validateEmail(user.email)){
-       this.flashMessage.show("Invalid Email", {cssClass: 'alert-danger', timeout: 3000});
+       this.flashMessage.show("Invalid Email", {cssClass: 'alert-danger', timeout: 5000});
       //$('#email').addClass("invalid");
       return false;
     }
     //Password Mismatch
     else if(!this.validateService.validatePassword(user.password, user.cpassword)){
-      this.flashMessage.show("Passwords do not match!", {cssClass: 'alert-danger', timeout: 3000});
+      this.flashMessage.show("Passwords do not match!", {cssClass: 'alert-danger', timeout: 5000});
       return false;
     }
     else if(!this.validateService.validateDate(user.birthdate)){
-      this.flashMessage.show("Invalid Date, please use a real date!", {cssClass: 'alert-danger', timeout: 3000});
+      this.flashMessage.show("Invalid Date, please use a real date!", {cssClass: 'alert-danger', timeout: 5000});
       return false;
     }
     else if(this.validateService.validateDOB(user.birthdate)){
-      this.flashMessage.show("You must be 18 years or older!", {cssClass: 'alert-danger', timeout: 3000});
+      this.flashMessage.show("You must be 18 years or older!", {cssClass: 'alert-danger', timeout: 5000});
       return false;
     }
-    
+    else if(!this.terms){
+      this.flashMessage.show("You must accept the Terms of Service.", {cssClass: 'alert-danger', timeout: 5000});
+      return false;
+    }
     return true; //All tests passed on form entry - clear to send
   }
 

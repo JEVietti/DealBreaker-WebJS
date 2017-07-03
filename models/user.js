@@ -30,6 +30,14 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
     upsert: true
+  },
+
+  resetPasswordToken: {
+    type: String
+  },
+
+  resetPasswordExpires: {
+    type: Date
   }
 })
 
@@ -44,9 +52,15 @@ module.exports.getUserByUsername = function (username, callback) {
   User.findOne(query, callback)
 }
 
+module.exports.getUserByEmail = function (email, callback) {
+  const query = {email: email}
+  User.findOne(query, callback)
+}
+
 module.exports.addUser = function (newUser, callback) {
     // hashpassword usng bcrypt
   bcrypt.genSalt(10, (err, salt) => {
+    if (err) throw err
     bcrypt.hash(newUser.password, salt, (err, hashedPassword) => {
       if (err) throw err
       newUser.password = hashedPassword
@@ -70,6 +84,34 @@ module.exports.checkUsername = function (uname, callback) {
 module.exports.checkEmail = function (email, callback) {
   const query = {email: email}
   User.findOne(query, callback)
+}
+
+module.exports.updateUser = function (user, callback) {
+   // hashpassword usng bcrypt
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) throw err
+    bcrypt.hash(user.password, salt, (err, hashedPassword) => {
+      if (err) throw err
+      user.password = hashedPassword
+      user.save(callback)
+    })
+  })
+}
+
+module.exports.updatePassword = function (update, callback) {
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) throw err
+    bcrypt.hash(update.password, salt, (err, hashedPassword) => {
+      if (err) throw err
+      update.password = hashedPassword
+      User.findByIdAndUpdate(update._id, {password: update.password}, callback)
+    })
+  })
+}
+
+module.exports.updateEmail = function (update, callback) {
+  User.findByIdAndUpdate(update._id, {email: update.email}, callback)
+  console.log('Update Email')
 }
 
 module.exports.deleteUser = function (userID, callback) {

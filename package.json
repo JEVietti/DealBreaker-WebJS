@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "aws-sdk": "^2.79.0",
     "bcryptjs": "*",
     "body-parser": "*",
@@ -15,6 +16,7 @@
     "jsonwebtoken": "*",
     "mongoose": "*",
     "mongoose-schema-extend": "^0.2.2",
+    "nodemailer": "^4.0.1",
     "passport": "*",
     "passport-jwt": "*"
   },

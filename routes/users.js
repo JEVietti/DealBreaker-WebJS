@@ -10,10 +10,29 @@ router.post('/auth', (req, res, next) => {
   UserController.auth(req, res)
 })
 
+router.post('/forgot/password', (req, res, next) => {
+  UserController.forgotPassword(req, res)
+})
+
+router.post('/forgot/username', (req, res, next) => {
+  UserController.forgotUsername(req, res)
+})
+
+router.post('/reset/:token', (req, res, next) => {
+  console.log('Reset')
+  UserController.resetPassword(req, res)
+})
+
 // Register - this works due to auth coming first if this is moved above
 // reroute to ex. /register or /create
 router.post('*', (req, res, next) => {
   UserController.create(req, res)
+})
+
+// Update Account Information
+router.put('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  console.log('Put')
+  UserController.update(req, res)
 })
 
 // Profile - Protected by Auhentication

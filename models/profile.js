@@ -9,43 +9,57 @@ var ObjectID = require('mongodb').ObjectID
 const ProfileSchema = mongoose.Schema({
 
   username: {
-    id: '/properties/user_info/properties/userName',
+    id: '/properties/profile_info/properties/userName',
     type: String,
     upsert: true
   },
 
   birthdate: {
-    id: '/properties/user_info/properties/birthDate',
+    id: '/properties/profile_info/properties/birthDate',
     type: String,
     upsert: true
   },
 
   fname: {
-    id: '/properties/user_info/properties/firstName',
+    id: '/properties/profile_info/properties/firstName',
     type: String,
     upsert: true
   },
 
   lname: {
-    id: '/properties/user_info/properties/lastName',
+    id: '/properties/profile_info/properties/lastName',
     type: String,
     upsert: true
   },
 
   location: {
-    id: '/properties/user_info/properties/location',
-    type: String,
-    upsert: true
+    upsert: true,
+    type: Array,
+    country: {
+      id: '/properties/profile_info/properties/location',
+      type: String,
+      upsert: true
+    },
+    state: {
+      id: '/properties/profile_info/properties/location',
+      type: String,
+      upsert: true
+    },
+    city: {
+      id: '/properties/profile_info/properties/location',
+      type: String,
+      upsert: true
+    }
   },
 
   sex: {
-    id: '/properties/user_info/properties/sex',
+    id: '/properties/profile_info/properties/sex',
     type: String,
     upsert: true
   },
 
   sexualOrientation: {
-    id: '/properties/user_info/properties/sexualOrientation',
+    id: '/properties/profile_info/properties/sexualOrientation',
     type: String,
     upsert: true
   },

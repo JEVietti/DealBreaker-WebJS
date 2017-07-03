@@ -101,3 +101,4 @@ Thumbs.db
 angular-src/e2e/
 react-src/*
 config/s3Config.json
+config/db.js

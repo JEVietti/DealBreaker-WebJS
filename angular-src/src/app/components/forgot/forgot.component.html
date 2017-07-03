@@ -1,0 +1,9 @@
+<form #emailForm="ngForm" class="col s6">
+<div class="input-field col s12">
+  <i class="material-icons prefix pink-dark">email</i>
+    <input  id="email" [(ngModel)] = "email" name="email" type="text" class="validate">
+    <label for="email">Email</label>
+  </div>
+  <input *ngIf="this.id == 'username'" type="button" (click) = "forgotUsername()" class="btn btn-primary pink" value="Forgot Username">
+  <input *ngIf="this.id == 'password'" type="button" (click) = "forgotPassword()" class="btn btn-primary pink" value="Forgot Password">  
+</form>

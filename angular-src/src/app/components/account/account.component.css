@@ -1,0 +1,7 @@
+#emailComp {
+    padding-top: 15px;
+}
+#passwordComp {
+    padding-top: 15px;   
+    float: right !important; 
+}

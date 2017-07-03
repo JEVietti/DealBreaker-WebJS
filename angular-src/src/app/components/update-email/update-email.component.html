@@ -1,0 +1,13 @@
+<form  #emailForm="ngForm" class="col s12">
+<div class="input-field col s12">
+  <i class="material-icons prefix pink-dark">email</i>
+    <input  id="email" [(ngModel)] = "email" name="email" type="text" class="validate">
+    <label for="email">Email</label>
+  </div>
+  <div class="input-field col s12">
+  <i class="material-icons prefix pink-dark">email</i>
+    <input [(ngModel)] = "confirmEmail"  id="cemail" name="confirmEmail" type="text" class="validate">
+    <label for="email">Confirm Email</label>
+  </div>
+  <input type="button"  (click) = "updateEmail(emailForm)" class="btn btn-primary pink" value="Submit">
+</form>

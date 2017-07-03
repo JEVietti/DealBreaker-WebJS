@@ -1,4 +1,4 @@
-<h2 class = "header pink-text"> Register </h2>
+<h3 class = "header center red-text"> Register </h3>
 <form (submit) = "onRegisterSubmit()">
       <div class="row">
         <div class="input-field col s6">
@@ -6,15 +6,15 @@
           <input [(ngModel)]="fname" name="fname" id="fname" type="text" class="validate">
           <label for="fname">First Name</label>
         </div>
-        <div class="input-field col s6">   
-          <i class="material-icons prefix pink-dark">perm_identity</i>                               
+        <div class="input-field col s6">      
+          <i class="material-icons prefix pink-dark">perm_identity</i>                                               
           <input [(ngModel)]="lname" name="lname" id="lname" type="text" class="validate">
           <label for="lname">Last Name</label>
         </div>  
       </div>
       <div class="row">
         <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark">perm_contact_calendar</i>
-         <div class="col s2">
+         <div class="col s4">
            
           <select class="browser-default" type="number" [(ngModel)] = "dobMonth" name = "dobMonth" id="dobMonth">
             <option value="" disabled selected="selected">Month</option>
@@ -22,14 +22,14 @@
           </select>
           <label>Month</label>
         </div>
-         <div class=" col s1">
+         <div class=" col s3">
             <select class="browser-default" type="number" [(ngModel)] = "dobDay" name='dobDay' id='dobDay'>
                <option value="" disabled selected="selected">Day</option>
                 <option *ngFor="let day of dayList" [ngValue] = "day" > {{day}} </option>
           </select>
           <label>Day</label>
         </div>
-         <div class="col s2">
+         <div class="col s3">
             <select class="browser-default" [(ngModel)] = "dobYear" name="dobYear" id="dobYear">
                    <option value="" disabled selected="selected">Year</option>
                  <option *ngFor="let year of yearList" [ngValue] = "year" > {{year}} </option>
@@ -66,7 +66,26 @@
         </div>
       </div>
      
+      <div class="row">
+      <input type="checkbox" id="terms" />
+      <label for="terms">I hereby have read and agree to the </label>
+       <a class="blue0-text text-darken-3 " [routerLink] = "['/terms']"> Terms of Service </a> 
+       and 
+        <a class="blue0-text text-darken-3 link" [routerLink] = "['/privacy']"> Privacy Policy </a> 
+    </div>
+
   <input type="submit" class="btn btn-primary pink" value="Submit">
+  
+   
+  <br />
+  <br />
+  
+  <div class="row">
+ 
+  </div>
 </form>
+
+
+
 
   

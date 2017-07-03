@@ -29,7 +29,7 @@ export class ValidateService {
   //If it passes the test on the re then return true = valid, otherwise false = invalid
   validateEmail(email){
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+    return re.test(email);
   }
   
   //Passwords entered are the same string
@@ -51,17 +51,17 @@ export class ValidateService {
     if ( Object.prototype.toString.call(d) === "[object Date]" ) { // it is a date
         if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
           // date is not valid
-          console.log("Not a real date!");
+          //console.log("Not a real date!");
           return false;
         }
         else {
           // date is valid
-          console.log("date is valid and real");
+          //console.log("date is valid and real");
           return true;
         }
     } else {
         // not a date
-        console.log("Date is invalid format!");
+        //console.log("Date is invalid format!");
         return false;
     }
 
@@ -73,7 +73,7 @@ export class ValidateService {
     let age = new Date();
     age.setTime(ageMS);
     let ageYear = age.getFullYear() - 1970;
-    console.log(ageYear);
+    //console.log(ageYear);
     
     return ageYear < 18;
   }

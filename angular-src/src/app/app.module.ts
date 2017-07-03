@@ -34,6 +34,15 @@ import {AuthGuard} from './guards/auth.guard';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 import { ImagesComponent } from './components/images/images.component';
 import { BirthdateComponent } from './components/birthdate/birthdate.component';
+import { AboutComponent } from './components/about/about.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { AccountComponent } from './components/account/account.component';
+import { UpdateEmailComponent } from './components/update-email/update-email.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { ForgotComponent } from './components/forgot/forgot.component';
+import { TermsComponent } from './components/terms/terms.component';
+
+
 
 
 
@@ -53,6 +62,16 @@ const appRoutes: Routes = [
   ]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: '404', component: NotFoundComponent},
+  {path: 'privacy', component: PrivacyPolicyComponent},  
+  {path: 'terms', component: TermsComponent},          
+  {path: 'account', component: AccountComponent, canActivate:[AuthGuard]},     
+  {path: 'forgot', children:[
+    {path:':id', component: ForgotComponent}
+  ]}, 
+  {path: 'reset', children:[
+    {path: '', component: UpdatePasswordComponent,canActivate:[AuthGuard]},
+    {path:':token', component: UpdatePasswordComponent}
+  ]},             
   {path: '**', redirectTo: '/404'}
 ]
 
@@ -70,7 +89,14 @@ const appRoutes: Routes = [
     FooterComponent,
     ProfileSetupComponent,
     ImagesComponent,
-    BirthdateComponent  
+    BirthdateComponent,
+    AboutComponent,
+    PrivacyPolicyComponent,
+    AccountComponent,
+    UpdateEmailComponent,
+    UpdatePasswordComponent,
+    ForgotComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,

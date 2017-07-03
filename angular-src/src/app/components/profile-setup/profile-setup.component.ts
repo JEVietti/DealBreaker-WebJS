@@ -33,11 +33,14 @@ export class ProfileSetupComponent implements OnInit {
   dealBreakers : Array <String>;
   goodQualities: Array <String>;
   badQualities: Array <String>; 
-  
+  city: String;
+  state: String;
+  country: String;
  
   place: any;
   location: String; // Format: City, State, Country || City, Country 
-  
+  profile: Object;
+
   constructor(
     private validate: ValidateService,
     private profileService: ProfileService,
@@ -54,6 +57,8 @@ export class ProfileSetupComponent implements OnInit {
 
   ngOnInit() {
 
+  this.loadProfile()
+
     this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
     
     var currentYear = new Date().getFullYear();
@@ -67,6 +72,32 @@ export class ProfileSetupComponent implements OnInit {
     this.loadGoogle();
   }
 
+  getLocation(place: any){
+    var components = place.address_components
+    for(var i=0; i< components.length; i++){
+      if(components[i].types[0] == "locality"){
+        this.city = components[i].long_name
+      }
+      else if(components[i].types[0] == "administrative_area_level_2" || components[i].types[0] == "administrative_area_level_1" ){
+        this.state = components[i].long_name
+      }
+      else if(components[i].types[0] == "country"){
+        this.country = components[i].long_name
+      }
+    }
+  }
+
+  loadProfile(){
+    this.profileService.getProfile().subscribe(res => {
+      console.log(res.success)
+      if(res.success){
+        this.profile = res.profile;
+      } else {
+        this.profile = null
+      }
+    })
+  }
+
   loadGoogle(){
     const search = document.getElementById('locationSearch')
     const options = {
@@ -74,7 +105,7 @@ export class ProfileSetupComponent implements OnInit {
         // return only geocoding results, rather than business results.
         '(cities)'
       ],
-      componentRestrictions: { country: [], city:[] }
+      componentRestrictions: { country: [], locality:[] }
     }
     const autocomplete = new google.maps.places.Autocomplete(search, options)
 
@@ -85,17 +116,8 @@ export class ProfileSetupComponent implements OnInit {
       let address = place.formatted_address;
 
       this.place = place
+      console.log(place)
     })
-  }
-
-  onProfileSubmit(){
-      this.biography = (document.getElementById("biography") as HTMLInputElement).value;
-      if(this.biography.length == 0){
-        console.log("empty string");
-      }
-      console.log(this.biography);
-        
-      //this.getImages();
   }
 
   public addQualities(data){
@@ -192,6 +214,8 @@ export class ProfileSetupComponent implements OnInit {
     
   }
 
+  
+
   onSetupSubmit(form){
     console.log(form)
     this.birthdate = this.dobYear + "-" + this.dobMonth + "-" + this.dobDay;
@@ -199,12 +223,25 @@ export class ProfileSetupComponent implements OnInit {
     this.biography = (document.getElementById("biography") as HTMLInputElement).value;
     this.getQualities();
     
+    if(this.place != undefined){
+      this.getLocation(this.place)
+    }
+
+    if(this.state == undefined || this.city == undefined || this.country == undefined){
+      this.flashMessage.show("Try a different location or Reselect Location Field", {cssClass: 'alert-danger', timeout: 3000});                      
+      return;
+    }
+
+    const location = {city: this.city, state: this.state, country: this.country}
+    const formattedLoc = this.city + ", " + this.state + ", " + this.country
+    console.log(formattedLoc)
+
     let newProfile = {
       fname : this.fname,
       lname : this.lname,
       sex : this.sex,
       sexualOrientation : this.sexualOrientation,
-      location : this.place.formatted_address,
+      location : location,
       birthdate : this.birthdate,      
       goodQualities: this.goodQualities,
       badQualities : this.badQualities,
@@ -215,26 +252,46 @@ export class ProfileSetupComponent implements OnInit {
 
     if(this.validateSetup(newProfile)){
       console.log(newProfile)
-      
+    if(this.profile == null){ 
       this.profileService.saveProfile(newProfile).subscribe(res =>{
         if(res.success){
           this.flashMessage.show("Profile Created Successfully!", {cssClass: 'alert-danger', timeout: 3000});
-          this.router.navigate(['/profile/images'])
+          this.router.navigate(['/profile'])
         } else {
-          this.flashMessage.show(res.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 3000});
+          this.flashMessage.show(res.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 5000});
+        }
+      });
+    }
+   else {
+    console.log("Attempt update")
+      this.profileService.updateProfile(newProfile).subscribe(res =>{
+        if(res.success){
+          this.flashMessage.show("Profile Created Successfully!", {cssClass: 'alert-danger', timeout: 3000});
+          this.router.navigate(['/profile'])
+        } else {
+          this.flashMessage.show(res.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 5000});
         }
       });
     }
   }
+  }
 
   validateSetup(profile){
-    for(var i=0; i<profile.length; i++){
-      if(profile[1] == undefined || profile[1] == undefined){
-
+      if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.goodQualities == [] || profile.badQualities == [] || profile.dealBreakers == [] || profile.location == undefined){
+        this.flashMessage.show("Please fill in all fields!", {cssClass: 'alert-danger', timeout: 5000});        
+        return false;  
       }
+    
+    else if(this.place == null){
+      this.flashMessage.show("Check Location Field", {cssClass: 'alert-danger', timeout: 5000});              
+      return false;
+    } else if(this.validate.validateDOB(this.birthdate)){
+      this.flashMessage.show("You must be 18 years or older.", {cssClass: 'alert-danger', timeout: 5000});              
+      return false;
+    } else if (this.biography.length > 400) {
+      this.flashMessage.show("Biography Must be 400 characters or less!", {cssClass: 'alert-danger', timeout: 5000});                    
     }
     return true;
-
   }
 
 

@@ -19,14 +19,14 @@ router.put('*', passport.authenticate('jwt', {session: false}), (req, res, next)
 // Profile -  Protected by Auhentication
 router.get('/:profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     // Call to Profile Controller
-  console.log('Profile :profile')
+  // console.log('Profile :profile')
   ProfileController.getByUsername(req, res)
 })
 
 // Profile - Protected by Auhentication
 router.get('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
   // Call to Profile Controller
-  console.log('Profile ID')
+  // console.log('Profile ID')
   ProfileController.getById(req, res)
 })
 

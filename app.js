@@ -24,7 +24,7 @@ mongoose.connection.on('error', (err) => {
 })
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8000
 const users = require('./routes/users')
 const profiles = require('./routes/profiles')
 const images = require('./routes/images')
@@ -47,23 +47,23 @@ app.use(passport.session())
 require('./config/passport')(passport)
 
 // Requests to domain/users => users file
-app.use('/users', users)
-app.use('/profile', profiles)
+app.use('/api/users', users)
+app.use('/api/profile', profiles)
 // app.use('/', profiles);
-app.use('/images', images)
+app.use('/api/images', images)
 
-app.get('/sign-s3', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+app.get('/api/sign-s3', passport.authenticate('jwt', {session: false}), (req, res, next) => {
   const s3 = new AWS.S3()
 
   const fileName = req.query.fileName
   const fileType = req.query.fileType
 
-  console.log(fileName)
-  console.log(fileType)  
-
+  // console.log(fileName)
+  // console.log(fileType)
+  const bucket = dbConfig.S3_Bucket
   const folderName = req.user.username
   const s3Params = {
-    Bucket: 'dealbreakerjs',
+    Bucket: bucket,
     Key: folderName + '/' + fileName,
     Expires: 3600,
     ContentType: fileType,
@@ -71,25 +71,23 @@ app.get('/sign-s3', passport.authenticate('jwt', {session: false}), (req, res, n
   }
   s3.getSignedUrl('putObject', s3Params, (err, data) => {
     if (err) {
-      console.log(err)
+      // console.log(err)
       return res.end()
     }
-    console.log(data)
+    // console.log(data)
     const returnData = {
       signedRequest: data,
-      url: `https://s3-us-west-1.amazonaws.com/dealbreakerjs/${folderName}/${fileName}`
+      url: `https://s3-us-west-1.amazonaws.com/${bucket}/${folderName}/${fileName}`
     }
-    res.json(returnData)
-    res.end()
+    return res.json(returnData)  
   })
 })
 
-// routing server paths
 app.get('*', (req, res) => {
-  res.send('Invalid Endpoint')
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 })
 
 // server on port:
 app.listen(port, () => {
-  console.log('Server started on port ' + port)
+  // console.log('Server started on port ' + port)
 })

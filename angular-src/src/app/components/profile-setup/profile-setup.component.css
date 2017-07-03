@@ -11,6 +11,9 @@ radio {
 i {
     padding-top: 10px;
 }
+.sex-or{
+    float: right !important;
+}
 
 .material-icons.pink-dark { color: #E75480; }
 
@@ -23,3 +26,9 @@ i {
  }
  */
  .pac-container { z-index: 10000 !important; }
+
+.radio {
+    margin: auto;
+   justify-content: center;
+   width: 75px;
+}

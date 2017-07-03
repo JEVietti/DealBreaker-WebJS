@@ -14,7 +14,7 @@ function getProfileById (req, res) {
   if (username === undefined || username === '') {
     var response = {'success': false}
     const uid = req.user._id
-    console.log('By ID')
+    // console.log('By ID')
     Profile.getProfileById(uid, (err, profile) => {
       // console.log(profile)
 
@@ -31,13 +31,13 @@ function getProfileById (req, res) {
         if (profile.images != null) { // if images exist for the user
           profile.images._id = undefined
         }
-        console.log('Profile!')
+        // console.log('Profile!')
         response = {
           success: true,
           profile: profile
         }
       } else {
-        console.log('Reached Unfound!')
+        // console.log('Reached Unfound!')
         response = {
           success: false,
           profile: { }
@@ -97,16 +97,16 @@ function createProfile (req, res) {
 
   Profile.create(newProfile, (err) => {
     if (err) {
-      res.json({success: false, msg: 'Failed to Create Profile'})
+      return res.json({success: false, msg: 'Failed to Create Profile'})
     } else {
-      res.json({success: true, msg: 'Created Profile'})
+      return res.json({success: true, msg: 'Created Profile'})
     }
   })
 }
 
 function updateProfile (req, res) {
   const uid = new ObjectID(req.user._id)
-
+  console.log("Update Profile")
   let newProfile = new Profile({
     _id: uid,
     username: req.body.username,
@@ -119,14 +119,15 @@ function updateProfile (req, res) {
     location: req.body.location,
     dealbreakers: req.body.dealbreakers,
     goodQualities: req.body.goodQualities,
-    badQualities: req.body.badQualities
+    badQualities: req.body.badQualities,
+    images: uid
   })
 
   Profile.update(newProfile, (err) => {
     if (err) {
-      res.json({success: false, msg: 'Failed to Update Profile'})
+      return res.json({success: false, msg: 'Failed to Update Profile'})
     } else {
-      res.json({success: true, msg: 'Updated Profile'})
+      return res.json({success: true, msg: 'Updated Profile'})
     }
   })
 }
