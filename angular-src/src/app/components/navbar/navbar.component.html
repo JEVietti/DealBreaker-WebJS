@@ -6,7 +6,7 @@
  </a>
         <a href="/" data-activates="mobile-nav" class=" hide-on-med-and-up button-collapse"><i class=" hide-on-med-and-up material-icons">menu</i></a>
         <ul class="left hide-on-small-only">
-        <li ><a [routerLink] = "['/']">Home</a></li>
+        <li ><a  [routerLink] = "['/']">Home</a></li>
        <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
         
         </ul>
@@ -35,13 +35,13 @@
         </ul>
 
          <ul *ngIf="authService.loggedIn()" class="side-nav" id="mobile-nav">
-            <li ><a [routerLink] = "['/']">Home</a></li>
+            <li ><a class="red-text" [routerLink] = "['/']">Home</a></li>
             <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
-            <li><a  [routerLink] = "['/profile']"> {{authService.getName()}} </a></li>            
-            <li><a [routerLink] = "['/profile/images']">Images</a></li>   
+            <li><a class="pink-text"  [routerLink] = "['/profile']"> {{authService.getName()}} </a></li>            
+            <li><a class="pink-text" [routerLink] = "['/profile/images']">Images</a></li>   
              <li ><a [routerLink] = "['/profile/setup']" class="pink-text">Edit</a></li>                                        
             <li ><a [routerLink] = "['/account']" class="pink-text">Settings</a></li>        
-            <li><a (click)= "onLogoutClick()" href=""> Logout</a></li>
+            <li><a class="red-text" (click)= "onLogoutClick()" href=""> Logout</a></li>
         </ul>
       </div>
       

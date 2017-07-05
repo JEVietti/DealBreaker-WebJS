@@ -109,7 +109,7 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user)); //User Data Object - name
     //bind data to class for quick use after set if needed
     this.authToken = token;
-    location.reload() //a bit of a hack to reload the navigation bar for dropdown to work
+    window.location.reload() //a bit of a hack to reload the navigation bar for dropdown to work
   }
 
 //Load both tokens: JWT Auth and User data object

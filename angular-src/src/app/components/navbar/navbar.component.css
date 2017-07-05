@@ -13,6 +13,7 @@ nav{
 
 }
 
+
 #logo {
   text-shadow: 1px 1px 1px pink; 
   -webkit-transition:all 0.7s ease-in-out;
@@ -24,4 +25,8 @@ nav{
   text-shadow: 1px 1px 1px red; 
   -webkit-transition:all 0.7s ease-in-out;
     text-align: center;
+}
+
+.side-nav {
+  background-color: whitesmoke;
 }

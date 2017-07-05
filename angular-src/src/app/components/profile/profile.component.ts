@@ -115,6 +115,7 @@ initProfile(){
         if(profile.success){
            console.log(profile);
               this.profile = profile.profile;
+               this.location = this.profile.location[0].city + ", " + this.profile.location[0].state + ", " + this.profile.location[0].country 
                console.log(this.profile.birthdate)
               this.age = this.profileService.calculateAge(this.profile.birthdate); 
               if(this.profile.images != null){
