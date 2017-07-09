@@ -41,7 +41,8 @@ import { UpdateEmailComponent } from './components/update-email/update-email.com
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ForgotComponent } from './components/forgot/forgot.component';
 import { TermsComponent } from './components/terms/terms.component';
-
+import {ProfileCardComponent} from './components/profile-card/profile-card.component';
+import {ImageManageComponent} from './components/image-manage/image-manage.component'
 
 
 
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent}, 
   {path: 'login', component: LoginComponent}, 
+  {path: 'browse', component: BrowseComponent}, 
   {path: 'profile', canActivate:[AuthGuard], children:[
     {path:'', component: ProfileComponent},
     { path:'setup', component: ProfileSetupComponent},
@@ -96,7 +98,9 @@ const appRoutes: Routes = [
     UpdateEmailComponent,
     UpdatePasswordComponent,
     ForgotComponent,
-    TermsComponent
+    TermsComponent,
+    ProfileCardComponent,
+    ImageManageComponent
   ],
   imports: [
     BrowserModule,

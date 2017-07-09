@@ -4,6 +4,8 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service'
 import {Router, ActivatedRoute, Params} from '@angular/router';
 
+declare const Materialize: any;
+
 @Component({
   selector: 'app-update-password',
   templateUrl: './update-password.component.html',
@@ -14,6 +16,8 @@ export class UpdatePasswordComponent implements OnInit {
   password: String;
   cpassword: String;
   token: String;
+  data: any;
+
   constructor(
     private flashMessage: FlashMessagesService, 
     private auth: AuthService,
@@ -26,6 +30,7 @@ export class UpdatePasswordComponent implements OnInit {
       this.token = params['token'];
       // console.log(this.token);
     });
+   
   }
 
   resetPassword(){
@@ -38,10 +43,10 @@ export class UpdatePasswordComponent implements OnInit {
     if(this.validateForm(update)){
       this.auth.resetPassword(update).subscribe(data => {
         if(data.success){
-      this.flashMessage.show( data.msg || "Password Updated Successfully", {cssClass: 'alert-success', timeout: 3000})        
+      Materialize.toast( data.msg || "Password Updated Successfully", 3000, 'rounded toast-success')        
         this.router.navigate(['/login'])
       } else {
-          this.flashMessage.show( data.msg || "Something went wrong check fields", {cssClass: 'alert-danger', timeout: 3000})
+          Materialize.toast( data.msg || "Something went wrong check fields", 3000, 'rounded toast-danger')
           this.router.navigate(['/login'])
       }
       })
@@ -58,9 +63,9 @@ export class UpdatePasswordComponent implements OnInit {
     if(this.validateForm(update)){
       this.auth.updatePassword(update).subscribe(data => {
         if(data.success){
-      this.flashMessage.show( data.msg || "Password Updated Successfully", {cssClass: 'alert-success', timeout: 3000})        
+      Materialize.toast( data.msg || "Password Updated Successfully", 3000, 'rounded toast-success')        
         } else {
-          this.flashMessage.show( data.msg || "Something went wrong check fields", {cssClass: 'alert-danger', timeout: 3000})
+          Materialize.toast( data.msg || "Something went wrong check fields", 3000, 'rounded toast-danger')
         }
       })
     } 
@@ -69,12 +74,12 @@ export class UpdatePasswordComponent implements OnInit {
 
   validateForm(update){
     if (update.password == undefined || update.cpassword == undefined) {
-      this.flashMessage.show("Fill in all fields.", {cssClass: 'alert-danger', timeout: 3000})
+      Materialize.toast("Fill in all fields.", 3000, 'rounded toast-danger')
       return false
     } 
     
     else if (update.password != update.cpassword) {
-      this.flashMessage.show("Passwords do not match.", {cssClass: 'alert-danger', timeout: 3000})
+      Materialize.toast("Passwords do not match.", 3000, 'rounded toast-danger')
       return false
     }
 

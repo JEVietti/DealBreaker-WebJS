@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ImagesService} from '../../services/images.service';
 import {Router, ActivatedRoute, Params} from '@angular/router';
-import {FlashMessagesService} from 'angular2-flash-messages';
+
 import 'rxjs/add/operator/map';
+
+declare const Materialize: any;
 
 @Component({
   selector: 'app-images',
@@ -17,12 +19,11 @@ export class ImagesComponent implements OnInit {
   constructor(
       private router: Router,
       private route: ActivatedRoute,
-      private imageService: ImagesService,
-      private flashMessage: FlashMessagesService,
-
+      private imageService: ImagesService
   ) { }
 
   ngOnInit() {
+
   }
   
   onFileChosen(file){
@@ -70,14 +71,19 @@ uploadFile(){
         this.imageService.saveImage(this.imageURL).subscribe(res => {
          if(res.success){
           //Notify User Image Uploaded and Saved
-          this.flashMessage.show("Image added successfully!", {cssClass: 'alert-success', timeout: 3000});              
-
+        Materialize.toast('Image added!', 3000, 'toast-success rounded')               
+        //this.router.navigate(["/profile/images"])
+        this.imageService.setNewImage(this.imageURL)
+        var imageList = document.getElementById('list')
+         if(imageList.hasChildNodes()){
+            imageList.removeChild(imageList.lastChild)
+        }
         } else {
-          this.flashMessage.show("Failed to add image, try again later!", {cssClass: 'alert-danger', timeout: 3000});                
+          Materialize.toast('Image upload Failed!', 3000, 'toast-danger rounded')                
          }
        })
     } else {
-      console.log('User Image Failed to Upload')
+        Materialize.toast('Image upload Failed!', 3000, 'toast-danger rounded')                      
     }
     
       

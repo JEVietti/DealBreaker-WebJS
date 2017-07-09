@@ -1,0 +1,23 @@
+.preview {
+max-width: 40%;
+height: auto;
+}
+
+.container-fluid {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.header {
+    padding-bottom: 25px;
+}
+
+.image-button {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    float: right;
+}

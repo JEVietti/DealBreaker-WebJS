@@ -71,7 +71,7 @@ app.get('/api/sign-s3', passport.authenticate('jwt', {session: false}), (req, re
   }
   s3.getSignedUrl('putObject', s3Params, (err, data) => {
     if (err) {
-      // console.log(err)
+       console.log(err)
       return res.end()
     }
     // console.log(data)
@@ -83,11 +83,50 @@ app.get('/api/sign-s3', passport.authenticate('jwt', {session: false}), (req, re
   })
 })
 
+app.delete('/api/sign-s3', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  const s3 = new AWS.S3()
+  const fileName = req.body.fileName
+
+  const bucket = dbConfig.S3_Bucket
+  const folderName = req.user.username
+  const s3Params = {
+    Bucket: bucket,
+    Delete: {Objects: [{Key: folderName + '/' + fileName}]}
+  }
+  s3.deleteObjects(s3Params, (err, data) => {
+    if (err) {
+      console.log(err)
+      return res.json(err)
+    }
+    return res.json({success: true, msg: 'Image Deleted'})
+    /*
+    var params = {
+      Bucket: bucket,
+      Prefix: folderName,
+      MaxKeys: 5
+    }
+    s3.listObjectsV2(params, (err, data) => {
+      if (err) {
+        console.log(err)
+        res.end(err)
+      }
+      
+      res.Contents.forEach(function(element) {
+        if(element.Key == folderName + '/' + fileName){
+          return res.json
+        }
+      }, this);
+         
+    })*/
+   
+  })
+})
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 })
 
 // server on port:
 app.listen(port, () => {
-  // console.log('Server started on port ' + port)
+   console.log('Server started on port ' + port)
 })

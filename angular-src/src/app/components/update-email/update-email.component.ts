@@ -4,6 +4,8 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service'
 import {ValidateService} from '../../services/validate.service'
 
+declare const Materialize: any;
+
 @Component({
   selector: 'app-update-email',
   templateUrl: './update-email.component.html',
@@ -12,7 +14,7 @@ import {ValidateService} from '../../services/validate.service'
 export class UpdateEmailComponent implements OnInit {
   email: String;
   confirmEmail: String;
-
+  loadData: any;
   constructor(
     private flashMessage: FlashMessagesService, 
     private auth: AuthService,
@@ -20,6 +22,11 @@ export class UpdateEmailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.loadData = this.auth.getTokenData('user') 
+    if(this.loadData != null){ 
+     console.log(this.loadData)
+     this.email = this.loadData.email
+    }
   }
 
   updateEmail(){
@@ -33,9 +40,9 @@ export class UpdateEmailComponent implements OnInit {
     if(this.validateForm(updateEmail)){
       this.auth.updateEmail(updateEmail).subscribe(res => {
         if(res.success){
-          this.flashMessage.show( res.msg || "Email updated!", {cssClass: 'alert-success', timeout: 3000})          
+          Materialize.toast( res.msg || "Email updated!", 3000, 'rounded toast-success')          
         } else {
-          this.flashMessage.show( res.msg ||"Something went wrong, try agian later!", {cssClass: 'alert-danger', timeout: 3000})
+          Materialize.toast( res.msg ||"Something went wrong, try agian later!", 3000, 'rounded toast-danger')
         }
       })
     }
@@ -45,17 +52,17 @@ export class UpdateEmailComponent implements OnInit {
   validateForm(updateEmail){
 
     if(updateEmail.email == undefined || updateEmail.confirmEmail == undefined){
-      this.flashMessage.show("Fill in all fields.", {cssClass: 'alert-danger', timeout: 3000})
+      Materialize.toast("Fill in all fields.", 3000, 'rounded toast-danger')
       return false
     }
 
     else if(updateEmail.email != updateEmail.confirmEmail){
-      this.flashMessage.show("Emails do not match.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Emails do not match.", 3000, 'rounded toast-danger')      
       return false
     }
     
     else if(!this.validate.validateEmail(updateEmail.email)){
-      this.flashMessage.show("Email is invalid.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Email is invalid.", 3000, 'rounded toast-danger')      
       return false    
     }
     return true

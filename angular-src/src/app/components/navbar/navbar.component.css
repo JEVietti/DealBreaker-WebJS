@@ -30,3 +30,7 @@ nav{
 .side-nav {
   background-color: whitesmoke;
 }
+
+.pad-left {
+  padding-left: 75px;
+}

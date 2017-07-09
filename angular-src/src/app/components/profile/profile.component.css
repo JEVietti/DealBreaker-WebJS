@@ -34,8 +34,8 @@
 .carousel .carousel-item {
     display: none;
     max-width: 400px !important;
-    min-width: 300px !important;
-    height: 300px !important;
+    min-width: 350px !important;
+    height: 350px !important;
     position: absolute;
     top: 0;
     left: 0;

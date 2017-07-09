@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BrowseService } from '../../services/browse.service'
 
 @Component({
   selector: 'app-browse',
