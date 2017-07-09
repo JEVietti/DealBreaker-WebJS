@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 
 declare const $: any;
 declare var google: any;
+declare const Materialize: any;
 
 @Component({
   selector: 'app-profile-setup',
@@ -31,14 +32,15 @@ export class ProfileSetupComponent implements OnInit {
   biography: String;
   sexualOrientation: String;
   dealBreakers : Array <String>;
-  goodQualities: Array <String>;
-  badQualities: Array <String>; 
+  seeking: Array <String>;
+  interests: Array <String>; 
   city: String;
   state: String;
   country: String;
  
   place: any;
-  location: String; // Format: City, State, Country || City, Country 
+  location: String; // Format: City, State, Country || City, Country
+  locationData: Object 
   profile: Object;
 
   constructor(
@@ -49,15 +51,14 @@ export class ProfileSetupComponent implements OnInit {
 
   ) { 
     this.biography = undefined;
-    this.goodQualities = [];
-    this.badQualities = [];
+    this.seeking = [];
+    this.interests = [];
     this.dealBreakers = [];
   }
 
 
   ngOnInit() {
-
-  this.loadProfile()
+    this.loadProfile()
 
     this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
     
@@ -70,6 +71,10 @@ export class ProfileSetupComponent implements OnInit {
   
     this.sexualities = ["Asexual", "Bisexual", "Homosexual", "Heterosexual"]
     this.loadGoogle();
+    
+     $(document).ready(()=> {
+        this.initMaterialize()
+     });
   }
 
   getLocation(place: any){
@@ -92,6 +97,30 @@ export class ProfileSetupComponent implements OnInit {
       console.log(res.success)
       if(res.success){
         this.profile = res.profile;
+        console.log(res.profile)
+        this.fname = res.profile.fname
+        this.lname = res.profile.lname
+        this.sex = res.profile.sex
+        this.sexualOrientation = res.profile.sexualOrientation
+        
+        var birth = res.profile.birthdate
+        var birthdate = birth.split("-")
+        this.dobMonth = parseInt(birthdate[1])
+        this.dobDay = parseInt(birthdate[2])
+        this.dobYear = parseInt(birthdate[0]) 
+        
+        var loc = res.profile.location[0]
+        this.location = loc.city + ", " + loc.state + ", " + loc.country 
+        this.locationData = loc
+        this.state = loc.state
+        this.city = loc.city
+        this.country = loc.country
+
+        this.biography = res.profile.biography
+        this.seeking = res.profile.seeking
+        this.interests = res.profile.interests
+        this.dealBreakers = res.profile.dealbreakers
+
       } else {
         this.profile = null
       }
@@ -120,21 +149,17 @@ export class ProfileSetupComponent implements OnInit {
     })
   }
 
-  public addQualities(data){
-    console.log(data);
-  }
-
   public getQualities(){
     var temp;
-    temp = $('#goodQualities').material_chip('data');
+    temp = $('#seeking').material_chip('data');
     //console.log(temp);
    for(var i=0; i<temp.length; i++){
-     this.goodQualities[i] = temp[i].tag;
+     this.seeking[i] = temp[i].tag;
    }
 
-   temp = $('#badQualities').material_chip('data');
+   temp = $('#interests').material_chip('data');
    for(var i=0; i<temp.length; i++){
-     this.badQualities[i] = temp[i].tag;
+     this.interests[i] = temp[i].tag;
    }
 
    temp = $('#dealbreakers').material_chip('data');
@@ -143,36 +168,66 @@ export class ProfileSetupComponent implements OnInit {
    }
 
    console.log(this.dealBreakers);
-   console.log(this.badQualities);
-   console.log(this.goodQualities);   
+   console.log(this.interests);
+   console.log(this.seeking);   
    
 
   }
 
   ngAfterContentInit(){
-     $(document).ready(function() {
+    
+  }
+
+  initMaterialize(){
+    $(document).ready(()=> {
        
         $('select').material_select();    
-        $('#goodQualities').material_chip();
-        $('#badQualities').material_chip();
+        $('#seeking').material_chip();
+        $('#interests').material_chip();
         $('#dealbreakers').material_chip();
-
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 100 // Creates a dropdown of 15 years to control year
-        });
 
         $('.chips-placeholder').material_chip({
               placeholder: 'Enter an Attribute',
               secondaryPlaceholder: '+quality',
         });   
-        
+         var chipData: Array<Object> = [];
+        if (this.dealBreakers != null) {
+           chipData = []
+          this.dealBreakers.forEach(element => {
+            chipData.push({tag:element})            
+          });
+           $('#dealbreakers').material_chip({
+             data: chipData,
+          });        
+           
+        } 
+        if (this.seeking != null) {
+           chipData = []
+          this.seeking.forEach(element => {
+            chipData.push({tag:element})            
+          });
+          $('#seeking').material_chip({
+            data: chipData,
+          });        
+        } 
+        if (this.interests != null) {
+          chipData = []
+          this.interests.forEach(element => {
+            chipData.push({tag:element})            
+          });
+          $('#interests').material_chip({
+            data: chipData,
+          });        
+                
+        }
+
     });
 
-      //this.getQualities();
   }
 
   ngAfterViewInit(){
+    $(document).ready(()=> {
+    //this.initMaterialize()
      $('#dealbreakers').on('chip.add', (e, chip) =>{
               console.log("You Have added chip" + chip.tag);
               this.addChipData(this.dealBreakers, chip.tag)
@@ -182,23 +237,24 @@ export class ProfileSetupComponent implements OnInit {
               this.deleteChipData(this.dealBreakers, chip.tag)
       });
 
-      $('#badQualities').on('chip.add', (e, chip) =>{
+      $('#interests').on('chip.add', (e, chip) =>{
               console.log("You Have added chip" + chip.tag);
-              this.addChipData(this.badQualities, chip.tag)
+              this.addChipData(this.interests, chip.tag)
        });
-      $('#badQualities').on('chip.delete', (e, chip) =>{
+      $('#interests').on('chip.delete', (e, chip) =>{
               console.log("You Have deleted chip" + chip.tag);
-              this.deleteChipData(this.badQualities, chip.tag)
+              this.deleteChipData(this.interests, chip.tag)
       });
 
-      $('#goodQualities').on('chip.add', (e, chip) =>{
+      $('#seeking').on('chip.add', (e, chip) =>{
               console.log("You Have added chip" + chip.tag);
-              this.addChipData(this.goodQualities, chip.tag)
+              this.addChipData(this.seeking, chip.tag)
        });
-      $('#goodQualities').on('chip.delete', (e, chip) =>{
+      $('#seeking').on('chip.delete', (e, chip) =>{
               console.log("You Have deleted chip" + chip.tag);
-              this.deleteChipData(this.goodQualities, chip.tag)
+              this.deleteChipData(this.seeking, chip.tag)
       });
+    });
   }
 
   addChipData(array: Array<String>, chipValue){
@@ -228,11 +284,11 @@ export class ProfileSetupComponent implements OnInit {
     }
 
     if(this.state == undefined || this.city == undefined || this.country == undefined){
-      this.flashMessage.show("Try a different location or Reselect Location Field", {cssClass: 'alert-danger', timeout: 3000});                      
+      Materialize.toast("Try a different location or Reselect Location Field", 3000, 'rounded toast-danger');                      
       return;
     }
 
-    const location = {city: this.city, state: this.state, country: this.country}
+    this.locationData = {city: this.city, state: this.state, country: this.country}
     const formattedLoc = this.city + ", " + this.state + ", " + this.country
     console.log(formattedLoc)
 
@@ -241,10 +297,10 @@ export class ProfileSetupComponent implements OnInit {
       lname : this.lname,
       sex : this.sex,
       sexualOrientation : this.sexualOrientation,
-      location : location,
+      location : this.locationData,
       birthdate : this.birthdate,      
-      goodQualities: this.goodQualities,
-      badQualities : this.badQualities,
+      seeking : this.seeking,
+      interests : this.interests,
       dealbreakers : this.dealBreakers,
       biography: this.biography
     }
@@ -255,10 +311,10 @@ export class ProfileSetupComponent implements OnInit {
     if(this.profile == null){ 
       this.profileService.saveProfile(newProfile).subscribe(res =>{
         if(res.success){
-          this.flashMessage.show("Profile Created Successfully!", {cssClass: 'alert-danger', timeout: 3000});
+          Materialize.toast("Profile Created Successfully!", 3000, 'rounded toast-success');
           this.router.navigate(['/profile'])
         } else {
-          this.flashMessage.show(res.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 5000});
+          Materialize.toast(res.msg || "Something went wrong, try again later!", 5000, 'rounded toast-danger');
         }
       });
     }
@@ -266,10 +322,10 @@ export class ProfileSetupComponent implements OnInit {
     console.log("Attempt update")
       this.profileService.updateProfile(newProfile).subscribe(res =>{
         if(res.success){
-          this.flashMessage.show("Profile Created Successfully!", {cssClass: 'alert-danger', timeout: 3000});
+          Materialize.toast("Profile Updated Successfully!", 3000, 'rounded toast-success');
           this.router.navigate(['/profile'])
         } else {
-          this.flashMessage.show(res.msg || "Something went wrong, try again later!", {cssClass: 'alert-danger', timeout: 5000});
+          Materialize.toast(res.msg || "Something went wrong, try again later!", 5000, 'rounded toast-danger');
         }
       });
     }
@@ -277,19 +333,19 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   validateSetup(profile){
-      if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.goodQualities == [] || profile.badQualities == [] || profile.dealBreakers == [] || profile.location == undefined){
-        this.flashMessage.show("Please fill in all fields!", {cssClass: 'alert-danger', timeout: 5000});        
+      if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking == [] || profile.interests == [] || profile.dealBreakers == [] || profile.location == undefined){
+        Materialize.toast("Please fill in all fields!", 5000, 'rounded');        
         return false;  
       }
     
-    else if(this.place == null){
-      this.flashMessage.show("Check Location Field", {cssClass: 'alert-danger', timeout: 5000});              
+    else if(this.place == null && this.locationData == null){
+      Materialize.toast("Check Location Field", 5000, 'rounded toast-danger');              
       return false;
     } else if(this.validate.validateDOB(this.birthdate)){
-      this.flashMessage.show("You must be 18 years or older.", {cssClass: 'alert-danger', timeout: 5000});              
+      Materialize.toast("You must be 18 years or older.", 5000, 'rounded toast-danger');              
       return false;
     } else if (this.biography.length > 400) {
-      this.flashMessage.show("Biography Must be 400 characters or less!", {cssClass: 'alert-danger', timeout: 5000});                    
+      Materialize.toast("Biography Must be 400 characters or less!", 5000, 'rounded toast-danger');                    
     }
     return true;
   }

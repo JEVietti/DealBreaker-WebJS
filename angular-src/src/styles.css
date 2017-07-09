@@ -14,3 +14,45 @@
     font-size: 24px;
     color: white;
   }
+
+  .toast-danger {
+    background-color: #E23D28 !important;
+    font-style: bold !important;
+ 
+  }
+
+  .toast-success {
+    background-color: #4F7942 !important;
+    font-style: bold !important;
+   
+  }
+
+  .circle {
+    border-radius: 50% !important;
+  }
+
+@media only screen and (min-width : 601px) and (max-width : 1260px) {
+.toast {
+width: 100%;
+border-radius: 0;} }
+
+@media only screen and (min-width : 1261px) {
+.toast {
+width: 100%;
+border-radius: 0; } }
+
+@media only screen and (min-width : 601px) and (max-width : 1260px) {
+#toast-container {
+min-width: 100%;
+bottom: 0%;
+top: 90%;
+right: 0%;
+left: 0%;} }
+
+@media only screen and (min-width : 1261px) {
+#toast-container {
+min-width: 100%;
+bottom: 0%;
+top: 90%;
+right: 0%;
+left: 0%; } }

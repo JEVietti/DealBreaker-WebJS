@@ -1,8 +1,8 @@
 <div *ngIf="profile">
        <div class="container-fluid">
         <div class="row-fluid" *ngIf="gallery.length > 0">
-          <div  class="carousel center">  
-            <a *ngFor="let image of gallery" class="carousel-item"><img class=" materialboxed" src={{image}}></a>
+          <div  class="carousel center" >   
+            <a *ngFor="let image of gallery" class="carousel-item center"><img id="profileImage" class="materialboxed" src={{image}}></a>
          </div>
          </div>
        
@@ -34,16 +34,16 @@
                </div>
              <div id="qualities" class = " row center">
                 <div class="col s6">
-                    <h4> Good Qualities</h4>
+                    <h4> Seeking </h4>
                     <ul>
-                      <li *ngFor="let gq of profile.goodQualities" class="list-group-item"> {{gq}} </li>
+                      <li *ngFor="let sk of profile.seeking" class="list-group-item"> {{sk}} </li>
                     </ul>
                 </div>
                 
                 <div class="col s6">
-                    <h4> Bad Qualities</h4>
+                    <h4> interests</h4>
                     <ul>
-                      <li *ngFor="let bq of profile.badQualities" class="list-group-item"> {{bq}} </li>
+                      <li *ngFor="let int of profile.interests" class="list-group-item"> {{int}} </li>
                     </ul>           
                 </div> 
             </div>            

@@ -74,12 +74,12 @@ const ProfileSchema = mongoose.Schema({
     upsert: true
   }],
 
-  goodQualities: [{
+  interests: [{
     type: String,
     upsert: true
   }],
 
-  badQualities: [{
+  seeking: [{
     type: String,
     upsert: true
   }],

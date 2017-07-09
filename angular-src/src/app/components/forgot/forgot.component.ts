@@ -5,6 +5,7 @@ import {ValidateService} from '../../services/validate.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
 
 import 'rxjs/add/operator/map';
+declare const Materialize: any;
 
 @Component({
   selector: 'app-forgot',
@@ -40,13 +41,13 @@ export class ForgotComponent implements OnInit {
     if(this.validateInput(forgot)){
       this.auth.forgotUsername(forgot).subscribe (res => {
         if(res.success){
-          this.flashMessage.show( res.msg || "Success, check your email to retrieve your username.", {cssClass: 'alert-success', timeout: 3000})                
+          Materialize.toast( res.msg || "Success, check your email to retrieve your username.", 3000, 'rounded toast-success')                
         } else {
-          this.flashMessage.show( res.msg ||  "Unknkown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
+          Materialize.toast( res.msg ||  "Unknown error try again.", 5000, 'rounded toast-danger')      
         }
       })
     } /*else {
-      this.flashMessage.show("Unknkown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Unknown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
     }*/
   }
 
@@ -58,23 +59,23 @@ export class ForgotComponent implements OnInit {
     if(this.validateInput(forgot)){
       this.auth.forgotPassword(forgot).subscribe (res => {
          if(res.success){
-          this.flashMessage.show( res.msg || "Success, check your email for further instruction to reset your password.", {cssClass: 'alert-success', timeout: 3000})                
+          Materialize.toast( res.msg || "Success, check your email for further instruction to reset your password.", 3000, 'rounded toast-success')                
         } else {
-          this.flashMessage.show( res.msg ||  "Unknkown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
+          Materialize.toast( res.msg ||  "Unknown error try again.", 5000, 'rounded toast-danger')      
         }
       })
     } /*else {
-      this.flashMessage.show("Unknkown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Unknown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
     }*/
   }
 
   validateInput(forgot){
     if (forgot.email == null){
-      this.flashMessage.show("Fill in all fields.", {cssClass: 'alert-danger', timeout: 3000})
+      Materialize.toast("Fill in all fields.", 3000, 'rounded toast-success')
       return false;
     } 
     else if (!this.validate.validateEmail(forgot.email)){
-      this.flashMessage.show("Emails invalid.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Emails invalid.", 5000, 'rounded toast-danger')      
       return false
     } 
     return true

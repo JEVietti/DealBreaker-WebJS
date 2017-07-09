@@ -5,12 +5,12 @@
         <div class="input-field col s6">
           <i class="material-icons prefix pink-dark">perm_identity</i>                    
           <input [(ngModel)]="fname" name="fname" id="fname" type="text" class="validate">
-          <label for="fname">First Name</label>
+          <label class="active" for="fname">First Name</label>
         </div>
         <div class="input-field col s6">     
           <i class="material-icons prefix pink-dark">perm_identity</i>                                                         
           <input [(ngModel)]="lname" name="lname" id="lname" type="text" class="validate">
-          <label for="lname">Last Name</label>
+          <label class="active" for="lname">Last Name</label>
         </div>
       </div>
 
@@ -28,23 +28,25 @@
     
 
       <div class="col s6 sex-or">
-    <label>Sexual Orientation</label>         
+    <label>Sexual Orientation</label> <i class="material-icons tiny pink-dark"> info_outline</i>        
     <select class="browser-default" type="string" [(ngModel)] = "sexualOrientation" name = "sexualOrientation" id="sexualOrientation">
         <option value="" disabled selected="selected">What's your sexuality?</option>
         <option *ngFor="let sexuality of sexualities" [ngValue] = "sexuality" > {{sexuality}} </option>
     </select>
+    
   </div>
 </div>
  <div class="row">
         <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark">perm_contact_calendar</i>
-         <div class="col s4">
-           
+         
+         <div class="col s3">
           <select class="browser-default" type="string" [(ngModel)] = "dobMonth" name = "dobMonth" id="dobMonth">
             <option value="" disabled selected="selected">Month</option>
             <option *ngFor="let monthPair of monthPairs" [ngValue] = "monthPair.value" > {{monthPair.label}} </option>
           </select>
           <label>Month</label>
         </div>
+         
          <div class=" col s3">
             <select class="browser-default" type="number" [(ngModel)] = "dobDay" name='dobDay' id='dobDay'>
                <option value="" disabled selected="selected">Day</option>
@@ -52,12 +54,13 @@
           </select>
           <label>Day</label>
         </div>
+         
          <div class="col s3">
             <select class="browser-default" [(ngModel)] = "dobYear" name="dobYear" id="dobYear">
                    <option value="" disabled selected="selected">Year</option>
                  <option *ngFor="let year of yearList" [ngValue] = "year" > {{year}} </option>
                 </select>
-          <label>Year</label>
+          <label>Year</label> 
         </div>
     </div>
   
@@ -65,7 +68,7 @@
    <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> my_location </i>    
     <div class="input-field col s6">
       <input  [(ngModel)] = "location" name ="location" id="locationSearch" type="text" placeholder="City, State, Country" size="50">
-      <label>Location</label>
+      <label class="active">Location</label>
     </div>
   </div>
 
@@ -73,16 +76,16 @@
   <div class="row">
    <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> subject </i>    
       <div class="input-field col s6">
-        <textarea id="biography" class="materialize-textarea" data-length="400"></textarea>
-        <label for="textarea1">Biography</label>
+        <textarea [(ngModel)] = "biography" name="biography" id="biography" class="materialize-textarea" data-length="400"></textarea>
+        <label class="active" for="textarea1">Biography</label> 
       </div>
   </div>
 
 <div class = "row">
    <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
     <div class="input-field col s6">
-      <h6 class="grey-text">Deal Breakers</h6>  
-      <div id="dealbreakers"  name="dealBreakers"   class="chips chips-placeholder">
+      <h6 class="grey-text">Deal Breakers <i class="material-icons tiny pink-dark"> info_outline</i> </h6>
+      <div id="dealbreakers"  name="dealBreakers"   class="chips chips-intial chips-placeholder">
       </div>
     </div>
 </div>
@@ -91,9 +94,8 @@
    <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
 
     <div class="input-field col s6">
-      <h6 class="grey-text">Good Qualities</h6>
-      <div id="goodQualities"  name="goodQualities"   class="chips chips-placeholder">
- 
+      <h6 class="grey-text">Seeking <i class="material-icons tiny pink-dark"> info_outline</i> </h6>
+      <div  id="seeking" name="seeking" class="chips chips-intial chips-placeholder">
       </div>
     </div> 
 </div>
@@ -103,8 +105,8 @@
    <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
 
     <div class="input-field col s6">
-      <h6 class="grey-text">Bad Qualities</h6>  
-      <div id="badQualities"  name="badQualities"  class="chips chips-placeholder">
+      <h6 class="grey-text">Interests <i class="material-icons tiny pink-dark"> info_outline</i> </h6>  
+      <div id="interests"  name="interests"  class="chips chips-intial chips-placeholder">
    
       </div>
     </div>

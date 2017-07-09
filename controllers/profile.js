@@ -90,8 +90,8 @@ function createProfile (req, res) {
     sexualOrientation: req.body.sexualOrientation,
     location: req.body.location,
     dealbreakers: req.body.dealbreakers,
-    goodQualities: req.body.goodQualities,
-    badQualities: req.body.badQualities,
+    seeking: req.body.seeking,
+    interests: req.body.interests,
     images: uid
   })
 
@@ -118,8 +118,8 @@ function updateProfile (req, res) {
     sexualOrientation: req.body.sexualOrientation,
     location: req.body.location,
     dealbreakers: req.body.dealbreakers,
-    goodQualities: req.body.goodQualities,
-    badQualities: req.body.badQualities,
+    seeking: req.body.seeking,
+    interests: req.body.interests,
     images: uid
   })
 

@@ -13,6 +13,7 @@ import { ProfileService } from '../../services/profile.service'
 //import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 declare const $: any;
+declare const Materialize: any;
 var slider =  $('.slider');
 @Component({
   selector: 'app-profile',
@@ -33,19 +34,29 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private profileService: ProfileService
   ) { 
-      this.initProfile();      
       
    }
 
   ngOnInit() {
-  }
-
-  ngAfterContentInit() {
+      this.initProfile();      
     
   }
 
+  ngAfterContentInit() {
+     $(document).ready(() => {
+        $(document).on('click', '.materialboxed', function (e) {
+          console.log('this is the click');
+          e.preventDefault();
+        });
+    })
+  }
+
   ngAfterViewInit(){
-      $(document).ready(function(){
+      this.initMaterialize()
+  }
+
+  initMaterialize() {
+    $(document).ready(function(){
 
         if($('.carousel.carousel-slider').hasClass('initialized')){
            slider.removeClass('initialized');
@@ -89,6 +100,7 @@ initProfile(){
                 $(document).ready(function(){
                   $('.carousel').carousel();
                    $('.materialboxed').materialbox();
+                    //Materialize.toast('I am a toast!', 3000, 'toast-container round') // 'rounded' is the class I'm applying to the toast
                   // $('.carousel.carousel-slider').carousel();      
                   
                 });
@@ -115,6 +127,7 @@ initProfile(){
         if(profile.success){
            console.log(profile);
               this.profile = profile.profile;
+               this.location = this.profile.location[0].city + ", " + this.profile.location[0].state + ", " + this.profile.location[0].country 
                console.log(this.profile.birthdate)
               this.age = this.profileService.calculateAge(this.profile.birthdate); 
               if(this.profile.images != null){

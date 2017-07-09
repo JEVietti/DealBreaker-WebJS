@@ -51,7 +51,7 @@ export class ProfileService {
 
   }
 
-  /*** To be Moved to Profile service ***/
+  
 //Get the Profile of the user that is already logged in
   getProfile(){
      let headers = new Headers();
@@ -63,7 +63,7 @@ export class ProfileService {
       .map(res=> res.json());
   }
 
-/*** To be Moved to Profile service ***/
+
 //Get the profile of the user by the username entered by url: GET ID request 
   getProfileById(id){
       let headers = new Headers();

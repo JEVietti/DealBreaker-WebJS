@@ -13,6 +13,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FlashMessagesService} from 'angular2-flash-messages';
 
+declare const Materialize: any;
 declare const $: any;
 
 @Component({
@@ -30,7 +31,27 @@ export class NavbarComponent implements OnInit {
       private flashMessage: FlashMessagesService,
       private router: Router
   ) {    this.login = false;
-           $(document).ready(function() {
+          
+   }
+
+  ngOnInit() {
+   
+ 
+  }
+
+  //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page
+  ngAfterContentInit() {
+     $(document).ready(()=> {
+        this.initMaterialize()
+     });
+  }
+
+  ngOnChanges(){
+    
+  }
+
+  initMaterialize(){
+     $(document).ready(function() {
                $(".button-collapse").sideNav();
                 $(".dropdown-button").dropdown({
             hover: true,
@@ -44,20 +65,6 @@ export class NavbarComponent implements OnInit {
     }
   );
         });
-   }
-
-  ngOnInit() {
-    
- 
-  }
-
-  //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page
-  ngAfterContentInit() {
- 
-  }
-
-  ngOnChanges(){
-    
   }
 
   
@@ -68,11 +75,7 @@ export class NavbarComponent implements OnInit {
     this.authService.logout(); //clear local storage
     
     //Notify User
-    this.flashMessage.show('You are logged out', {
-      csClass:"alert-success",
-      timeout: 3000
-    });
-
+    // Materialize.toast('You logged out!', 5000, 'rounded')
     //Navigate back to home page
     this.router.navigate(['/']);
     return true;

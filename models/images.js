@@ -44,7 +44,17 @@ function createImages (newImages, callback) {
   
 }
 
+function deleteImage (id, image, callback) {
+  //console.log(id)
+  const query = { _id: id}
+  console.log(image.url)
+  Images.findByIdAndUpdate(id, {$pull: { gallery: {
+			url : image.url
+		}}}, { multi: true }).exec(callback)
+}
+
 module.exports.create = createImages
 module.exports.getById = getImagesById
 module.exports.getByUsername = getImagesByUsername
 module.exports.update = updateImages
+module.exports.delete = deleteImage

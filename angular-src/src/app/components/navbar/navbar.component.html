@@ -1,12 +1,17 @@
 <nav>
       <div class="nav-wrapper">
-        <a href="/" class="brand-logo center">
+        <a href="/" class="brand-logo left">
 
- <i id="logo" class="fa fa-heartbeat" style=" font-size: 55px; color: rgb(255, 0, 0); text-align: center;"></i> 
+ <i id="logo" class="fa fa-heartbeat hide-on-small-only" style=" font-size: 55px; color: rgb(255, 0, 0); text-align: center;"></i> 
+ </a>
+ <a href="/" class="brand-logo center">
+
+ <i id="logo" class="fa fa-heartbeat  hide-on-med-and-up" style=" font-size: 55px; color: rgb(255, 0, 0); text-align: center;"></i> 
  </a>
         <a href="/" data-activates="mobile-nav" class=" hide-on-med-and-up button-collapse"><i class=" hide-on-med-and-up material-icons">menu</i></a>
-        <ul class="left hide-on-small-only">
-        <li ><a [routerLink] = "['/']">Home</a></li>
+        <ul class="left pad-left hide-on-small-only">
+        <li ><a  [routerLink] = "['/']">Home</a></li>
+        <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/browse']"  >Browse</a></li>
        <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
         
         </ul>
@@ -17,7 +22,7 @@
             </ul>
        
         <ul *ngIf="authService.loggedIn()"  class="right hide-on-small-only">
-            <li> <a class='dropdown-button' data-beloworigin="true" data-activates='profileDropDown'> {{authService.getName()}}</a>
+            <li> <a class='dropdown-button' data-beloworigin="true" data-activates='profileDropDown'> {{authService.getName()}} <i class="material-icons right">arrow_drop_down</i> </a>
                  <ul id="profileDropDown" class="dropdown-content">
                     <li ><a [routerLink] = "['/profile']" class="pink-text">Profile</a></li>
                     <li ><a [routerLink] = "['/profile/images']" class="pink-text">Images</a></li>
@@ -25,7 +30,7 @@
                     <li ><a [routerLink] = "['/account']" class="pink-text">Settings</a></li>                    
                 </ul>
             </li>
-            <li ><a (click)= "onLogoutClick()" href=""> Logout</a></li>
+            <li ><a (click)= "onLogoutClick()" href=""> <i class="material-icons tiny">power_settings_new</i> </a></li>
         </ul>
           
         <ul *ngIf="!authService.loggedIn()" class="side-nav" id="mobile-nav">
@@ -35,13 +40,17 @@
         </ul>
 
          <ul *ngIf="authService.loggedIn()" class="side-nav" id="mobile-nav">
-            <li ><a [routerLink] = "['/']">Home</a></li>
+   <li><div class="user-view">
+      <a href="#!name"><span class="red-text name">{{authService.getName()}}</span></a>
+    </div></li>
+            <li ><a class="red-text" [routerLink] = "['/']">Home</a></li>
+            <li *ngIf="authService.loggedIn()"><a class="red-text" [routerLink] = "['/browse']">Browse</a></li>
             <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
-            <li><a  [routerLink] = "['/profile']"> {{authService.getName()}} </a></li>            
-            <li><a [routerLink] = "['/profile/images']">Images</a></li>   
+            <li><a class="pink-text"  [routerLink] = "['/profile']"> Profile </a></li>            
+            <li><a class="pink-text" [routerLink] = "['/profile/images']">Images</a></li>   
              <li ><a [routerLink] = "['/profile/setup']" class="pink-text">Edit</a></li>                                        
             <li ><a [routerLink] = "['/account']" class="pink-text">Settings</a></li>        
-            <li><a (click)= "onLogoutClick()" href=""> Logout</a></li>
+            <li><a class="red-text" (click)= "onLogoutClick()" href=""> Logout</a></li>
         </ul>
       </div>
       
