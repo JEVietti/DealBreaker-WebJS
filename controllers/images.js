@@ -25,9 +25,11 @@ function getImages (req, res) {
   Images.getById(id, (err, images) => {
     if (err) {
       res.json({success: false, gallery: null})
-    } else {
+    } else if (images != null) {
       images._id = undefined
       res.json({success: true, gallery: images.gallery})
+    } else {
+      res.json({success: false, gallery: null})
     }
   })
 }

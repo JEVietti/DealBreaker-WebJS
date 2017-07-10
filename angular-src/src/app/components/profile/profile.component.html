@@ -1,19 +1,17 @@
 <div *ngIf="profile">
        <div class="container-fluid">
-        <div class="row-fluid" *ngIf="gallery.length > 0">
+        <div class="row-fluid" *ngIf=" gallery != null &&  gallery.length > 0">
           <div  class="carousel center" >   
             <a *ngFor="let image of gallery" class="carousel-item center"><img id="profileImage" class="materialboxed" src={{image}}></a>
          </div>
          </div>
        
          <div>
-          <div *ngIf="profile.images === null" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
+          <div *ngIf=" gallery === null || gallery.length === 0" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
             <img class="responsive-img center defaultProfile" src="../assets/images/defaultProfilePic.png">
           </div>
          </div>
           
-         
-
         <div class = "container">
              <p class="list-group-item" id="profileName"> {{profile.fname}} {{profile.lname}}  </p>  
             <div id="userInfo">
