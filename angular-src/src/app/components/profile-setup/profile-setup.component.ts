@@ -58,10 +58,10 @@ export class ProfileSetupComponent implements OnInit {
 
 
   ngOnInit() {
+    this.initMaterialize()    
     this.loadProfile()
-
     this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
-    
+
     var currentYear = new Date().getFullYear();
     for(var i=currentYear; i >= currentYear-100; i--){
       this.yearList.push(i);
@@ -72,9 +72,7 @@ export class ProfileSetupComponent implements OnInit {
     this.sexualities = ["Asexual", "Bisexual", "Homosexual", "Heterosexual"]
     this.loadGoogle();
     
-     $(document).ready(()=> {
-        this.initMaterialize()
-     });
+     
   }
 
   getLocation(place: any){
@@ -120,6 +118,43 @@ export class ProfileSetupComponent implements OnInit {
         this.seeking = res.profile.seeking
         this.interests = res.profile.interests
         this.dealBreakers = res.profile.dealbreakers
+        
+
+        var chipData: Array<Object> = [];
+        if (this.dealBreakers != null) {
+          console.log("dealBreakers")
+           chipData = []
+          this.dealBreakers.forEach(element => {
+            chipData.push({tag:element})            
+          });
+           $('#dealbreakers').material_chip({
+             data: chipData,
+          });        
+           
+        } 
+        if (this.seeking != null) {
+          console.log("seeking")
+          
+           chipData = []
+          this.seeking.forEach(element => {
+            chipData.push({tag:element})            
+          });
+          $('#seeking').material_chip({
+            data: chipData,
+          });        
+        } 
+        if (this.interests != null) {
+          console.log("interests")          
+          chipData = []
+          this.interests.forEach(element => {
+            chipData.push({tag:element})            
+          });
+          $('#interests').material_chip({
+            data: chipData,
+          });        
+                
+        }
+
 
       } else {
         this.profile = null
@@ -175,7 +210,7 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   ngAfterContentInit(){
-    
+      
   }
 
   initMaterialize(){
@@ -185,49 +220,21 @@ export class ProfileSetupComponent implements OnInit {
         $('#seeking').material_chip();
         $('#interests').material_chip();
         $('#dealbreakers').material_chip();
-
-        $('.chips-placeholder').material_chip({
+            $('.chips-placeholder').material_chip({
               placeholder: 'Enter an Attribute',
               secondaryPlaceholder: '+quality',
         });   
-         var chipData: Array<Object> = [];
-        if (this.dealBreakers != null) {
-           chipData = []
-          this.dealBreakers.forEach(element => {
-            chipData.push({tag:element})            
-          });
-           $('#dealbreakers').material_chip({
-             data: chipData,
-          });        
-           
-        } 
-        if (this.seeking != null) {
-           chipData = []
-          this.seeking.forEach(element => {
-            chipData.push({tag:element})            
-          });
-          $('#seeking').material_chip({
-            data: chipData,
-          });        
-        } 
-        if (this.interests != null) {
-          chipData = []
-          this.interests.forEach(element => {
-            chipData.push({tag:element})            
-          });
-          $('#interests').material_chip({
-            data: chipData,
-          });        
-                
-        }
-
     });
+
+        
+
+  
 
   }
 
   ngAfterViewInit(){
     $(document).ready(()=> {
-    //this.initMaterialize()
+
      $('#dealbreakers').on('chip.add', (e, chip) =>{
               console.log("You Have added chip" + chip.tag);
               this.addChipData(this.dealBreakers, chip.tag)
@@ -292,7 +299,7 @@ export class ProfileSetupComponent implements OnInit {
     const formattedLoc = this.city + ", " + this.state + ", " + this.country
     console.log(formattedLoc)
 
-    let newProfile = {
+    const newProfile = {
       fname : this.fname,
       lname : this.lname,
       sex : this.sex,
@@ -333,8 +340,9 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   validateSetup(profile){
-      if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking == [] || profile.interests == [] || profile.dealBreakers == [] || profile.location == undefined){
-        Materialize.toast("Please fill in all fields!", 5000, 'rounded');        
+    console.log(profile)
+      if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking.length == 0 || profile.interests.length == 0 || profile.dealbreakers.length == 0 || profile.location == undefined){
+        Materialize.toast("Please fill in all fields!", 5000, 'rounded toast-danger');        
         return false;  
       }
     

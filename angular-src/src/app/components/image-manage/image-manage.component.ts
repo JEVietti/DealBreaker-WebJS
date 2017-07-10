@@ -25,6 +25,9 @@ export class ImageManageComponent implements OnInit {
 
     this.imagesService.listenImages().subscribe(res => {
       console.log(res)
+      if(this.images == null) {
+        this.images = [{url: res}]
+      }
       this.images.push({url: res})
     })
 

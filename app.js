@@ -24,7 +24,7 @@ mongoose.connection.on('error', (err) => {
 })
 
 const app = express()
-const port = process.env.PORT || 8000
+const port = 8000
 const users = require('./routes/users')
 const profiles = require('./routes/profiles')
 const images = require('./routes/images')
