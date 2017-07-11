@@ -42,7 +42,7 @@ export class ProfileService {
 
 //Calculate Age for Display
   calculateAge(birthdate){  
-    let ageMS = Date.parse(Date()) - Date.parse(birthdate);
+    let ageMS = Date.parse(Date()) - Date.parse(birthdate.replace(/-/g,'/').replace('T',' ').replace(/\..*|\+.*/,""));
     let age = new Date();
     age.setTime(ageMS);
     let ageYear = age.getFullYear() - 1970;

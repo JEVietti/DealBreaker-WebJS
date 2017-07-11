@@ -47,15 +47,12 @@ export class LoginComponent implements OnInit {
       if(data.success){
         Materialize.toast("You are now logged in!", 500, 'rounded toast-success');
           this.authService.storeUserData(data.token, data.user);
-           setInterval(()=>{
+           setTimeout(()=>{
            window.location.replace('/profile')    
           }, 600)
       }
       else{
         Materialize.toast(data.msg,  1000, 'rounded toast-danger');
-        setInterval(()=>{
-          this.router.navigate(['/login']);      
-        }, 1000)
       }
       });
     }

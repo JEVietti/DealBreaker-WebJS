@@ -47,7 +47,7 @@ export class UpdatePasswordComponent implements OnInit {
         this.router.navigate(['/login'])
       } else {
           Materialize.toast( data.msg || "Something went wrong check fields", 3000, 'rounded toast-danger')
-          this.router.navigate(['/login'])
+          //this.router.navigate(['/login'])
       }
       })
     } 
