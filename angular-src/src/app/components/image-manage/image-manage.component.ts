@@ -27,8 +27,10 @@ export class ImageManageComponent implements OnInit {
       console.log(res)
       if(this.images == null) {
         this.images = [{url: res}]
+
+      } else {
+        this.images.push({url: res})
       }
-      this.images.push({url: res})
     })
 
   }
