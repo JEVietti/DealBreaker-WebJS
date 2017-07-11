@@ -38,6 +38,7 @@ export class AuthService {
 
 //Login Request with Username and Password Data in user object passed in
   authenticateUser(user){
+    localStorage.clear()
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const ep = this.prepEndpoint('/api/users/auth')    

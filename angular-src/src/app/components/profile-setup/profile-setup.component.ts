@@ -217,13 +217,14 @@ export class ProfileSetupComponent implements OnInit {
     $(document).ready(()=> {
        
         $('select').material_select();    
-        $('#seeking').material_chip();
-        $('#interests').material_chip();
-        $('#dealbreakers').material_chip();
-            $('.chips-placeholder').material_chip({
+        //$('#seeking').material_chip();
+        //$('#interests').material_chip();
+        //$('#dealbreakers').material_chip();
+        /*$('.chips-placeholder').material_chip({
               placeholder: 'Enter an Attribute',
               secondaryPlaceholder: '+quality',
-        });   
+        });
+        */   
     });
 
         
@@ -349,7 +350,11 @@ export class ProfileSetupComponent implements OnInit {
     else if(this.place == null && this.locationData == null){
       Materialize.toast("Check Location Field", 5000, 'rounded toast-danger');              
       return false;
-    } else if(this.validate.validateDOB(this.birthdate)){
+    } else if(!this.validate.validateDate(this.birthdate)){
+       Materialize.toast("Date Invalid", 5000, 'rounded toast-danger');              
+      return false;
+    }
+     else if(this.validate.validateDOB(this.birthdate)){
       Materialize.toast("You must be 18 years or older.", 5000, 'rounded toast-danger');              
       return false;
     } else if (this.biography.length > 400) {

@@ -47,29 +47,24 @@ export class ValidateService {
   
   //Validate date format as to being a valid date
   validateDate(birthdate){
-    var d = new Date(birthdate);
-    if ( Object.prototype.toString.call(d) === "[object Date]" ) { // it is a date
-        if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
-          // date is not valid
-          //console.log("Not a real date!");
-          return false;
-        }
-        else {
-          // date is valid
-          //console.log("date is valid and real");
-          return true;
-        }
+    var dateArr = birthdate.split('-');
+    var y = parseInt(dateArr[0], 10);
+    var m = parseInt(dateArr[1], 10);
+    var d = parseInt(dateArr[2], 10);
+    var date = new Date(y,m-1,d);
+    if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
+      console.log('Valid date');
+      return true
     } else {
-        // not a date
-        //console.log("Date is invalid format!");
-        return false;
+      console.log('Invalid date');
+      return false
     }
 
   }
 
   //Validate the DOB of being at least 18 yearsold 
   validateDOB(birthdate){
-    let ageMS = Date.parse(Date()) - Date.parse(birthdate);
+    let ageMS = Date.parse(Date()) - Date.parse(birthdate.replace(/-/g,'/').replace('T',' ').replace(/\..*|\+.*/,""));
     let age = new Date();
     age.setTime(ageMS);
     let ageYear = age.getFullYear() - 1970;

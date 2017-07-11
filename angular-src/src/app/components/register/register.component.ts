@@ -40,7 +40,6 @@ export class RegisterComponent implements OnInit {
 //Inject the modules for use in Clas - Component
   constructor(
       private validateService: ValidateService, 
-      private flashMessage: FlashMessagesService,
       private authService: AuthService,
       private router: Router,
      
@@ -104,7 +103,7 @@ export class RegisterComponent implements OnInit {
       //Otherwise Advise the User from server response msg or notfiy something is wrong and to try later.  
       } else{
           Materialize.toast(data.msg || "Something went wrong, try again later!",  5000, 'rounded toast-danger');
-          this.router.navigate(['/register']);
+          //this.router.navigate(['/register']);
           return false;
         }
       });
