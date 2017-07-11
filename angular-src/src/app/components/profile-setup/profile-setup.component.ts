@@ -58,21 +58,19 @@ export class ProfileSetupComponent implements OnInit {
 
 
   ngOnInit() {
-    this.initMaterialize()    
-    this.loadProfile()
+    this.initMaterialize()
     this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
 
     var currentYear = new Date().getFullYear();
     for(var i=currentYear; i >= currentYear-100; i--){
       this.yearList.push(i);
     }  
-
     this.dayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-  
     this.sexualities = ["Asexual", "Bisexual", "Homosexual", "Heterosexual"]
-    this.loadGoogle();
     
-     
+
+    this.loadProfile()
+    this.loadGoogle();
   }
 
   getLocation(place: any){
@@ -158,6 +156,16 @@ export class ProfileSetupComponent implements OnInit {
 
       } else {
         this.profile = null
+        $(document).ready(()=> {
+        $('select').material_select();    
+        $('#seeking').material_chip();
+        $('#interests').material_chip();
+        $('#dealbreakers').material_chip();
+         $('.chips-placeholder').material_chip({
+              placeholder: 'Enter an Attribute',
+              secondaryPlaceholder: '+quality',
+        });
+        });
       }
     })
   }
@@ -215,22 +223,8 @@ export class ProfileSetupComponent implements OnInit {
 
   initMaterialize(){
     $(document).ready(()=> {
-       
-        $('select').material_select();    
-        //$('#seeking').material_chip();
-        //$('#interests').material_chip();
-        //$('#dealbreakers').material_chip();
-        /*$('.chips-placeholder').material_chip({
-              placeholder: 'Enter an Attribute',
-              secondaryPlaceholder: '+quality',
-        });
-        */   
+       $('input#input_text, textarea#biography').characterCounter();
     });
-
-        
-
-  
-
   }
 
   ngAfterViewInit(){
