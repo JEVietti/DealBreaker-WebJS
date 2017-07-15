@@ -4,6 +4,10 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { FooterComponent } from './footer.component';
+import {FormsModule} from '@angular/forms'
+import {RouterTestingModule} from '@angular/router/testing'
+import {AuthService} from '../../services/auth.service'
+import {HttpModule} from '@angular/http'
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -11,6 +15,8 @@ describe('FooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [FormsModule, RouterTestingModule, HttpModule],
+      providers: [AuthService],
       declarations: [ FooterComponent ]
     })
     .compileComponents();

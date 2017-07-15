@@ -15,14 +15,14 @@ nav{
 
 
 #logo {
-  text-shadow: 1px 1px 1px pink; 
+  text-shadow: 1px 1px 1px red; 
   -webkit-transition:all 0.7s ease-in-out;
-    text-align: center;
+    font-size: 55px; color: pink; text-align: center;
 }
 
 
 #logo:hover {
-  text-shadow: 1px 1px 1px red; 
+  text-shadow: 1px 1px 1px pink; 
   -webkit-transition:all 0.7s ease-in-out;
     text-align: center;
 }

@@ -34,7 +34,7 @@ const ProfileSchema = mongoose.Schema({
 
   location: {
     upsert: true,
-    type: Array,
+    type: Object,
     country: {
       id: '/properties/profile_info/properties/location',
       type: String,
@@ -49,7 +49,8 @@ const ProfileSchema = mongoose.Schema({
       id: '/properties/profile_info/properties/location',
       type: String,
       upsert: true
-    }
+    },
+    coordinates: {type: [Number], default: [0,0]}
   },
 
   sex: {
@@ -93,6 +94,7 @@ const ProfileSchema = mongoose.Schema({
   }
 
 })
+ProfileSchema.index({location: '2dsphere'})
 
 const Profile = module.exports = mongoose.model('Profile', ProfileSchema)
 

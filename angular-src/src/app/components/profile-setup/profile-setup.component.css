@@ -8,9 +8,6 @@ radio {
     padding-right: 15px;
 }
 
-i {
-    padding-top: 10px;
-}
 .sex-or{
     float: right !important;
 }
@@ -32,3 +29,14 @@ i {
    justify-content: center;
    width: 75px;
 }
+
+.locationButton {
+    margin-top: 22px;
+    margin-left: 15px;
+    text-align: center;
+}
+
+.backdrop {
+    background-color: red !important;
+}
+

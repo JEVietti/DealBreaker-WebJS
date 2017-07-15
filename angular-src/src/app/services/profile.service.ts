@@ -11,7 +11,7 @@ export class ProfileService {
   // Class Varaibles
   authToken: any; //JWT auth token
   isDev: boolean;
-  constructor(private http: Http) { this.isDev = true }
+  constructor( private http: Http) { this.isDev = true }
 
  loadAuthToken(){
     this.authToken = localStorage.getItem('id_token'); 

@@ -9,9 +9,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import {ValidateService} from '../../services/validate.service';
-import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import { NgForm, FormsModule } from '@angular/forms';
+import { Subscription } from "rxjs";
+
 
 declare const Materialize: any;
 
@@ -25,9 +27,10 @@ export class LoginComponent implements OnInit {
   username: String;
   password: String;
 
+  authSub: Subscription;
+
   constructor(
       private validateService: ValidateService, 
-      private flashMessage: FlashMessagesService,
       private authService: AuthService,
       private router: Router
 
@@ -42,7 +45,7 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
     if(this.validateLogin(user)){
-      this.authService.authenticateUser(user).subscribe(data => {
+      this.authSub = this.authService.authenticateUser(user).subscribe(data => {
       //console.log(data); - data from server api, 
       if(data.success){
         Materialize.toast("You are now logged in!", 500, 'rounded toast-success');
@@ -64,6 +67,12 @@ export class LoginComponent implements OnInit {
 
   private validateLogin(user){
     return this.validateService.validateLogin(user);
+  }
+
+  ngOnDestroy(){
+    if(this.authSub != null){
+      this.authSub.unsubscribe()
+    }
   }
 
 }

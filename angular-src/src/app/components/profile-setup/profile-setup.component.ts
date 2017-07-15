@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable, ChangeDetectorRef } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {ValidateService} from '../../services/validate.service'
-import {ProfileService} from '../../services/profile.service'
-import {NgForm} from '@angular/forms'
-import {FlashMessagesService} from 'angular2-flash-messages';
+import {ValidateService} from '../../services/validate.service';
+import {ProfileService} from '../../services/profile.service';
+import { NgForm, FormsModule } from '@angular/forms';
+import { Subscription } from "rxjs/Subscription";
+
+
 import {Router} from '@angular/router';
 
 declare const $: any;
@@ -37,29 +39,34 @@ export class ProfileSetupComponent implements OnInit {
   city: String;
   state: String;
   country: String;
+  coord: Array<Int32Array>;
  
   place: any;
   location: String; // Format: City, State, Country || City, Country
   locationData: Object 
   profile: Object;
 
+  profileSub : Subscription;
+  updateSub : Subscription;
+
   constructor(
     private validate: ValidateService,
     private profileService: ProfileService,
-    private flashMessage: FlashMessagesService,
-    private router: Router
+    private router: Router,
+    private ref: ChangeDetectorRef
 
   ) { 
     this.biography = undefined;
     this.seeking = [];
     this.interests = [];
     this.dealBreakers = [];
+    this.coord = [];
   }
 
 
   ngOnInit() {
     this.initMaterialize()
-    this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
+    this.monthPairs = [{value:1,label: "January"},{value:2,label: "February"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
 
     var currentYear = new Date().getFullYear();
     for(var i=currentYear; i >= currentYear-100; i--){
@@ -73,7 +80,67 @@ export class ProfileSetupComponent implements OnInit {
     this.loadGoogle();
   }
 
+
+  getUserLocation(){
+     if(navigator.geolocation){
+      const options = {
+	      enableHighAccuracy: false, //only needs to be accurate to the city
+	      timeout: 30000,  // milliseconds (30 seconds)
+	      maximumAge: 600000 // milliseconds (10 minutes)
+      }  
+       navigator.geolocation.getCurrentPosition(this.positionSuccess.bind(this), this.positionError.bind(this), options)
+     }
+  }
+  
+  positionSuccess(position){
+    // console.log('Position Found')
+    // console.log(position)
+    Materialize.toast('Fetching Location ...', 2000, 'rounded center toast-danger')    
+    var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    const geocoder = new google.maps.Geocoder;
+    geocoder.geocode({location: loc}, (result, status) => {
+     // console.log(result[0])
+    if(status === 'OK') {
+      this.getLocation(result[0])
+       if(this.state == undefined || this.city == undefined || this.country == undefined){
+        Materialize.toast("Try a different location or re-select Location Field", 3000, 'rounded toast-danger');                      
+      }
+      Materialize.toast('Location Fetched', 2000, 'rounded center toast-success')    
+      const formattedLoc = this.city + ", " + this.state + ", " + this.country
+      // console.log(position)
+      this.coord[0] = position.coords.latitude
+      this.coord[1] = position.coords.longitude
+      this.location = formattedLoc
+      this.ref.detectChanges()
+      // console.log(this.location)
+     }
+   })
+  }
+
+  positionError(err){
+    //// console.log('Position Not Found')
+    switch (err.code)
+	{
+		case err.PERMISSION_DENIED:
+			// User denied access to location. Perhaps redirect to alternate content?
+      Materialize.toast('Permission was denied!', 5000,'rounded toast-danger');
+       Materialize.toast('Use search or change permissions!', 5000,'rounded toast-danger');
+			break;
+		case err.POSITION_UNAVAILABLE:
+			Materialize.toast('Position is currently unavailable.', 2000,'rounded toast-danger')
+			break;
+		case err.PERMISSION_DENIED_TIMEOUT:
+			Materialize.toast('User took to long to grant/deny permission.', 2000, 'rounded toast-danger');
+			break;
+		case err.UNKNOWN_ERROR:
+    Materialize.toast('Unknown error', 2000, 'rounded toast-danger')
+			
+			break;
+	}
+  }
+
   getLocation(place: any){
+    // console.log(place)
     var components = place.address_components
     for(var i=0; i< components.length; i++){
       if(components[i].types[0] == "locality"){
@@ -89,11 +156,11 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   loadProfile(){
-    this.profileService.getProfile().subscribe(res => {
-      console.log(res.success)
+    this.profileSub = this.profileService.getProfile().subscribe(res => {
+      // console.log(res.success)
       if(res.success){
         this.profile = res.profile;
-        console.log(res.profile)
+        // console.log(res.profile)
         this.fname = res.profile.fname
         this.lname = res.profile.lname
         this.sex = res.profile.sex
@@ -105,33 +172,35 @@ export class ProfileSetupComponent implements OnInit {
         this.dobDay = parseInt(birthdate[2])
         this.dobYear = parseInt(birthdate[0]) 
         
-        var loc = res.profile.location[0]
+        var loc = res.profile.location
         this.location = loc.city + ", " + loc.state + ", " + loc.country 
         this.locationData = loc
         this.state = loc.state
         this.city = loc.city
         this.country = loc.country
-
+        if(loc.coordinates != undefined){
+          this.coord = loc.coordinates
+        }
         this.biography = res.profile.biography
         this.seeking = res.profile.seeking
         this.interests = res.profile.interests
         this.dealBreakers = res.profile.dealbreakers
         
-
         var chipData: Array<Object> = [];
         if (this.dealBreakers != null) {
-          console.log("dealBreakers")
+          // console.log("dealBreakers")
            chipData = []
           this.dealBreakers.forEach(element => {
             chipData.push({tag:element})            
           });
            $('#dealbreakers').material_chip({
              data: chipData,
+             placeholder: '+dealbreaker'
           });        
            
         } 
         if (this.seeking != null) {
-          console.log("seeking")
+          // console.log("seeking")
           
            chipData = []
           this.seeking.forEach(element => {
@@ -139,16 +208,18 @@ export class ProfileSetupComponent implements OnInit {
           });
           $('#seeking').material_chip({
             data: chipData,
+            placeholder: '+seeking'
           });        
         } 
         if (this.interests != null) {
-          console.log("interests")          
+          // console.log("interests")          
           chipData = []
           this.interests.forEach(element => {
             chipData.push({tag:element})            
           });
           $('#interests').material_chip({
             data: chipData,
+            placeholder: '+interests'
           });        
                 
         }
@@ -167,7 +238,12 @@ export class ProfileSetupComponent implements OnInit {
         });
         });
       }
-    })
+    },
+    err=>{
+      //// console.log(err);
+      Materialize.toast('Unauthorized Please log in!', 5000, 'rounded toast-danger')
+      this.router.navigate(['/login'])
+    }); 
   }
 
   loadGoogle(){
@@ -183,19 +259,23 @@ export class ProfileSetupComponent implements OnInit {
 
     autocomplete.addListener('place_changed', ()=>{
       let place = autocomplete.getPlace();
-      let lat = place.geometry.location.lat();
-      let lng = place.geometry.location.lng();
-      let address = place.formatted_address;
-
-      this.place = place
-      console.log(place)
+      if(place.geometry != undefined){
+        this.coord[0] = place.geometry.location.lat();
+        this.coord[1] = place.geometry.location.lng();
+        let address = place.formatted_address;
+  
+        this.place = place
+        // console.log(place)
+      } else {
+        Materialize.toast('Invalid Location', 3000, 'rounded toast-danger')
+      }
     })
   }
 
   public getQualities(){
     var temp;
     temp = $('#seeking').material_chip('data');
-    //console.log(temp);
+    //// console.log(temp);
    for(var i=0; i<temp.length; i++){
      this.seeking[i] = temp[i].tag;
    }
@@ -210,9 +290,9 @@ export class ProfileSetupComponent implements OnInit {
      this.dealBreakers[i] = temp[i].tag;
    }
 
-   console.log(this.dealBreakers);
-   console.log(this.interests);
-   console.log(this.seeking);   
+   // console.log(this.dealBreakers);
+   // console.log(this.interests);
+   // console.log(this.seeking);   
    
 
   }
@@ -224,6 +304,7 @@ export class ProfileSetupComponent implements OnInit {
   initMaterialize(){
     $(document).ready(()=> {
        $('input#input_text, textarea#biography').characterCounter();
+       $('.tooltipped').tooltip({delay: 50});
     });
   }
 
@@ -231,29 +312,29 @@ export class ProfileSetupComponent implements OnInit {
     $(document).ready(()=> {
 
      $('#dealbreakers').on('chip.add', (e, chip) =>{
-              console.log("You Have added chip" + chip.tag);
+              // console.log("You Have added chip" + chip.tag);
               this.addChipData(this.dealBreakers, chip.tag)
        });
       $('#dealbreakers').on('chip.delete', (e, chip) =>{
-              console.log("You Have deleted chip" + chip.tag);
+              // console.log("You Have deleted chip" + chip.tag);
               this.deleteChipData(this.dealBreakers, chip.tag)
       });
 
       $('#interests').on('chip.add', (e, chip) =>{
-              console.log("You Have added chip" + chip.tag);
+              // console.log("You Have added chip" + chip.tag);
               this.addChipData(this.interests, chip.tag)
        });
       $('#interests').on('chip.delete', (e, chip) =>{
-              console.log("You Have deleted chip" + chip.tag);
+              // console.log("You Have deleted chip" + chip.tag);
               this.deleteChipData(this.interests, chip.tag)
       });
 
       $('#seeking').on('chip.add', (e, chip) =>{
-              console.log("You Have added chip" + chip.tag);
+              // console.log("You Have added chip" + chip.tag);
               this.addChipData(this.seeking, chip.tag)
        });
       $('#seeking').on('chip.delete', (e, chip) =>{
-              console.log("You Have deleted chip" + chip.tag);
+              // console.log("You Have deleted chip" + chip.tag);
               this.deleteChipData(this.seeking, chip.tag)
       });
     });
@@ -261,21 +342,21 @@ export class ProfileSetupComponent implements OnInit {
 
   addChipData(array: Array<String>, chipValue){
     array.push(chipValue)
-    console.log(array)
+    // console.log(array)
   }
 
   deleteChipData(array: Array<String>, chipValue: String){
-    //console.log('Delete' + array)
+    //// console.log('Delete' + array)
     const index = array.indexOf(chipValue)
     array.splice(index, 1)
-    console.log(array)
+    // console.log(array)
     
   }
 
   
 
   onSetupSubmit(form){
-    console.log(form)
+    // console.log(form)
     this.birthdate = this.dobYear + "-" + this.dobMonth + "-" + this.dobDay;
 
     this.biography = (document.getElementById("biography") as HTMLInputElement).value;
@@ -286,13 +367,13 @@ export class ProfileSetupComponent implements OnInit {
     }
 
     if(this.state == undefined || this.city == undefined || this.country == undefined){
-      Materialize.toast("Try a different location or Reselect Location Field", 3000, 'rounded toast-danger');                      
+      Materialize.toast("Try a different location or re-select Location Field", 3000, 'rounded toast-danger');                      
       return;
     }
 
-    this.locationData = {city: this.city, state: this.state, country: this.country}
+    this.locationData = {city: this.city, state: this.state, country: this.country, coordinates: this.coord}
     const formattedLoc = this.city + ", " + this.state + ", " + this.country
-    console.log(formattedLoc)
+    // console.log(this.locationData)
 
     const newProfile = {
       fname : this.fname,
@@ -309,9 +390,9 @@ export class ProfileSetupComponent implements OnInit {
 
 
     if(this.validateSetup(newProfile)){
-      console.log(newProfile)
+      // console.log(newProfile)
     if(this.profile == null){ 
-      this.profileService.saveProfile(newProfile).subscribe(res =>{
+      this.updateSub = this.profileService.saveProfile(newProfile).subscribe(res =>{
         if(res.success){
           Materialize.toast("Profile Created Successfully!", 3000, 'rounded toast-success');
           this.router.navigate(['/profile'])
@@ -321,8 +402,8 @@ export class ProfileSetupComponent implements OnInit {
       });
     }
    else {
-    console.log("Attempt update")
-      this.profileService.updateProfile(newProfile).subscribe(res =>{
+    // console.log("Attempt update")
+      this.updateSub = this.profileService.updateProfile(newProfile).subscribe(res =>{
         if(res.success){
           Materialize.toast("Profile Updated Successfully!", 3000, 'rounded toast-success');
           this.router.navigate(['/profile'])
@@ -335,20 +416,17 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   validateSetup(profile){
-    console.log(profile)
-      if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking.length == 0 || profile.interests.length == 0 || profile.dealbreakers.length == 0 || profile.location == undefined){
-        Materialize.toast("Please fill in all fields!", 5000, 'rounded toast-danger');        
-        return false;  
-      }
-    
-    else if(this.place == null && this.locationData == null){
+    // console.log(profile)
+    if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking.length == 0 || profile.interests.length == 0 || profile.dealbreakers.length == 0 || profile.location == undefined){
+      Materialize.toast("Please fill in all fields!", 5000, 'rounded toast-danger');        
+      return false;  
+    } else if(this.place == null && this.locationData == null || this.coord.length != 2 ){
       Materialize.toast("Check Location Field", 5000, 'rounded toast-danger');              
       return false;
     } else if(!this.validate.validateDate(this.birthdate)){
        Materialize.toast("Date Invalid", 5000, 'rounded toast-danger');              
       return false;
-    }
-     else if(this.validate.validateDOB(this.birthdate)){
+    } else if(this.validate.validateDOB(this.birthdate)){
       Materialize.toast("You must be 18 years or older.", 5000, 'rounded toast-danger');              
       return false;
     } else if (this.biography.length > 400) {
@@ -357,7 +435,14 @@ export class ProfileSetupComponent implements OnInit {
     return true;
   }
 
-
+  ngOnDestroy() {
+    if(this.updateSub != null) {
+      this.updateSub.unsubscribe()
+    }
+    if(this.profileSub != null) {
+      this.profileSub.unsubscribe()
+    }
+  }
     
 
 }

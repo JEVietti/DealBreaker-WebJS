@@ -3,24 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { HomeComponent } from './home.component';
+import { PendingRelationshipComponent } from './pending-relationship.component';
 
-import {RouterTestingModule} from '@angular/router/testing'
-
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('PendingRelationshipComponent', () => {
+  let component: PendingRelationshipComponent;
+  let fixture: ComponentFixture<PendingRelationshipComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ HomeComponent ]
+      declarations: [ PendingRelationshipComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(PendingRelationshipComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

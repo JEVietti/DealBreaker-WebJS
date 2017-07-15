@@ -8,12 +8,37 @@
   margin-bottom: 5px;
 }
 
+section {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  min-height: 200px;
+  position: relative;
+}
 
+#community {
+  height: 150px;
+  width: 150px;
+}
+
+#match {
+  height: 100px;
+  width: 100px;
+  fill: red;
+}
+
+#quickEasy {
+  height: 150px;
+  width: 150px;
+}
+
+#donation {
+   height: 150px;
+  width: 150px;
+}
 
 .parallax-container {
   max-height: 600px;
 }
-
 
 
 .container {
@@ -78,6 +103,10 @@ h5 {
 }
 
 .main {
-  padding-top: 25px;
-  min-height: 800px;
+  background-color: whitesmoke;
+  padding-top: 50px;
+  min-height: 800px !important;
+  padding-bottom: 50px;  
 }
+
+

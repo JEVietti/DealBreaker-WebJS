@@ -4,6 +4,12 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ImagesComponent } from './images.component';
+import { ImageManageComponent } from '../image-manage/image-manage.component';
+import {FormsModule} from '@angular/forms'
+import {AuthService} from '../../services/auth.service'
+import {ImagesService} from '../../services/images.service'
+import {HttpModule} from '@angular/http'
+import {RouterTestingModule} from '@angular/router/testing'
 
 describe('ImagesComponent', () => {
   let component: ImagesComponent;
@@ -11,7 +17,9 @@ describe('ImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImagesComponent ]
+      imports: [RouterTestingModule, HttpModule],
+      providers: [AuthService, ImagesService],
+      declarations: [ ImagesComponent, ImageManageComponent ]
     })
     .compileComponents();
   }));

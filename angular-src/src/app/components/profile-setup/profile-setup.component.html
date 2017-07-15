@@ -70,11 +70,12 @@
       <input  [(ngModel)] = "location" name ="location" id="locationSearch" type="text" placeholder="City, State, Country" size="50">
       <label class="active">Location</label>
     </div>
+    <button class="btn-floating white locationButton tooltipped" data-position="bottom" data-delay="50" data-tooltip="Current Location" (click) = "getUserLocation()" > <i style="float:left; font-size:30px;" class="material-icons red-text"> my_location </i>  </button>
   </div>
 
 
   <div class="row">
-   <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> subject </i>    
+   <i style="float:left; font-size:35px; padding-left:10px; padding-right:30px;" class="material-icons prefix pink-dark"> subject </i>    
       <div class="input-field col s6">
         <textarea [(ngModel)] = "biography" name="biography" id="biography" class="materialize-textarea" data-length="400"></textarea>
         <label class="active" for="biography">Biography</label> 
@@ -82,19 +83,19 @@
   </div>
 
 <div class = "row">
-   <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
+   <i style="float:left; font-size:35px; padding-top:20px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
     <div class="input-field col s6">
-      <h6 class="grey-text">Deal Breakers <i class="material-icons tiny pink-dark"> info_outline</i> </h6>
+      <h6 class="grey-text">Deal Breakers <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What can a partner not do or have?"> info_outline</i> </h6>
       <div id="dealbreakers"  name="dealBreakers"   class="chips chips-intial chips-placeholder">
       </div>
     </div>
 </div>
 <div class = "row">
 
-   <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
+   <i style="float:left; font-size:35px; padding-top:20px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
 
     <div class="input-field col s6">
-      <h6 class="grey-text">Seeking <i class="material-icons tiny pink-dark"> info_outline</i> </h6>
+      <h6 class="grey-text">Seeking <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What are you looking for in a partner?" > info_outline</i> </h6>
       <div  id="seeking" name="seeking" class="chips chips-intial chips-placeholder">
       </div>
     </div> 
@@ -102,10 +103,10 @@
 
 <div class = "row">
     
-   <i style="float:left; font-size:35px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
+   <i style="float:left; font-size:35px; padding-top:20px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
 
     <div class="input-field col s6">
-      <h6 class="grey-text">Interests <i class="material-icons tiny pink-dark"> info_outline</i> </h6>  
+      <h6 class="grey-text">Interests <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What are your hobbies?"> info_outline</i> </h6>  
       <div id="interests"  name="interests"  class="chips chips-intial chips-placeholder">
    
       </div>

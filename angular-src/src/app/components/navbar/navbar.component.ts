@@ -4,14 +4,13 @@
  * 
  * Navbar transforms based on size from horizontal navigation
  * to a side bar based on pixel width using materialize and houses the way to logout
- * Logging out is clearing the tokens from the local stroage in browser upon login
+ * Logging out is clearing the tokens from the local storage in browser upon login
  *  
 */
 
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
-import {FlashMessagesService} from 'angular2-flash-messages';
+import { AuthService } from '../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
 
 declare const Materialize: any;
 declare const $: any;
@@ -28,8 +27,8 @@ export class NavbarComponent implements OnInit {
   private login: Boolean;
   constructor(
       private authService: AuthService,
-      private flashMessage: FlashMessagesService,
-      private router: Router
+      private router: Router,
+      private routerMod: RouterModule
   ) {    this.login = false;
           
    }
@@ -47,24 +46,29 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnChanges(){
-    
   }
 
+  // MaterializeCSS Jquery Initialization Functions
   initMaterialize(){
-     $(document).ready(function() {
-               $(".button-collapse").sideNav();
-                $(".dropdown-button").dropdown({
-            hover: true,
-            stopPropagation: false // Stops event propagation
-        });
-                $('.button-collapse').sideNav({
-      menuWidth: 200, // Default is 300
-      edge: 'left', // Choose the horizontal origin
-      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      draggable: true // Choose whether you can drag to open on touch screens
-    }
-  );
-        });
+    $(document).ready(function() {
+      
+      $(".button-collapse").sideNav();
+      
+      $('.tooltipped').tooltip();
+      // setTimeout(function(){$(".tooltip").trigger("mouseleave.tooltip");}, 2000);
+      
+      $(".dropdown-button").dropdown({
+        hover: true,
+        stopPropagation: false // Stops event propagation
+      });
+      
+      $('.button-collapse').sideNav({
+        menuWidth: 200, // Default is 300
+        edge: 'left', // Choose the horizontal origin
+        closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        draggable: true // Choose whether you can drag to open on touch screens
+      });
+    });
   }
 
   

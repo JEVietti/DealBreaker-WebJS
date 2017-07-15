@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms'
-import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service'
 import {ValidateService} from '../../services/validate.service'
+import { NgForm, FormsModule } from '@angular/forms';
+import { Subscription } from "rxjs/Subscription";
+
 
 declare const Materialize: any;
 
@@ -15,8 +16,10 @@ export class UpdateEmailComponent implements OnInit {
   email: String;
   confirmEmail: String;
   loadData: any;
-  constructor(
-    private flashMessage: FlashMessagesService, 
+
+  updateSub: Subscription;
+
+  constructor( 
     private auth: AuthService,
     private validate: ValidateService
     ) { }
@@ -38,7 +41,7 @@ export class UpdateEmailComponent implements OnInit {
     }
 
     if(this.validateForm(updateEmail)){
-      this.auth.updateEmail(updateEmail).subscribe(res => {
+      this.updateSub = this.auth.updateEmail(updateEmail).subscribe(res => {
         if(res.success){
           Materialize.toast( res.msg || "Email updated!", 3000, 'rounded toast-success')          
         } else {
@@ -68,4 +71,9 @@ export class UpdateEmailComponent implements OnInit {
     return true
   }
 
+  ngOnDestroy(){
+    if(this.updateSub != null) {
+      this.updateSub.unsubscribe()
+    }
+  }
 }

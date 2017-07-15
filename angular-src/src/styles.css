@@ -18,11 +18,11 @@
   .toast-danger {
     background-color: #E23D28 !important;
     font-style: bold !important;
- 
+    text-align: center !important;
   }
 
   .toast-success {
-    background-color: #4F7942 !important;
+    background-color: #E75480 !important;
     font-style: bold !important;
    
   }
@@ -33,26 +33,28 @@
 
 @media only screen and (min-width : 601px) and (max-width : 1260px) {
 .toast {
-width: 100%;
+width: 50%;
 border-radius: 0;} }
 
 @media only screen and (min-width : 1261px) {
 .toast {
-width: 100%;
+width: 50%;
 border-radius: 0; } }
 
 @media only screen and (min-width : 601px) and (max-width : 1260px) {
 #toast-container {
-min-width: 100%;
+min-width: 50%;
 bottom: 0%;
 top: 90%;
 right: 0%;
 left: 0%;} }
 
 @media only screen and (min-width : 1261px) {
-#toast-container {
-min-width: 100%;
-bottom: 0%;
-top: 90%;
-right: 0%;
-left: 0%; } }
+  #toast-container {
+  text-align: center;
+  width: 50%;
+  margin: auto 0 !important; 
+    
+  } 
+}
+
