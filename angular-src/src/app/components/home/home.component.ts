@@ -23,7 +23,10 @@ export class HomeComponent implements OnInit {
   ngAfterContentInit() {
         $(document).ready(function() {
                 $('.parallax').parallax();
-        });
+                // $('.tooltipped').tooltip({delay: 50});
+             $('.tooltipped').tooltip('remove');
+
+              });
   }
 
 }

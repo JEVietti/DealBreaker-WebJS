@@ -31,7 +31,6 @@ import {AuthService} from './services/auth.service';
 import {ImagesService} from './services/images.service';
 import {ProfileService} from './services/profile.service';
 import {AuthGuard} from './guards/auth.guard';
-import {FlashMessagesModule} from 'angular2-flash-messages';
 import { ImagesComponent } from './components/images/images.component';
 import { BirthdateComponent } from './components/birthdate/birthdate.component';
 import { AboutComponent } from './components/about/about.component';
@@ -107,8 +106,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    RouterModule.forRoot(appRoutes)
     
   ],
   providers: [AuthService, ValidateService, AuthGuard, ImagesService, ProfileService],

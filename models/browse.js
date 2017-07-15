@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 // require('../config/db')
-
+const Profile = require('../models/profile')
 const Schema = mongoose.Schema
-
+/*
 const BrowseSchema = mongoose.Schema({
   location: {
     type: String,
@@ -20,9 +20,14 @@ const BrowseSchema = mongoose.Schema({
       }
     }
   }
-
 })
-
-const Browse = module.exports = mongoose.model('Browse', BrowseSchema)
+*/
 
 // Export Model Functions
+module.exports.getAll = function (callback) {
+  Profile.find().populate('images').lean().exec(callback)
+}
+
+module.exports.getMatching = function (pref, callback) {
+  Profile.find().populate('images').lean().exec(callback)
+}

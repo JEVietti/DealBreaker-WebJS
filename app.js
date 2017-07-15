@@ -28,6 +28,7 @@ const port = 8000
 const users = require('./routes/users')
 const profiles = require('./routes/profiles')
 const images = require('./routes/images')
+const browse = require('./routes/browse')
 const AWS = require('aws-sdk')
 AWS.config.loadFromPath('./config/s3Config.json')
 
@@ -51,6 +52,7 @@ app.use('/api/users', users)
 app.use('/api/profile', profiles)
 // app.use('/', profiles);
 app.use('/api/images', images)
+app.use('/api/browse', browse)
 
 app.get('/api/sign-s3', passport.authenticate('jwt', {session: false}), (req, res, next) => {
   const s3 = new AWS.S3()

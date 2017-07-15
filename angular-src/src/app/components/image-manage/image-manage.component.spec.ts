@@ -5,12 +5,19 @@ import { DebugElement } from '@angular/core';
 
 import { ImageManageComponent } from './image-manage.component';
 
+import {RouterTestingModule} from '@angular/router/testing'
+import {ImagesService} from '../../services/images.service'
+import {AuthService} from '../../services/auth.service'
+import {HttpModule} from '@angular/http'
+
 describe('ImageManageComponent', () => {
   let component: ImageManageComponent;
   let fixture: ComponentFixture<ImageManageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [HttpModule, RouterTestingModule],
+      providers: [ ImagesService, AuthService ],
       declarations: [ ImageManageComponent ]
     })
     .compileComponents();

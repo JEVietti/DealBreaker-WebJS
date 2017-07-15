@@ -8,9 +8,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import {ValidateService} from '../../services/validate.service';
-import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import { NgForm, FormsModule } from '@angular/forms';
+import { Subscription } from "rxjs/Subscription";
+
 
 declare const Materialize: any;
 declare const $: any;
@@ -36,6 +38,8 @@ export class RegisterComponent implements OnInit {
   password: String; //password for auth
   cpassword: String;
   terms: boolean = false;
+
+  registerSub: Subscription;
 
 //Inject the modules for use in Clas - Component
   constructor(
@@ -94,7 +98,7 @@ export class RegisterComponent implements OnInit {
       //console.log("Validated")
      
       //Register User - subscribe for API response
-      this.authService.registerUser(user).subscribe(data => {
+      this.registerSub = this.authService.registerUser(user).subscribe(data => {
        //Register success, redirect for user to log in
         if(data.success){ 
           Materialize.toast("You are now registered and can log in", 3000, 'rounded toast-success');
@@ -142,6 +146,12 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     return true; //All tests passed on form entry - clear to send
+  }
+
+  ngOnDestroy() {
+    if(this.registerSub != null) {
+      this.registerSub.unsubscribe()
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 /* Helper Functions that allow for validate of forms and input data
- * seperating the form input with gorm checking returning statuses
+ * separating the form input with form checking returning statuses
  * based on a user input back into the caller to accept or reject
  * the user's input and provide feedback.
  * 
@@ -23,6 +23,16 @@ export class ValidateService {
   validateRegister(user){
     return !(user.fname == undefined || user.lname == undefined || user.email == undefined || user.username == undefined || user.password == undefined);
     
+  }
+
+  validateUserName(username){
+    const re = /^[A-Za-z_][A-Za-z\d_]*$/
+    return re.test(username)
+  }
+
+  validateName(name) {
+    const re = /^[A-Za-z][A-Za-z\d]*$/
+    return re.test(name)
   }
 
   //Validates the email formatting by regular expression
@@ -62,7 +72,7 @@ export class ValidateService {
 
   }
 
-  //Validate the DOB of being at least 18 yearsold 
+  //Validate the DOB of being at least 18 years old 
   validateDOB(birthdate){
     let ageMS = Date.parse(Date()) - Date.parse(birthdate.replace(/-/g,'/').replace('T',' ').replace(/\..*|\+.*/,""));
     let age = new Date();

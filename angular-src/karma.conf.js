@@ -12,6 +12,9 @@ module.exports = function (config) {
       require('angular-cli/plugins/karma')
     ],
     files: [
+      {pattern: './src/assets/js/google-maps-api.min.js', watched: false},
+      'https://code.jquery.com/jquery-3.2.1.min.js',   
+        {pattern: './src/assets/js/materialize.min.js', watched: false},
       { pattern: './src/test.ts', watched: false }
     ],
     preprocessors: {

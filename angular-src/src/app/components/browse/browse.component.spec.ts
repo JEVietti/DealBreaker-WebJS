@@ -4,6 +4,9 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { BrowseComponent } from './browse.component';
+import {ProfileCardComponent} from '../../components/profile-card/profile-card.component';
+;
+
 
 describe('BrowseComponent', () => {
   let component: BrowseComponent;
@@ -11,7 +14,7 @@ describe('BrowseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BrowseComponent ]
+      declarations: [ BrowseComponent, ProfileCardComponent ]
     })
     .compileComponents();
   }));

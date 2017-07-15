@@ -1,6 +1,9 @@
 {
   "name": "dealbreaker-js",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.11.1"
+  },
   "description": "DealBreaker Website Node.js",
   "main": "app.js",
   "scripts": {

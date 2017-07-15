@@ -4,6 +4,10 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ProfileComponent } from './profile.component';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { ProfileService } from '../../services/profile.service'
+import { HttpModule } from '@angular/http'
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -11,6 +15,8 @@ describe('ProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpModule],
+      providers: [ ProfileService ],
       declarations: [ ProfileComponent ]
     })
     .compileComponents();

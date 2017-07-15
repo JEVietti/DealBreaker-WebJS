@@ -1,6 +1,6 @@
 /* Main Auth User State Functions - Functions for 
  * Manipulating the State of the User this service is for 
- * Account Maniplutlation - CRUD requests, and State validation
+ * Account Manipulation - CRUD requests, and State validation
  * 
  * The basic User Account Data such as first and last name is stored as well as the JSON Web Token
  * Token is sent with HTTP AUTH Header for User Validation and helping data retrieval
@@ -19,7 +19,7 @@ const ROOT_URL = 'http://localhost:8000';
 
 @Injectable()
 export class AuthService {
-  //Class Varaibles
+  //Class Variables
   authToken: any; //JWT auth token
   profile: any; //profile data - *** To be Moved to Profile service ***
   public name: String;
@@ -110,7 +110,7 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user)); //User Data Object - name
     //bind data to class for quick use after set if needed
     this.authToken = token;
-    //window.location.reload() //a bit of a hack to reload the navigation bar for dropdown to work
+    //window.location.reload() //a bit of a hack to reload the navigation bar for drop-down to work
   }
 
   getTokenData(tokenId){

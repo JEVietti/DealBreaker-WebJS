@@ -2,11 +2,14 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { ImagesService } from './images.service';
+import { HttpModule } from '@angular/http'
+import { AuthService } from './auth.service'
 
 describe('ImagesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ImagesService]
+      imports: [HttpModule],
+      providers: [ImagesService, AuthService]
     });
   });
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms'
-import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service'
 import {Router, ActivatedRoute, Params} from '@angular/router';
+import { NgForm, FormsModule } from '@angular/forms';
+import { Subscription } from "rxjs/Subscription";
+
 
 declare const Materialize: any;
 
@@ -18,8 +19,12 @@ export class UpdatePasswordComponent implements OnInit {
   token: String;
   data: any;
 
+  updateSub: Subscription;
+  resetSub: Subscription;
+  routeSub: Subscription;
+  
+
   constructor(
-    private flashMessage: FlashMessagesService, 
     private auth: AuthService,
      private route: ActivatedRoute,
      private router: Router
@@ -86,4 +91,15 @@ export class UpdatePasswordComponent implements OnInit {
      return true
   }
 
+  ngOnDestroy() {
+    if(this.resetSub != null) {
+      this.resetSub.unsubscribe()    
+    }
+    if(this.updateSub != null) {
+      this.updateSub.unsubscribe()
+    }
+    if(this.routeSub != null) {
+      this.routeSub.unsubscribe()
+    }
+  }
 }

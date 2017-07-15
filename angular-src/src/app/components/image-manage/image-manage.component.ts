@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ImagesService} from '../../services/images.service'
 import {Router} from '@angular/router';
+import { NgForm, FormsModule } from '@angular/forms';
 
+import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/map';
 
 declare const Materialize: any;
@@ -14,17 +16,19 @@ declare const Materialize: any;
 export class ImageManageComponent implements OnInit {
 
   images: Array<Object>
+  imagesSub: Subscription;
+  newImagesSub: Subscription;
 
   constructor(private imagesService: ImagesService,
       private router: Router
 ) { }
 
   ngOnInit() {
-    console.log('test')
+    // console.log('test')
     this.loadGallery()
 
-    this.imagesService.listenImages().subscribe(res => {
-      console.log(res)
+    this.newImagesSub = this.imagesService.listenImages().subscribe(res => {
+      // console.log(res)
       if(this.images == null) {
         this.images = [{url: res}]
 
@@ -36,18 +40,18 @@ export class ImageManageComponent implements OnInit {
   }
 
   loadGallery(){
-    this.imagesService.getImages().subscribe(res => {
-      console.log(res)
+    this.imagesSub = this.imagesService.getImages().subscribe(res => {
+      // console.log(res)
       this.images = res.gallery
     })
   }
 
   deleteImage(imageUrl:String){
     //Strip URL for filename
-    console.log(imageUrl)
+    // console.log(imageUrl)
     var urlSplit : Array<string>
     urlSplit = imageUrl.split("/")
-    console.log(urlSplit)
+    // console.log(urlSplit)
     const fileName = urlSplit[urlSplit.length-1]
     //Send request with url and filename
     const image = {
@@ -55,7 +59,7 @@ export class ImageManageComponent implements OnInit {
       url: imageUrl
     }
     this.imagesService.deleteImages(image).subscribe(res => {
-      console.log(res)
+      // console.log(res)
     //if image successfully deleted notify user
       if(res.success){
         Materialize.toast( res.msg ||  "Image deleted successfully.", 2000, 'rounded toast-success')      
@@ -66,6 +70,15 @@ export class ImageManageComponent implements OnInit {
         window.location.reload()
       }    
     })
+  }
+
+  ngOnDestroy(){
+    if(this.imagesSub != null) {
+      this.imagesSub.unsubscribe()
+    }
+    if(this.newImagesSub != null) {
+      this.newImagesSub.unsubscribe()
+    }
   }
 
 }
