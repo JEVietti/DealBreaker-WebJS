@@ -11,17 +11,33 @@ const mongoose = require('mongoose')
     const expressValidator = require('express-validator');
 */
 const dbConfig = require('./config/db')// config file
+const testDBConfig = require('./test/config-debug')// test db config file
 
 // Database - Mongoose Setup
-mongoose.connect(dbConfig.database) // config file
-// Testing Connection
-mongoose.connection.on('connected', () => {
-  console.log('DB connection successful ' + dbConfig.database)
-})
-// Error checking on DB
-mongoose.connection.on('error', (err) => {
-  console.log('DB Error: ' + err)
-})
+if (process.env.NODE_ENV !== 'test') {
+  console.log('Not testing')
+  mongoose.connect(dbConfig.database) // config file
+  // Testing Connection
+  mongoose.connection.on('connected', () => {
+    console.log('DB connection successful ' + dbConfig.database)
+  })
+  // Error checking on DB
+  mongoose.connection.on('error', (err) => {
+    console.log('DB Error: ' + err)
+  })
+} else if (process.env.NODE_ENV === 'test') {
+  console.log('Testing')  
+
+  mongoose.connect(testDBConfig.database) // config file
+  // Testing Connection
+  mongoose.connection.on('connected', () => {
+    console.log('DB connection successful ' + testDBConfig.database)
+  })
+  // Error checking on DB
+  mongoose.connection.on('error', (err) => {
+    console.log('DB Error: ' + err)
+  })
+}
 
 const app = express()
 const port = 8000
@@ -132,3 +148,5 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
    console.log('Server started on port ' + port)
 })
+
+module.exports = app

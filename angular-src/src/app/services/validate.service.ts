@@ -31,7 +31,7 @@ export class ValidateService {
   }
 
   validateName(name) {
-    const re = /^[A-Za-z][A-Za-z\d]*$/
+    const re = /^[A-Za-z']+( [A-Za-z']+)*$/
     return re.test(name)
   }
 
@@ -39,6 +39,7 @@ export class ValidateService {
   //If it passes the test on the re then return true = valid, otherwise false = invalid
   validateEmail(email){
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // console.log(re.test(email))
     return re.test(email);
   }
   
@@ -80,7 +81,7 @@ export class ValidateService {
     let ageYear = age.getFullYear() - 1970;
     //console.log(ageYear);
     
-    return ageYear < 18;
+    return ageYear >= 18;
   }
 
   //Profile Validation- Profile Creation

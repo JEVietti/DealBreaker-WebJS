@@ -61,12 +61,11 @@ var get = function getAccount (req, res) {
   User.getUserByUsername(username, (err, user) => {
     if (err) throw err
     if (!user) {
-      res.json({
+      return res.json({
         'success': false,
         'msg': 'User Not Found!',
         user: {}
       })
-      return res.json
     } else {
       // console.log(user);
       return res.json({user: user, success: true})
@@ -99,7 +98,7 @@ var auth = function authUser (req, res) {
       const token = jwt.sign(user, config.secret, {
         expiresIn: 604800 // 1 week
       })
-      res.json({
+      return res.json({
         'success': true,
         'msg': 'Successfully Logged in!',
         token: 'JWT ' + token,
@@ -112,7 +111,6 @@ var auth = function authUser (req, res) {
         }
 
       })
-      return res.json
     })
   })
 }
@@ -123,12 +121,12 @@ var remove = function deleteUser (req, res) {
   // console.log('User ID ' + uid)
   User.deleteUser(uid, (err) => {
     if (err) {
-      res.json({
+      return res.json({
         status: false,
         msg: 'Failed to Delete Account!'
       })
     } else {
-      res.json({
+      return res.json({
         status: true,
         msg: 'Account Deleted!'
       })
@@ -244,9 +242,10 @@ function forgotPassword (req, res) {
     }
   ], function (err) {
     if (err) {
-      throw err
-      // return res.json({success: false, msg: 'Resubmit request!'})
+      console.log(err)
+      return res.json({success: false, msg: 'Resubmit request!'})
     }
+    // return res.json
   })
 }
 

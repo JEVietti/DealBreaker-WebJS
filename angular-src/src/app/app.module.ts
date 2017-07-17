@@ -24,13 +24,6 @@ import { BrowseComponent } from './components/browse/browse.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileSetupComponent } from './components/profile-setup/profile-setup.component';
-
-//user Created or Customized Services and Providers
-import {ValidateService} from './services/validate.service';
-import {AuthService} from './services/auth.service';
-import {ImagesService} from './services/images.service';
-import {ProfileService} from './services/profile.service';
-import {AuthGuard} from './guards/auth.guard';
 import { ImagesComponent } from './components/images/images.component';
 import { BirthdateComponent } from './components/birthdate/birthdate.component';
 import { AboutComponent } from './components/about/about.component';
@@ -42,6 +35,14 @@ import { ForgotComponent } from './components/forgot/forgot.component';
 import { TermsComponent } from './components/terms/terms.component';
 import {ProfileCardComponent} from './components/profile-card/profile-card.component';
 import {ImageManageComponent} from './components/image-manage/image-manage.component'
+
+//User Created or Customized Services and Providers
+import {ValidateService} from './services/validate.service';
+import {AuthService} from './services/auth.service';
+import {ImagesService} from './services/images.service';
+import {ProfileService} from './services/profile.service';
+import {AuthGuard} from './guards/auth.guard';
+import { RegisterService } from './services/register.service';
 
 
 
@@ -109,7 +110,14 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
     
   ],
-  providers: [AuthService, ValidateService, AuthGuard, ImagesService, ProfileService],
+  providers: [
+    AuthService, 
+    ValidateService, 
+    AuthGuard, 
+    ImagesService, 
+    ProfileService,
+    RegisterService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

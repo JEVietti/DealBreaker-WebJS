@@ -9,6 +9,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ValidateService} from '../../services/validate.service';
 import {AuthService} from '../../services/auth.service';
+import {RegisterService} from '../../services/register.service';
 import {Router} from '@angular/router';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Subscription } from "rxjs/Subscription";
@@ -45,15 +46,12 @@ export class RegisterComponent implements OnInit {
   constructor(
       private validateService: ValidateService, 
       private authService: AuthService,
+      private registerService: RegisterService,
       private router: Router,
      
-  ) { }
+  ) { 
 
-  
-
-  ngOnInit() {
-
-    this.monthPairs = [{value:1,label: "January"},{value:2,label: "Feburary"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];   
+    this.monthPairs = [{value:1,label: "January"},{value:2,label: "February"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];   
 
     var currentYear = new Date().getFullYear();
     for(var i=currentYear; i >= currentYear-100; i--){
@@ -61,14 +59,95 @@ export class RegisterComponent implements OnInit {
     }  
 
     this.dayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-  
- 
-}
-
-
-  ngAfterContentInit(){ 
     
   }
+
+  
+
+  ngOnInit() {
+  
+ 
+  }
+
+
+  ngAfterContentInit(){
+    this.checkName("fname") 
+    this.checkName("lname") 
+    this.checkEmail()
+    this.checkUsername()
+  }
+
+  checkName(id) {
+    const name = $('#' + id)
+    name.on('change', () => {
+    Materialize.updateTextFields();      
+      if(this.validateService.validateName(name.val())){
+        // console.log(name.val())
+        name.attr( "class", "valid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+      } else if(!this.validateService.validateName(name.val())) {
+        name.attr( "class", "invalid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+      } else if(name.val().trim() == null || name.val().trim() == "" ){
+        name.attr( "class", "invalid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+      }   
+    })
+
+  }
+
+  checkPassword() {
+    
+  }
+
+  //Ajax call, in service, to check if username is taken
+  //then update the view to inform the user
+  checkUsername() {
+    const username = $('#username')
+    username.on('change', () => {
+      Materialize.updateTextFields();
+      
+      if(this.validateService.validateUserName(username.val())){
+        // console.log(username.val())
+        username.attr( "class", "valid" );
+        $("label[for='username']").attr( "class", "active" );
+        
+        
+
+      } else if(!this.validateService.validateUserName(username.val())){
+        username.attr( "class", "invalid" );
+        $("label[for='username']").attr( "class", "active" );
+      }
+      else if(username.val().trim() == null || username.val().trim() == "" ){
+        username.attr( "class", "invalid" );
+        $("label[for='username']").attr( "class", "active" );
+      }
+      
+    })
+
+  }
+
+
+  //Ajax call, in service, to check if email is taken
+  //then update the view to inform the user
+  checkEmail() {
+    const email = $('#email')
+    email.on('change', () => {
+    Materialize.updateTextFields();
+      
+      if(this.validateService.validateEmail(email.val())){
+        // console.log(email.val())
+        email.attr( "class", "valid" );
+        $("label[for='email']").attr( "class", "active" );
+      } else {
+        email.attr( "class", "invalid" );
+        $("label[for='email']").attr( "class", "active" );
+      }
+      
+    })
+  }
+
+  
 
 //Form Submission
   onRegisterSubmit(){
@@ -117,13 +196,33 @@ export class RegisterComponent implements OnInit {
 
 //Validate the Registration through a Series of Tests and Message responses accordingly - Form checks only
   private validateRegister(user){
+       Materialize.updateTextFields()
+
     //All fields entered
     if(!this.validateService.validateRegister(user)){
       Materialize.toast("Fill in all fields",  5000, 'rounded toast-danger');
       return false;
     }
+    else if(this.validateService.validateName(this.fname)){
+      $("#email").attr( "class", "invalid" );
+      $("label[for='email']").attr( "class", "active" );
+       Materialize.toast("Invalid Email",  5000, 'rounded toast-danger');
+      //$('#email').addClass("invalid");
+      return false;
+    }
+    else if(this.validateService.validateName(this.lname)){
+     
+      $("#email").attr( "class", "invalid" );
+      $("label[for='email']").attr( "class", "active" );
+       Materialize.toast("Invalid Email",  5000, 'rounded toast-danger');
+      //$('#email').addClass("invalid");
+      return false;
+    }
     //Email formatted correctly
     else if(!this.validateService.validateEmail(user.email)){
+      
+      $("#email").attr( "class", "invalid" );
+      $("label[for='email']").attr( "class", "active" );
        Materialize.toast("Invalid Email",  5000, 'rounded toast-danger');
       //$('#email').addClass("invalid");
       return false;
@@ -137,7 +236,7 @@ export class RegisterComponent implements OnInit {
       Materialize.toast("Invalid Date, please use a real date!",  5000, 'rounded toast-danger');
       return false;
     }
-    else if(this.validateService.validateDOB(user.birthdate)){
+    else if(!this.validateService.validateDOB(user.birthdate)){
       Materialize.toast("You must be 18 years or older!",  5000, 'rounded toast-danger');
       return false;
     }

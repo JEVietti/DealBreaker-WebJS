@@ -8,7 +8,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -25,5 +25,12 @@
     "passport-jwt": "*"
   },
   "author": "Joseph Vietti",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1",
+    "supertest": "^3.0.0"
+  }
 }

@@ -59,12 +59,11 @@ function getProfileByUsername (req, res) {
     if (err) throw err
     // console.log(profile)
     if (profile == null) {
-      res.json({
+      return res.json({
         'success': false,
         'msg': 'User Not Found!',
         profile: {}
       })
-      return res.json
     } else {
         // Remove the id values of mongodb before sending response
       profile._id = undefined
@@ -136,9 +135,9 @@ function deleteProfile (req, res) {
   const id = new ObjectID(req.user._id)
   Profile.delete(id, (err) => {
     if (err) {
-      res.json({success: false, msg: 'Failed to Delete Profile'})
+      return res.json({success: false, msg: 'Failed to Delete Profile'})
     } else {
-      res.json({success: true, msg: 'Profile Deleted!'})
+      return res.json({success: true, msg: 'Profile Deleted!'})
     }
   })
 }

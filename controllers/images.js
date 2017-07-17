@@ -13,9 +13,9 @@ function createImages (req, res) {
 
   Images.create(newImage, (err) => {
     if (err) {
-      res.json({success: false, msg: 'Failed to Add/Update Images'})
+      return res.json({success: false, msg: 'Failed to Add/Update Images'})
     } else {
-      res.json({success: true, msg: 'Images Added/Updated'})
+      return res.json({success: true, msg: 'Images Added/Updated'})
     }
   })
 }
@@ -24,12 +24,12 @@ function getImages (req, res) {
   const id = new ObjectID(req.user._id)
   Images.getById(id, (err, images) => {
     if (err) {
-      res.json({success: false, gallery: null})
+      return res.json({success: false, gallery: null})
     } else if (images != null) {
       images._id = undefined
-      res.json({success: true, gallery: images.gallery})
+      return res.json({success: true, gallery: images.gallery})
     } else {
-      res.json({success: false, gallery: null})
+      return res.json({success: false, gallery: null})
     }
   })
 }
@@ -43,9 +43,9 @@ function updateImages (req, res) {
 
   Images.update(newImage, (err) => {
     if (err) {
-      res.json({ success: false, msg: 'Failed to Add/Update Images' })
+      return res.json({ success: false, msg: 'Failed to Add/Update Images' })
     } else {
-      res.json({success: true, msg: 'Images Added/Updated'})
+      return res.json({success: true, msg: 'Images Added/Updated'})
     }
   })
 }

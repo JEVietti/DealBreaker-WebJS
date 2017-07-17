@@ -182,6 +182,8 @@ export class ProfileSetupComponent implements OnInit {
           this.coord = loc.coordinates
         }
         this.biography = res.profile.biography
+        $('#biography').trigger('autoresize');
+        
         this.seeking = res.profile.seeking
         this.interests = res.profile.interests
         this.dealBreakers = res.profile.dealbreakers
@@ -304,6 +306,7 @@ export class ProfileSetupComponent implements OnInit {
   initMaterialize(){
     $(document).ready(()=> {
        $('input#input_text, textarea#biography').characterCounter();
+      $('#biography').trigger('autoresize'); 
        $('.tooltipped').tooltip({delay: 50});
     });
   }
@@ -416,17 +419,22 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   validateSetup(profile){
+    Materialize.updateTextFields()
     // console.log(profile)
     if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking.length == 0 || profile.interests.length == 0 || profile.dealbreakers.length == 0 || profile.location == undefined){
       Materialize.toast("Please fill in all fields!", 5000, 'rounded toast-danger');        
       return false;  
     } else if(this.place == null && this.locationData == null || this.coord.length != 2 ){
+      $('#location')
+            .closest("form")
+            .find("label[for='" + $('#location').attr("id") + "']")
+            .attr('data-error','Check Location Field');
       Materialize.toast("Check Location Field", 5000, 'rounded toast-danger');              
       return false;
     } else if(!this.validate.validateDate(this.birthdate)){
        Materialize.toast("Date Invalid", 5000, 'rounded toast-danger');              
       return false;
-    } else if(this.validate.validateDOB(this.birthdate)){
+    } else if(!this.validate.validateDOB(this.birthdate)){
       Materialize.toast("You must be 18 years or older.", 5000, 'rounded toast-danger');              
       return false;
     } else if (this.biography.length > 400) {

@@ -26,6 +26,10 @@ const UserSchema = mongoose.Schema({
     upsert: true
   },
 
+  birthdate: {
+    type: String
+  },
+
   password: {
     type: String,
     required: true,
