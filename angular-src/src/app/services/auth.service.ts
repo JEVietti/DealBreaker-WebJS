@@ -44,7 +44,9 @@ export class AuthService {
     const ep = this.prepEndpoint('/api/users/auth')    
     return this.http.post(ep, user, {headers: headers})
       .map(res=> res.json());
+  
   }
+
 
 //Delete the User thats id is encoded and encrypted in the JWT auth token 
   deleteUser(){

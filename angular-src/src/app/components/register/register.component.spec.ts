@@ -7,6 +7,7 @@ import { RegisterComponent } from './register.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms'
 import { ValidateService } from '../../services/validate.service'
+import { RegisterService } from '../../services/register.service'
 import { AuthService } from '../../services/auth.service'
 
 import { HttpModule } from '@angular/http'
@@ -18,7 +19,7 @@ describe('RegisterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, FormsModule, HttpModule ],
-      providers: [ AuthService, ValidateService ],
+      providers: [ AuthService, ValidateService, RegisterService ],
       declarations: [ RegisterComponent ]
     })
     .compileComponents();

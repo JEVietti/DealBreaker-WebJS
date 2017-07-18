@@ -15,40 +15,40 @@ chai.use(chaiHttp)
 
 Users.collection.drop()
 
-describe('/POST user register a user', () => {
-  it('it should get 401 if not logged in', (done) => {
+describe('/POST user register without body', () => {
+  it('it should get 200 and status failed', (done) => {
     chai.request(server)
     .post('/api/users')
-    .send({username: '', password: ''})
+    .send()
     .end((err, res) => {
       // console.log(res)
-      res.should.have.status(200)
+      res.should.have.status(400)
       done()
     })
   })
 })
 
 describe('/POST user register a user', () => {
-  it('it should get 401 if not logged in', (done) => {
+  it('it should be 201 and registeted', (done) => {
     chai.request(server)
     .post('/api/users')
     .send({fname: 'James', lname: 'Cal', birthdate: '1990-11-15', email: 'jcal@gmail.com', username: 'jscal', password: 'password'})
     .end((err, res) => {
       console.log(res.body)
-      res.should.have.status(200)
+      res.should.have.status(201)
       done()
     })
   })
 })
 
-describe('/POST user register a user', () => {
-  it('it should get 401 if not logged in', (done) => {
+describe('/POST Login a registered user', () => {
+  it('it login with correct credentials, 202 status', (done) => {
     chai.request(server)
     .post('/api/users/auth')
     .send({username: 'jscal', password: 'password'})
     .end((err, res) => {
       console.log(res.body)
-      res.should.have.status(200)
+      res.should.have.status(202)
       done()
     })
   })

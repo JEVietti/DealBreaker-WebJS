@@ -59,7 +59,7 @@ function getProfileByUsername (req, res) {
     if (err) throw err
     // console.log(profile)
     if (profile == null) {
-      return res.json({
+      return res.status(404).json({
         'success': false,
         'msg': 'User Not Found!',
         profile: {}
@@ -70,7 +70,7 @@ function getProfileByUsername (req, res) {
       if (profile.images != null) { // if images exist for the user
         profile.images._id = undefined
       }
-      return res.json({success: true, profile: profile})
+      return res.status(200).json({success: true, profile: profile})
     }
   })
 }
@@ -94,11 +94,15 @@ function createProfile (req, res) {
     images: uid
   })
 
+  if (Object.keys(req.body).length === 0) {
+    res.status(401).json({success: false, msg: 'Request Malformed'})
+  }
+
   Profile.create(newProfile, (err) => {
     if (err) {
-      return res.json({success: false, msg: 'Failed to Create Profile'})
+      return res.status(400).json({success: false, msg: 'Failed to Create Profile'})
     } else {
-      return res.json({success: true, msg: 'Created Profile'})
+      return res.status(201).json({success: true, msg: 'Created Profile'})
     }
   })
 }
@@ -124,9 +128,9 @@ function updateProfile (req, res) {
 
   Profile.update(newProfile, (err) => {
     if (err) {
-      return res.json({success: false, msg: 'Failed to Update Profile'})
+      return res.status(200).json({success: false, msg: 'Failed to Update Profile'})
     } else {
-      return res.json({success: true, msg: 'Updated Profile'})
+      return res.status(200).json({success: true, msg: 'Updated Profile'})
     }
   })
 }
@@ -135,9 +139,9 @@ function deleteProfile (req, res) {
   const id = new ObjectID(req.user._id)
   Profile.delete(id, (err) => {
     if (err) {
-      return res.json({success: false, msg: 'Failed to Delete Profile'})
+      return res.status(400).json({success: false, msg: 'Failed to Delete Profile'})
     } else {
-      return res.json({success: true, msg: 'Profile Deleted!'})
+      return res.status(200).json({success: true, msg: 'Profile Deleted!'})
     }
   })
 }

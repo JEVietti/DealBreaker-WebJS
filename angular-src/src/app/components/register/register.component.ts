@@ -75,6 +75,7 @@ export class RegisterComponent implements OnInit {
     this.checkName("lname") 
     this.checkEmail()
     this.checkUsername()
+    this.checkPassword()
   }
 
   checkName(id) {
@@ -96,9 +97,50 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  // Password Checking for Strength and Password Confirmation
   checkPassword() {
+    const password = $('#password')
+    const cpassword = $('#cpassword')
     
+    const reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+    password.on('change', () => {
+      if(password.val() == null || password.val().length == 0) {
+        password.attr( "class", "invalid" );
+        $("label[for='password']").attr( "class", "active" );
+        $("label[for='password']").attr( "data-error", "Password cannot be empty" ); 
+      }
+      else if (reg.test(password.val())) {
+        password.attr( "class", "valid" );
+        $("label[for='password']").attr( "class", "active" );
+        $("label[for='password']").attr( "data-success", "Password Valid" ); 
+      } 
+      else {
+        password.attr( "class", "invalid" );
+        $("label[for='password']").attr( "class", "active" );
+        $("label[for='password']").attr( "data-error", "Passwords be at least 8 characters long, must have at least one digit, one lowercase, and one uppercase" );   
+
+      }
+    })
+
+    cpassword.on('change', () => {
+       if(cpassword.val() == null || cpassword.val().length == 0) {
+          cpassword.attr( "class", "invalid" );
+          $("label[for='cpassword']").attr( "class", "active" );
+          $("label[for='cpassword']").attr( "data-error", "Password cannot be empty" ); 
+        } else if(password.val() === cpassword.val()){
+          cpassword.attr( "class", "valid" );
+          $("label[for='cpassword']").attr( "class", "active" );
+          $("label[for='cpassword']").attr( "data-success", "Passwords Match" ); 
+        } else {
+          cpassword.attr( "class", "invalid" );
+          $("label[for='cpassword']").attr( "class", "active" );
+          $("label[for='cpassword']").attr( "data-error", "Passwords do not match!" ); 
+        }
+    })
+    
+
   }
+
 
   //Ajax call, in service, to check if username is taken
   //then update the view to inform the user
@@ -111,16 +153,35 @@ export class RegisterComponent implements OnInit {
         // console.log(username.val())
         username.attr( "class", "valid" );
         $("label[for='username']").attr( "class", "active" );
-        
-        
+        $("label[for='username']").attr( "data-success", "Username Valid" );            
+        this.registerService.authUsername(username.val()).subscribe( data => {
+          // Username not taken
+          if(data.success) {
+            console.log('Valid Username, Not Taken')            
+            username.attr( "class", "valid" );
+            $("label[for='username']").attr( "class", "active" );
+            $("label[for='username']").attr( "data-success", "Username Available and Valid" );            
+          // Username taken
+          } else {
+            console.log('Invalid Username, Taken')
+            username.attr( "class", "invalid" );
+            $("label[for='username']").attr( "class", "active" );
+            $("label[for='username']").attr( "data-error", "Username taken" );
+            
+          }
+        })
+
+      } else if(username.val().trim() == null || username.val().trim() == "" ){
+        username.attr( "class", "invalid" );
+        $("label[for='username']").attr( "class", "active" );
+        $("label[for='username']").attr( "data-error", "Username cannot be empty" ); 
 
       } else if(!this.validateService.validateUserName(username.val())){
         username.attr( "class", "invalid" );
         $("label[for='username']").attr( "class", "active" );
-      }
-      else if(username.val().trim() == null || username.val().trim() == "" ){
-        username.attr( "class", "invalid" );
-        $("label[for='username']").attr( "class", "active" );
+        $("label[for='username']").attr( "data-error", "Username Invalid" );
+        
+          
       }
       
     })
@@ -139,9 +200,32 @@ export class RegisterComponent implements OnInit {
         // console.log(email.val())
         email.attr( "class", "valid" );
         $("label[for='email']").attr( "class", "active" );
-      } else {
+         this.registerService.authEmail(email.val()).subscribe( data => {
+          // Email not taken
+          if(data.success) {
+            console.log('Valid Email, Not Taken')            
+            email.attr( "class", "valid" );
+            $("label[for='email']").attr( "class", "active" );
+            $("label[for='email']").attr( "data-success", "Email Available and Valid" );            
+          // Email taken
+          } else {
+            console.log('Invalid Email, Taken')
+            email.attr( "class", "invalid" );
+            $("label[for='email']").attr( "class", "active" );
+            $("label[for='email']").attr( "data-error", "Email taken" );
+            
+          }
+        })
+     } else if(email.val().trim() == null || email.val().trim() == "" ){
         email.attr( "class", "invalid" );
         $("label[for='email']").attr( "class", "active" );
+        $("label[for='email']").attr( "data-error", "Email cannot be empty" ); 
+
+      } else if(!this.validateService.validateUserName(email.val())){
+        email.attr( "class", "invalid" );
+        $("label[for='email']").attr( "class", "active" );
+        $("label[for='email']").attr( "data-error", "Email Invalid" );
+           
       }
       
     })

@@ -155,9 +155,7 @@ initProfile(){
         }   
     },
     err=>{
-      // console.log(err);
-       Materialize.toast('Unauthorized Please log in!', 5000, 'rounded toast-danger')
-      this.router.navigate(['/login'])
+      this.profile = null;
     });  
   }
 }

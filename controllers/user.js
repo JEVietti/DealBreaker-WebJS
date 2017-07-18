@@ -11,16 +11,34 @@ const async = require('async')
 // else if an email is taken -> false
 // otherwise attempt to create User , catch errors
 // return the messages with request
-var create = function validateCreate (req, res) {
-  // console.log(req.body)
-  let uname = req.body.username
-  const email = req.body.email
+function validateCreate (req, res) {
+  // console.log('Register ')
+  // console.log(req.body.length)
+
+  if (Object.keys(req.body).length === 0) {
+    console.log('Empty body')
+    return res.status(400).json({success: false, msg: 'No registration date'})
+  }
+
+  var uname = req.body.username
+  var email = req.body.email
+  var firstName = req.body.fname
+  var lastName = req.body.lname
+
   uname = uname.toLowerCase()
 
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1)
+
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1)
+  // console.log(lastName)
+
+
+
   let newUser = new User({
-    fname: req.body.fname,
-    lname: req.body.lname,
+    fname: firstName,
+    lname: lastName,
     email: email,
+    birthdate: req.body.birthdate,
     username: uname,
     password: req.body.password
   })
@@ -29,19 +47,21 @@ var create = function validateCreate (req, res) {
   User.checkUsername(uname.toLowerCase(), (err, result) => {
     if (err) throw err
     if (result != null) {
-      return res.json({success: false, msg: 'Username Already exists!'})
+      return res.status(400).json({success: false, msg: 'Username Already exists!'})
     } else { // Check for email
       User.checkEmail(email, (err, result) => {
-        if (err) throw err
-                 // console.log(res);
-        if (result != null) {
-          return res.json({success: false, msg: 'Email already tied to an account!'})
+        if (err) {
+          // console.log(err)
+          return res.status(400).json({success: false, msg: 'Unknown Error!'})
+        }
+        else if (result != null) {
+          return res.status(200).json({success: false, msg: 'Email already tied to an account!'})
         } else { // Try to add the user
           User.addUser(newUser, (err, user) => {
             if (err) {
-              return res.json({success: false, msg: 'Failed to Register User'})
+              return res.status(400).json({success: false, msg: 'Failed to Register User'})
             } else {
-              return res.json({success: true, msg: 'Registered User'})
+              return res.status(201).json({success: true, msg: 'Registered User'})
             }
           })
         }
@@ -50,8 +70,46 @@ var create = function validateCreate (req, res) {
   })
 }
 
+function usernameAuth (req, res) {
+  if (req.params.username) {
+    var username = req.params.username
+    username = username.toLowerCase()
+    User.checkUsername(username, (err, result) => {
+      if (err) {
+        console.log(err)
+        res.status(401).json({})
+      } else if (result != null) {
+        return res.status(200).json({success: false, msg: 'Username Already exists!'})
+      } else {
+        res.status(200).json({success: true, msg: 'Username Available!'})
+      }
+    })
+  } else {
+    res.status(401).json({success: false, msg: 'Unknown Error!'})
+  }
+}
+
+function emailAuth (req, res) {
+  if (req.params.email) {
+    var email = req.params.email
+    email = email.toLowerCase()
+    User.checkEmail(email, (err, result) => {
+      if (err) {
+        console.log(err)
+        res.status(401).json({})
+      } else if (result != null) {
+        return res.status(200).json({success: false, msg: 'Email Already exists!'})
+      } else {
+        res.status(200).json({success: true, msg: 'Email Available'})
+      }
+    })
+  } else {
+    res.status(401).json({success: false, msg: 'Unknown Error!'})
+  }
+}
+
 // Get Account - for getting the Account for Authentication Token
-var get = function getAccount (req, res) {
+function getAccount (req, res) {
   const username = req.query.user
  // If User is not specified
   if (username === undefined) {
@@ -74,7 +132,7 @@ var get = function getAccount (req, res) {
 }
 
 // Logging in User from Form
-var auth = function authUser (req, res) {
+function authUser (req, res) {
   let username = req.body.username
   const password = req.body.password
   username = username.toLowerCase()
@@ -98,7 +156,7 @@ var auth = function authUser (req, res) {
       const token = jwt.sign(user, config.secret, {
         expiresIn: 604800 // 1 week
       })
-      return res.json({
+      return res.status(202).json({
         'success': true,
         'msg': 'Successfully Logged in!',
         token: 'JWT ' + token,
@@ -116,7 +174,7 @@ var auth = function authUser (req, res) {
 }
 
 // This function should eventually go across all collections removing it within relationships romaing list etc.
-var remove = function deleteUser (req, res) {
+function deleteUser (req, res) {
   const uid = req.user._id
   // console.log('User ID ' + uid)
   User.deleteUser(uid, (err) => {
@@ -343,10 +401,12 @@ function forgotUsername (req, res) {
 }
 
 // Export the functions
-exports.create = create
-exports.get = get
-exports.auth = auth
-exports.delete = remove
+exports.create = validateCreate
+exports.get = getAccount
+exports.authEmail = emailAuth
+exports.authUser = usernameAuth
+exports.auth = authUser
+exports.delete = deleteUser
 exports.update = updateUser
 exports.forgotPassword = forgotPassword
 exports.resetPassword = resetPassword

@@ -4,6 +4,11 @@ const passport = require('passport')
 require('../config/db')
 const UserController = require('../controllers/user')
 
+router.use(function timeLog (req, res, next) {
+  console.log('Time: ', Date.now())
+  return next()
+})
+
 // Authenticate using a identifier in order to route post requests not intended for creation but for logging in
 // as the login requests should not be get requests as it is more unsecure than post or put requests
 router.post('/auth', (req, res, next) => {
@@ -35,7 +40,28 @@ router.put('*', passport.authenticate('jwt', {session: false}), (req, res, next)
   UserController.update(req, res)
 })
 
-// Profile - Protected by Auhentication
+router.get('/auth/email/:email', (req, res, next) => {
+  console.log('Check Email')
+  UserController.authEmail(req, res)
+})
+
+router.get('/auth/email/*', (req, res, next) => {
+  console.log('Check Email')
+  UserController.authEmail(req, res)
+})
+
+router.get('/auth/username/:username', (req, res, next) => {
+  console.log('Check Username')
+  UserController.authUser(req, res)
+})
+
+router.get('/auth/username/*', (req, res, next) => {
+  console.log('Check Username')
+  UserController.authUser(req, res)
+})
+
+
+// User - Protected by Auhentication
 router.get('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
   UserController.get(req, res)
 })
