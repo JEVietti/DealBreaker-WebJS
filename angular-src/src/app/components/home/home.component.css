@@ -103,9 +103,9 @@ h5 {
 }
 
 .main {
-  background-color: whitesmoke;
+  background-color: #e6ecf0;
   padding-top: 50px;
-  min-height: 800px !important;
+  min-height: 800px;
   padding-bottom: 50px;  
 }
 

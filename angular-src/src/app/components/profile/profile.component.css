@@ -20,22 +20,22 @@
 }
 
 .carousel {
-      height: 400px !important;
+      height: 400px;
     background-color: gray;
       
 }
 
 .carousel-item a {
-    max-height: 100% !important;
-    min-width: 400px !important;
+    max-height: 100%;
+    min-width: 400px;
     
 }
 
 .carousel .carousel-item {
     display: none;
-    max-width: 400px !important;
-    min-width: 350px !important;
-    height: 350px !important;
+    max-width: 400px;
+    min-width: 350px;
+    height: 350px;
     position: absolute;
     top: 0;
     left: 0;
@@ -80,15 +80,15 @@ img {
 img{
    
     margin: auto;
-    text-align: center !important;
+    text-align: center;
     
 }
 
 
 .materialboxed.active {
   
-    text-align: center !important;
-     max-height: auto !important;
+    text-align: center;
+     max-height: auto;
 }
 
 #qualities {
@@ -97,7 +97,11 @@ img{
   
 }
 div #materialbox-overlay {
-    height: 600px !important;
+    height: 600px;
+}
+
+li.list-group-item {
+    font-size: 20px;
 }
 
 li.list-group-item:hover {

@@ -12,7 +12,6 @@ export class RegisterService {
   constructor(private http:Http) { 
    this.isDev = true 
   }
-
   
   authUsername(username){
     let headers = new Headers()
@@ -28,6 +27,15 @@ export class RegisterService {
     const ep = this.prepEndpoint('/api/users/auth/email/')
     return this.http.get(ep + email, {headers: headers})
     .map(res => res.json())
+  }
+
+  //Register User Requests to API EndPoint
+  registerUser(user){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const ep = this.prepEndpoint('/api/users/')
+    return this.http.post(ep, user, {headers: headers})
+      .map(res=> res.json());
   }
 
 

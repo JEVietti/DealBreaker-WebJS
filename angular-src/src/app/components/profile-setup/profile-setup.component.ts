@@ -49,6 +49,7 @@ export class ProfileSetupComponent implements OnInit {
   profileSub : Subscription;
   updateSub : Subscription;
 
+
   constructor(
     private validate: ValidateService,
     private profileService: ProfileService,
@@ -120,23 +121,22 @@ export class ProfileSetupComponent implements OnInit {
   positionError(err){
     //// console.log('Position Not Found')
     switch (err.code)
-	{
-		case err.PERMISSION_DENIED:
-			// User denied access to location. Perhaps redirect to alternate content?
-      Materialize.toast('Permission was denied!', 5000,'rounded toast-danger');
-       Materialize.toast('Use search or change permissions!', 5000,'rounded toast-danger');
-			break;
-		case err.POSITION_UNAVAILABLE:
-			Materialize.toast('Position is currently unavailable.', 2000,'rounded toast-danger')
-			break;
-		case err.PERMISSION_DENIED_TIMEOUT:
-			Materialize.toast('User took to long to grant/deny permission.', 2000, 'rounded toast-danger');
-			break;
-		case err.UNKNOWN_ERROR:
-    Materialize.toast('Unknown error', 2000, 'rounded toast-danger')
-			
-			break;
-	}
+	  {
+  		case err.PERMISSION_DENIED:
+  			// User denied access to location. Perhaps redirect to alternate content?
+        Materialize.toast('Permission was denied!', 5000,'rounded toast-danger');
+         Materialize.toast('Use search or change permissions!', 5000,'rounded toast-danger');
+  			break;
+  		case err.POSITION_UNAVAILABLE:
+  			Materialize.toast('Position is currently unavailable.', 2000,'rounded toast-danger')
+  			break;
+  		case err.PERMISSION_DENIED_TIMEOUT:
+  			Materialize.toast('User took to long to grant/deny permission.', 2000, 'rounded toast-danger');
+  			break;
+  		case err.UNKNOWN_ERROR:
+        Materialize.toast('Unknown error', 2000, 'rounded toast-danger')
+  			break;
+	  }
   }
 
   getLocation(place: any){
@@ -187,7 +187,7 @@ export class ProfileSetupComponent implements OnInit {
         this.seeking = res.profile.seeking
         this.interests = res.profile.interests
         this.dealBreakers = res.profile.dealbreakers
-        
+        $('.chips').material_chip();
         var chipData: Array<Object> = [];
         if (this.dealBreakers != null) {
           // console.log("dealBreakers")
@@ -195,7 +195,7 @@ export class ProfileSetupComponent implements OnInit {
           this.dealBreakers.forEach(element => {
             chipData.push({tag:element})            
           });
-           $('#dealbreakers').material_chip({
+           $('#dealBreakers').material_chip({
              data: chipData,
              placeholder: '+dealbreaker'
           });        
@@ -233,7 +233,8 @@ export class ProfileSetupComponent implements OnInit {
         $('select').material_select();    
         $('#seeking').material_chip();
         $('#interests').material_chip();
-        $('#dealbreakers').material_chip();
+        $('#dealBreakers').material_chip();
+        $('.chips').material_chip();
          $('.chips-placeholder').material_chip({
               placeholder: 'Enter an Attribute',
               secondaryPlaceholder: '+quality',
@@ -278,19 +279,25 @@ export class ProfileSetupComponent implements OnInit {
     var temp;
     temp = $('#seeking').material_chip('data');
     //// console.log(temp);
+   if(temp){    
    for(var i=0; i<temp.length; i++){
      this.seeking[i] = temp[i].tag;
    }
+   }
 
    temp = $('#interests').material_chip('data');
-   for(var i=0; i<temp.length; i++){
-     this.interests[i] = temp[i].tag;
+   if(temp){
+     for(var i=0; i<temp.length; i++){
+       this.interests[i] = temp[i].tag;
+     }
    }
-
-   temp = $('#dealbreakers').material_chip('data');
-   for(var i=0; i<temp.length; i++){
-     this.dealBreakers[i] = temp[i].tag;
+   temp = $('#dealBreakers').material_chip('data');
+   if(temp){
+     for(var i=0; i<temp.length; i++){
+       this.dealBreakers[i] = temp[i].tag;
+     }
    }
+  
 
    // console.log(this.dealBreakers);
    // console.log(this.interests);
@@ -300,7 +307,151 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   ngAfterContentInit(){
+   this.checkName('fname')   
+   this.checkName('lname')   
+   this.checkBio()
+   this.checkAttributes('dealBreakers')
+   this.checkAttributes('seeking')
+   this.checkAttributes('interests')
+  }
+
+   checkName(id) {
+    const name = $('#' + id)
+    name.on('change', () => {
+    Materialize.updateTextFields();   
+  
+    if(name.val().trim() == null || name.val().trim() == "" ){
+        name.attr( "class", "invalid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+        $("label[for=" + id + "]").attr( "data-error", "Field cannot be empty" );
+    }     
+      else if(this.validate.validateName(name.val())){
+        // console.log(name.val())
+        name.attr( "class", "valid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+        $("label[for=" + id + "]").attr( "data-success", "Name Valid" );             
+      } else if(!this.validate.validateName(name.val())) {
+        name.attr( "class", "invalid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+        $("label[for=" + id + "]").attr( "data-error", "Name Invalid" );     
+      }  else {
+         name.attr( "class", "invalid" );
+        $("label[for=" + id + "]").attr( "class", "active" );
+        $("label[for=" + id + "]").attr( "data-error", "Name Invalid" );    
+      }
+    })
+
+  }
+
+  checkLocation() {
+  
+  }
+
+
+  //Form Feedback on Attributes such as Dealbreakers Seeking and Interests
+  checkAttributes(id) {
+    const attr = $('#' + id)
+    attr.on('focusout', () => {
+       console.log(id + 'change')
+       if(id === 'dealBreakers'){
+         if(this.dealBreakers.length === 0){
+          console.log('Invalid')          
+          const feedback = $('<span />', {
+           class: 'formError',
+            text: "Fill in Field",
+          })
+          attr.next().remove()
+          attr.after(feedback )     
+         } else { 
+           console.log('Valid')
+            const feedback = $('<span />', {
+              class: 'formSuccess',
+              text: "Valid",
+            })
+           // attr.children().remove()
+          attr.next().remove()                     
+          attr.after(feedback)
+         }
+       }
+         else if(id === 'seeking'){
+         if(this.seeking.length === 0){
+          console.log('Invalid')          
+          const feedback = $('<span />', {
+           class: 'formError',
+            text: "Fill in Field",
+          })
+          attr.next().remove()
+          attr.after(feedback )     
+         } else { 
+           console.log('Valid')
+            const feedback = $('<span />', {
+              class: 'formSuccess',
+              text: "Valid",
+            })
+           // attr.children().remove()
+          attr.next().remove()                     
+          attr.after(feedback)
+         }
+       }
+         else if(id === 'interests'){
+         if(this.interests.length === 0){
+          console.log('Invalid')          
+          const feedback = $('<span />', {
+           class: 'formError',
+            text: "Fill in Field",
+          })
+          attr.next().remove()
+          attr.after(feedback )     
+         } else { 
+           console.log('Valid')
+            const feedback = $('<span />', {
+              "class": 'formSuccess',
+              text: "Valid",
+            })
+           // attr.children().remove()
+          attr.next().remove()                     
+          attr.after(feedback)
+         }
+       }
+       
+    })
+  }
+
+  checkBio() {
+    const bio = $('#biography')
+
+    bio.on('focusout', () => {
+
+      console.log('Bio change')
+      if(bio.val() == null || bio.val().length == 0) {
+        console.log('Null')
+        const feedback = $('<span />', {
+             class: 'formError',
+              text: "Let people know who you are.",
+        })
+        bio.next().remove()
+        bio.after(feedback)
+      }
+      else if (bio.val().length >= 400) {
+        console.log('Null')        
+         const feedback = $('<span />', {
+             class: 'formError',
+              text: "Biography must be 400 characters or less.",
+        })
+        bio.next().remove()
+        bio.after(feedback)    
+      } 
+      else {
+        console.log('Valid')        
+          const feedback = $('<span />', {
+              class: 'formSuccess',
+              text: "Nice biography.",
+        })
+        bio.next().remove()
+        bio.after(feedback) 
+      }
       
+    })
   }
 
   initMaterialize(){
@@ -313,12 +464,12 @@ export class ProfileSetupComponent implements OnInit {
 
   ngAfterViewInit(){
     $(document).ready(()=> {
-
-     $('#dealbreakers').on('chip.add', (e, chip) =>{
+      
+     $('#dealBreakers').on('chip.add', (e, chip) =>{
               // console.log("You Have added chip" + chip.tag);
-              this.addChipData(this.dealBreakers, chip.tag)
+            this.addChipData(this.dealBreakers, chip.tag)
        });
-      $('#dealbreakers').on('chip.delete', (e, chip) =>{
+      $('#dealBreakers').on('chip.delete', (e, chip) =>{
               // console.log("You Have deleted chip" + chip.tag);
               this.deleteChipData(this.dealBreakers, chip.tag)
       });
@@ -344,7 +495,10 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   addChipData(array: Array<String>, chipValue){
-    array.push(chipValue)
+    console.log(chipValue.trim().length)
+    if(chipValue.trim().length !== 0){
+      array.push(chipValue)
+    }
     // console.log(array)
   }
 

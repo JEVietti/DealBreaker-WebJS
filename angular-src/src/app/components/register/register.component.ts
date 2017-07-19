@@ -1,14 +1,13 @@
 /* Register Component - Send User Information for Auth, Account Creation
  * Binds the Form Input Elements to Class Variables
  * Which are then validated by validate.service and used to create the profile
- * Sendig API request by auth.service
+ * Sending API request by auth.service
  * 
  * 
 */
 
 import { Component, OnInit } from '@angular/core';
 import {ValidateService} from '../../services/validate.service';
-import {AuthService} from '../../services/auth.service';
 import {RegisterService} from '../../services/register.service';
 import {Router} from '@angular/router';
 import { NgForm, FormsModule } from '@angular/forms';
@@ -41,14 +40,14 @@ export class RegisterComponent implements OnInit {
   terms: boolean = false;
 
   registerSub: Subscription;
+  regEmailSub: Subscription;
+  regUsernameSub: Subscription;
 
-//Inject the modules for use in Clas - Component
+//Inject the modules for use in Class - Component
   constructor(
       private validateService: ValidateService, 
-      private authService: AuthService,
       private registerService: RegisterService,
-      private router: Router,
-     
+      private router: Router
   ) { 
 
     this.monthPairs = [{value:1,label: "January"},{value:2,label: "February"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];   
@@ -154,7 +153,7 @@ export class RegisterComponent implements OnInit {
         username.attr( "class", "valid" );
         $("label[for='username']").attr( "class", "active" );
         $("label[for='username']").attr( "data-success", "Username Valid" );            
-        this.registerService.authUsername(username.val()).subscribe( data => {
+        this.regUsernameSub = this.registerService.authUsername(username.val()).subscribe( data => {
           // Username not taken
           if(data.success) {
             console.log('Valid Username, Not Taken')            
@@ -200,7 +199,7 @@ export class RegisterComponent implements OnInit {
         // console.log(email.val())
         email.attr( "class", "valid" );
         $("label[for='email']").attr( "class", "active" );
-         this.registerService.authEmail(email.val()).subscribe( data => {
+        this.regEmailSub = this.registerService.authEmail(email.val()).subscribe( data => {
           // Email not taken
           if(data.success) {
             console.log('Valid Email, Not Taken')            
@@ -261,13 +260,13 @@ export class RegisterComponent implements OnInit {
       //console.log("Validated")
      
       //Register User - subscribe for API response
-      this.registerSub = this.authService.registerUser(user).subscribe(data => {
+      this.registerSub = this.registerService.registerUser(user).subscribe(data => {
        //Register success, redirect for user to log in
         if(data.success){ 
           Materialize.toast("You are now registered and can log in", 3000, 'rounded toast-success');
           this.router.navigate(['/profile/setup']);
             return true;
-      //Otherwise Advise the User from server response msg or notfiy something is wrong and to try later.  
+      //Otherwise Advise the User from server response msg or notify something is wrong and to try later.  
       } else{
           Materialize.toast(data.msg || "Something went wrong, try again later!",  5000, 'rounded toast-danger');
           //this.router.navigate(['/register']);
@@ -334,6 +333,12 @@ export class RegisterComponent implements OnInit {
   ngOnDestroy() {
     if(this.registerSub != null) {
       this.registerSub.unsubscribe()
+    }
+    if(this.regEmailSub != null) {
+      this.regEmailSub.unsubscribe()
+    }
+    if(this.regUsernameSub != null) {
+      this.regUsernameSub.unsubscribe()
     }
   }
 
