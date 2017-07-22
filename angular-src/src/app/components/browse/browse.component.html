@@ -5,8 +5,12 @@
           <input name="search" id="search" type="text" class="validate">
           <label for="search">Search</label>
     </div>
-    
-    <div class="row">
-        <app-profile-card></app-profile-card>
+    <div class="input-field col s6"> 
+      
     </div>
   </div>
+    
+    <div *ngIf="profile !== null" class="row">
+        <app-profile-card></app-profile-card>
+    </div>
+    </div>

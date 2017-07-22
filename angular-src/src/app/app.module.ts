@@ -43,6 +43,7 @@ import {ImagesService} from './services/images.service';
 import {ProfileService} from './services/profile.service';
 import {AuthGuard} from './guards/auth.guard';
 import { RegisterService } from './services/register.service';
+import { BrowseService } from './services/browse.service';
 
 
 
@@ -116,7 +117,8 @@ const appRoutes: Routes = [
     AuthGuard, 
     ImagesService, 
     ProfileService,
-    RegisterService
+    RegisterService, 
+    BrowseService
   ],
   bootstrap: [AppComponent]
 })

@@ -51,6 +51,7 @@ export class ImagesService {
 
   listenImages() : Observable<any> {
     console.log("image observed")
+    console.log(this.newImage.asObservable())
     return this.newImage.asObservable()
   }
 

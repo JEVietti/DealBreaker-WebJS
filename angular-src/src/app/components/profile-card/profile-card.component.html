@@ -1,23 +1,53 @@
-<div class="row">
- <div class="col s12">
-    <div class="card small horizontal">
-      <div class="card-image">
-        <img class="circle card-image" src="https://s3-us-west-1.amazonaws.com/dealbreakerjs/jevietti/classpic.jpg">
-      </div>
-      <div class="card-stacked">
-        <div class="card-content">
-          <p class="flow-text">Joseph Vietti</p>
-          <p class=""> Biography </p>
-          <p class=""> Location </p>
-        </div>
-        <div class="card-action">
-          <div style="float:right;">
-          <a href="/profile">Profile</a>
-          <a href="#">Invite</a>
-          <a href="#">Reject</a>
-          </div>
-        </div>
-      </div>
+<div *ngFor="let profile of profiles"> 
+<div class="card col s12 m6 l4">
+  <div class="card-location">
+   <p> {{profile.location.city}}, {{profile.location.state}}, {{profile.location.country}} </p>
+   <p> {{profile.sex}} | {{profile.sexualOrientation}} </p>
+   <p> {{profile.birthdate}} </p>
+  </div>
+    <div class="card-image waves-effect waves-block waves-light">
+       <img *ngIf="profile.images === null" class="circle profile-img activator" src="../assets/images/defaultProfilePic.png">
+        <img *ngIf="profile.images !== null" class="circle profile-img activator" src={{profile.images.gallery[0].url}}>  
     </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">{{profile.fname}} {{profile.lname}}<i class="material-icons right">expand_more</i></span>      
+    </div>
+    <div class="card-action">
+      <div class="col s3"><a href="/profile/{{profile.username}}">Profile</a> </div>
+       <div class="right"><a href="/profile/{{profile.username}}"><i class="material-icons right">delete</i></a> <a href="/profile/{{profile.username}}"><i class="material-icons right">person_add</i></a></div>
+    </div>
+    <div class="card-reveal">
+    
+      <span class="card-title grey-text text-darken-4"> 
+        {{profile.fname}} {{profile.lname}} 
+        <i class="material-icons right">expand_less</i>
+        <div class="card-location">
+        <p>
+        {{profile.location.city}}, {{profile.location.state}}, {{profile.location.country}}
+        </p>
+      </div>
+       <div class="card-tabs tabs-fixed-width">
+      <ul class="tabs tabs-fixed-width center">
+        <li class="tab"><a class="active" href="#{{profile.username}}-bio">Biography</a></li>
+        <li class="tab"><a href="#{{profile.username}}-db">Dealbreakers</a></li>
+
+      </ul>
+    </div>
+    <div class="card-content">
+      <div id="{{profile.username}}-bio">
+        <h5 class="center"> Biography </h5>
+         <p class="tab-text left flow-text"> {{profile.biography}} </p>
+      </div>
+      <div id="{{profile.username}}-db">
+        <h5 class="center"> Dealbreakers </h5>        
+        <p class="tab-text left flow-text">Dealbreakers </p> </div>
+      
+    </div>
+      </span>
+           
+     
+      
+    </div>
+    
   </div>
 </div>

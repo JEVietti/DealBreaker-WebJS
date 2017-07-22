@@ -13,8 +13,10 @@ import { ProfileService } from '../../services/profile.service'
 import { Subscription } from "rxjs/Subscription";
 
 import 'rxjs/add/operator/map';
+
 declare const $: any;
 declare const Materialize: any;
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -22,6 +24,7 @@ declare const Materialize: any;
 })
 export class ProfileComponent implements OnInit {
   profile:any;
+  myProfile: boolean;
   //sub: any;
   image:{_id:Number,url:String};
   gallery: any[] = [];
@@ -84,6 +87,7 @@ initProfile(){
     });
     //If the route doesn't have a /id
     if(this.id === undefined){
+      this.myProfile = true
       //Request the Profile, Same as User tha has been logged in
        this.profileSub = this.profileService.getProfile().subscribe(profile => {
          if(profile != undefined){
@@ -119,10 +123,12 @@ initProfile(){
     },
     err=>{
       // console.log(err);
+      this.router.navigate(['/404'])
     });  
   }
   //route to a specific /id: username
   else { 
+    this.myProfile = false
       //Request API async to endpoint /profile/id
        this.profileIDSub = this.profileService.getProfileById(this.id).subscribe(profile => {
          //// console.log(profile.success);

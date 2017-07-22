@@ -7,8 +7,16 @@ require('../config/db')
 const BrowseController = require('../controllers/browse')
 
 // Browsing - Protected by Authentication
-router.get('*', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    BrowseController.getAll(req, res)
+router.get('/all', (req, res, next) => {
+  BrowseController.getAll(req, res)
+})
+
+router.get('/*', (req, res, next) => {
+  BrowseController.getSpecific(req, res)
+})
+
+router.get('*', (req, res, next) => {
+  BrowseController.getAll(req, res)
 })
 
 module.exports = router

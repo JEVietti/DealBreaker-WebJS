@@ -3,5 +3,9 @@
 }
 #passwordComp {
     padding-top: 15px;   
-    float: right; 
+
+}
+
+.tab-content {
+    height: 100% ;
 }

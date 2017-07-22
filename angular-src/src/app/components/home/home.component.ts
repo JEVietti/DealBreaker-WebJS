@@ -5,9 +5,12 @@
  * 
  * 
 */
-
 import { Component, OnInit } from '@angular/core';
+
+
 declare const $: any;
+declare const Materialize: any;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,14 +22,25 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
+
 //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page
   ngAfterContentInit() {
-        $(document).ready(function() {
-                $('.parallax').parallax();
-                // $('.tooltipped').tooltip({delay: 50});
-             $('.tooltipped').tooltip('remove');
+    const options = [
+      {selector: '.main', offset: 200, callback: function(el) {
+        Materialize.showStaggeredList($(el));
+      } },
+      {selector: '#showcase-img', offset: 200, callback: function(el) {
+        Materialize.fadeInImage($(el));
+      } }
+    ]
 
-              });
+    $(document).ready(() => {
+      $('.parallax').parallax();
+      // $('.tooltipped').tooltip({delay: 50});
+      $('.tooltipped').tooltip('remove');
+
+      Materialize.scrollFire(options)
+    });
   }
 
 }

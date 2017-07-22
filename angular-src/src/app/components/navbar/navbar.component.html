@@ -23,10 +23,10 @@
                         <a class='dropdown-button' data-beloworigin="true" data-activates='profileDropDown'> {{authService.getName()}} <i class="material-icons right">arrow_drop_down</i> 
                         </a>
                         <ul id="profileDropDown" class="dropdown-content">
-                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Visit your Profile"><a  [routerLink] = "['/profile']" class="pink-text">Profile</a></li>
-                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Add/Remove Profile Images"><a [routerLink] = "['/profile/images']" class="pink-text">Images</a></li>
-                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Edit Location/Information"><a [routerLink] = "['/profile/setup']" class="pink-text">Edit</a></li>                                        
-                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Change Account Details" ><a [routerLink] = "['/account']" class="pink-text">Settings</a></li>                    
+                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Visit your Profile"><a  [routerLink] = "['/profile']" class="pink-text  darken-3">Profile</a></li>
+                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Add/Remove Profile Images"><a [routerLink] = "['/profile/images']" class="pink-text  darken-3">Images</a></li>
+                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Edit Location/Information"><a [routerLink] = "['/profile/setup']" class="pink-text  darken-3">Edit</a></li>                                        
+                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Change Account Details" ><a [routerLink] = "['/account']" class="pink-text  darken-3">Settings</a></li>                    
                         </ul>
                     </li>
                     <li ><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout?" (click)= "onLogoutClick()" href=""> <i class="material-icons tiny">power_settings_new</i> </a></li>
@@ -45,17 +45,17 @@
         <ul *ngIf="authService.loggedIn()" class="side-nav" id="mobile-nav">
             <li>
                 <div class="user-view">
-                <a href="#!name"><span class="red-text name">{{authService.getName()}}</span></a>
+                <a href="#!name"><span class="red-text darken-3 name"> <i class="material-icons  darken-3 left">face</i>  {{authService.getName()}}</span></a>
                 </div>
             </li>
-            <li > <a class="red-text" [routerLink] = "['/']">Home</a> </li>
-            <li *ngIf="authService.loggedIn()"> <a class="red-text" [routerLink] = "['/browse']"> Browse </a> </li>
+            <li > <a class="pink-text  darken-3" [routerLink] = "['/']"> <i class="material-icons pink-text  darken-3 left">home</i>Home</a> </li>
+            <li *ngIf="authService.loggedIn()"> <a class="pink-text  darken-3" [routerLink] = "['/browse']"> <i class="material-icons pink-text  darken-3 left">group</i> Browse </a> </li>
             <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
-            <li> <a class="pink-text"  [routerLink] = "['/profile']"> Profile </a> </li>            
-            <li> <a class="pink-text" [routerLink] = "['/profile/images']"> Images </a> </li>   
-            <li> <a [routerLink] = "['/profile/setup']" class="pink-text"> Edit </a> </li>                                        
-            <li> <a [routerLink] = "['/account']" class="pink-text"> Settings </a> </li>        
-            <li> <a class="red-text" (click)= "onLogoutClick()"> Logout </a> </li>
+            <li> <a class="pink-text  darken-3"  [routerLink] = "['/profile']"> <i class="material-icons pink-text  darken-3 left">person_outline</i> Profile </a> </li>            
+            <li> <a class="pink-text  darken-3" [routerLink] = "['/profile/images']"> <i class="material-icons pink-text  darken-3 left">images</i> Images </a> </li>   
+            <li> <a [routerLink] = "['/profile/setup']" class="pink-text  darken-3"> <i class="material-icons pink-text  darken-3 left">mode_edit</i> Edit </a> </li>                                        
+            <li> <a [routerLink] = "['/account']" class="pink-text  darken-3"> <i class="material-icons pink-text  darken-3 left">settings</i> Settings </a> </li>        
+            <li> <a class="pink-text  darken-3" (click)= "onLogoutClick()"> <i class="material-icons pink-text  darken-3 left">power_settings_new</i> Logout </a> </li>
         </ul>
   
 </header>

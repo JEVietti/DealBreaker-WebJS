@@ -20,6 +20,10 @@ nav{
     font-size: 55px; color: pink; text-align: center;
 }
 
+li > a:hover {
+  background-color: lightgray;
+  color: #C12957;
+}
 
 #logo:hover {
   text-shadow: 1px 1px 1px pink; 
