@@ -36,9 +36,6 @@ export class HomeComponent implements OnInit {
 
     $(document).ready(() => {
       $('.parallax').parallax();
-      // $('.tooltipped').tooltip({delay: 50});
-      $('.tooltipped').tooltip('remove');
-
       Materialize.scrollFire(options)
     });
   }

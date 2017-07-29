@@ -1,8 +1,8 @@
 <div *ngIf="profile">
        <div class="container-fluid">
         <div class="row-fluid" *ngIf=" gallery != null &&  gallery.length > 0">
-          <div  class="carousel center" >   
-            <a *ngFor="let image of gallery" class="carousel-item center"><img id="profileImage" class="materialboxed" src={{image}}></a>
+          <div class="carousel carousel-slider center" data-indicators=true>   
+            <a *ngFor="let image of gallery" class="carousel-item center"><img id="profileImage" src={{image}}></a>
          </div>
          </div>
        
@@ -23,33 +23,35 @@
               <p class="list-group-item center" id="bioText"> {{profile.biography}} </p>
             </div>
             <div style="padding-top: 15px;" class="row center">
-            
-                  <h4 class="center">Dealbreakers</h4>
-                  <ul>
-                  <li *ngFor="let db of profile.dealbreakers" class="list-group-item"> {{db}} </li>
-                  </ul>
-            
-               </div>
-             <div id="qualities" class = " row center">
-                <div class="col s6">
+          
+                <div class="col s12 m4 l4">
                     <h4> Seeking </h4>
                     <ul>
                       <li *ngFor="let sk of profile.seeking" class="list-group-item"> {{sk}} </li>
                     </ul>
                 </div>
+          
+                <div class="col s12 m4 l4">
+                  <h4 class="center">Dealbreakers</h4>
+                    <ul>
+                    <li *ngFor="let db of profile.dealbreakers" class="list-group-item"> {{db}} </li>
+                    </ul>
+              </div>    
                 
-                <div class="col s6">
+                <div class="col s12 m4 l4">
                     <h4> Interests</h4>
                     <ul>
                       <li *ngFor="let int of profile.interests" class="list-group-item"> {{int}} </li>
                     </ul>           
                 </div> 
-            </div>            
+            </div> 
+             
+                        
         </div>
     </div>
       <div *ngIf="!myProfile" class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
-          <a class="btn-floating btn-large grey">
-            <i class="material-icons">mode_edit</i>
+          <a class="btn-floating btn-large red lighten-2">
+            <i class="material-icons">more_vert</i>
           </a>
           <ul>
             <!-- <li><a class="btn-floating blue"><i class="material-icons">send</i></a></li> -->            
@@ -62,7 +64,7 @@
             <i class="material-icons">mode_edit</i>
           </a>
           <ul>
-           <li><a [routerLink] = "['/profile/setup']" class="btn-floating green"><i class="material-icons">publish</i></a></li>
+           <li><a [routerLink] = "['/profile/setup']" class="btn-floating green"><i class="material-icons">border_color</i></a></li>
           <li><a [routerLink] = "['/profile/images']" class="btn-floating blue"><i class="material-icons">photo_library</i></a></li>
           </ul>
         </div>

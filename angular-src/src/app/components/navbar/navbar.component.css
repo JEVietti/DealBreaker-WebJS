@@ -1,6 +1,8 @@
 nav{
-    padding-left:10px;
-    padding-right: 15px;
+  padding-left:10px;
+  padding-right: 15px;
+  height: 50px;
+  line-height: 50px;
 }
 
 .grad-dark{
@@ -17,7 +19,9 @@ nav{
 #logo {
   text-shadow: 1px 1px 1px red; 
   -webkit-transition:all 0.7s ease-in-out;
-    font-size: 55px; color: pink; text-align: center;
+    font-size: 45px; color: pink; 
+    line-height: 50px;
+    text-align: center;
 }
 
 li > a:hover {
@@ -29,6 +33,28 @@ li > a:hover {
   text-shadow: 1px 1px 1px pink; 
   -webkit-transition:all 0.7s ease-in-out;
     text-align: center;
+}
+
+.btn{
+  margin-left: 0px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.dropdown-button {
+  width: 150px;
+}
+.dropdown-button i {
+  line-height: 50px;
+}
+
+.dropdown-content li a {
+  font-size: 15px;
+}
+
+.dropdown-content li>a>i {
+  font-size: 20px;
+  margin-right: 5px;
 }
 
 .side-nav {

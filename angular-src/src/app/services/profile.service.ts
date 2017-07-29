@@ -46,7 +46,7 @@ export class ProfileService {
     let age = new Date();
     age.setTime(ageMS);
     let ageYear = age.getFullYear() - 1970;
-    console.log(ageYear); 
+    // console.log(ageYear); 
     return ageYear
 
   }

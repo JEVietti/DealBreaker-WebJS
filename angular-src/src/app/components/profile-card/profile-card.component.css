@@ -47,6 +47,34 @@ overflow-x: hidden;
     font-size: 16px;
 }
 
+.card-reveal {
+ border: 1px solid #eee;
+}
+
+.card {
+    transition: all 0.3s ease-in-out;
+    -webkit-transition:all 0.3s ease-in-out;
+    border: 1px solid #eee;
+}
+
+.card:hover {
+transition: all 0.3s ease-in-out;
+-webkit-transition:all 0.3s ease-in-out;
+-webkit-box-shadow: -2px 3px 35px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: -2px 3px 35px 0px rgba(0,0,0,0.75);
+box-shadow: -2px 3px 35px 0px rgba(0,0,0,0.75);
+}
+
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
     color: red;
+}
+
+.card i {
+    cursor: hand;
+    cursor: pointer;
+    color: red;
+}
+
+span.badge {
+    margin-top: 12px;
 }

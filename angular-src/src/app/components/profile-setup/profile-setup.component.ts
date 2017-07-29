@@ -439,6 +439,7 @@ export class ProfileSetupComponent implements OnInit {
               text: "Biography must be 400 characters or less.",
         })
         bio.next().remove()
+       $('input#input_text, textarea#biography').characterCounter();        
         bio.after(feedback)    
       } 
       else {
@@ -448,6 +449,8 @@ export class ProfileSetupComponent implements OnInit {
               text: "Nice biography.",
         })
         bio.next().remove()
+       $('input#input_text, textarea#biography').characterCounter();
+        
         bio.after(feedback) 
       }
       
@@ -458,7 +461,7 @@ export class ProfileSetupComponent implements OnInit {
     $(document).ready(()=> {
        $('input#input_text, textarea#biography').characterCounter();
       $('#biography').trigger('autoresize'); 
-       $('.tooltipped').tooltip({delay: 50});
+       $('.tooltipped').tooltip({delay: 10});
     });
   }
 

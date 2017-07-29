@@ -17,7 +17,7 @@
 
   <div class = "row">
       <div class="col s3">    
-        <label data-error="Field cannot be empty" data-success="" for="female" >Sex</label>   
+        <label class="active" data-error="Field cannot be empty" data-success="" for="female" >Sex</label>   
           <div class="row">
               <input [(ngModel)] = "sex" class="radio" name="sex" value="Male" type="radio" id="male" />
               <label for="male">Male</label>
@@ -28,8 +28,8 @@
       </div>
     
 
-      <div class="col s6 sex-or">
-    <label for="sexualOrientation" data-error="Field cannot be Empty" data-success="" > Sexual Orientation </label> <i class="material-icons tiny pink-dark"> info_outline</i>        
+      <div class="col s6 sex-or ">
+    <label class="active" for="sexualOrientation" data-error="Field cannot be Empty" data-success="" > Sexual Orientation </label> <i class="material-icons tiny pink-dark"> info_outline</i>        
     <select class="browser-default" type="string" [(ngModel)] = "sexualOrientation" name = "sexualOrientation" id="sexualOrientation">
         <option value="" disabled selected="selected">What's your sexuality?</option>
         <option *ngFor="let sexuality of sexualities" [ngValue] = "sexuality" > {{sexuality}} </option>
@@ -45,24 +45,27 @@
             <option value="" disabled selected="selected">Month</option>
             <option *ngFor="let monthPair of monthPairs" [ngValue] = "monthPair.value" > {{monthPair.label}} </option>
           </select>
-          <label  for="dobMonth" data-error="Invalid BirthDate" data-success="Valid Birthdate" >Month</label>
+          <label class="active" for="dobMonth" data-error="Invalid BirthDate" data-success="Valid Birthdate" >Month</label>
+          
         </div>
          
          <div class=" col s3">
             <select class="browser-default" type="number" [(ngModel)] = "dobDay" name='dobDay' id='dobDay'>
-               <option value="" disabled selected="selected">Day</option>
+              <option value="" disabled selected="selected">Day</option>
                 <option *ngFor="let day of dayList" [ngValue] = "day" > {{day}} </option>
           </select>
-          <label>Day</label>
+          <label class="active" for="dobDay">Day</label>
+              
         </div>
          
          <div class="col s3">
-            <select class="browser-default" [(ngModel)] = "dobYear" name="dobYear" id="dobYear">
-                   <option value="" disabled selected="selected">Year</option>
+            <select class="browser-default" [(ngModel)] = "dobYear" name="dobYear" id="dobYear">                
+              <option value="" disabled selected="selected">Year</option>
                  <option *ngFor="let year of yearList" [ngValue] = "year" > {{year}} </option>
                 </select>
-          <label>Year</label> 
+          <label class="active" for="dobYear">Year</label>                 
         </div>
+              
     </div>
   
   <div class="row">
@@ -86,7 +89,7 @@
 <div class = "row">
    <i style="float:left; font-size:35px; padding-top:20px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
     <div class="input-field col s6">
-      <label for="dealBreakers" class="active" data-error="invalid" data-success="valid" >Deal Breakers <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What can a partner not do or have?"> info_outline</i> </label>
+      <h6 for="dealBreakers" class="active" data-error="invalid" data-success="valid" >Deal Breakers <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What can a partner not do or have?"> info_outline</i> </h6>
       <div id="dealBreakers" name="dealBreakers" class="chips chips-intial chips-placeholder validate">
       </div>
     </div>
@@ -96,7 +99,7 @@
 <div class = "row">
    <i style="float:left; font-size:35px; padding-top:20px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
     <div class="input-field col s6">
-      <label for="seeking" class=" active">Seeking <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What are you looking for in a partner?" > info_outline</i> </label>
+      <h6 for="seeking" class=" active">Seeking <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What are you looking for in a partner?" > info_outline</i> </h6>
       <div id="seeking" name="seeking" required="required" aria-required="true" class="chips chips-intial chips-placeholder validate"></div>
     </div> 
 </div>
@@ -107,7 +110,7 @@
    <i style="float:left; font-size:35px; padding-top:20px; padding-left:10px; padding-right:15px;" class="material-icons prefix pink-dark"> list </i>    
 
     <div class="input-field col s6">
-      <label for="interests" class="active">Interests <i class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What are your hobbies?"> info_outline</i> </label>  
+      <h6 for="interests" class="active">Interests <i id="infoInterest" class="material-icons tiny pink-dark tooltipped" data-position="top" data-delay="50" data-tooltip="What are your hobbies?"> info_outline</i> </h6>  
       <div id="interests" name="interests" class="chips chips-intial chips-placeholder"></div>
     </div>
     

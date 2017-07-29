@@ -12,7 +12,7 @@ import {ValidateService} from '../../services/validate.service';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import { NgForm, FormsModule } from '@angular/forms';
-import { Subscription } from "rxjs";
+import { Subscription } from "rxjs/Subscription";
 
 
 declare const Materialize: any;

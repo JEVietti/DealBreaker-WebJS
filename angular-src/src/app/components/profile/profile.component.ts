@@ -105,10 +105,10 @@ initProfile(){
                   this.gallery.push(images[i].url);
                 }
                 $(document).ready(function(){
-                  $('.carousel').carousel();
-                   $('.materialboxed').materialbox();
+                  // $('.carousel').carousel();
+                 
                     //Materialize.toast('I am a toast!', 3000, 'toast-container round') // 'rounded' is the class I'm applying to the toast
-                  // $('.carousel.carousel-slider').carousel();      
+                  $('.carousel.carousel-slider').carousel();      
                   
                 });
               }

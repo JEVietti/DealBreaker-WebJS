@@ -1,13 +1,47 @@
-<div>
+<div id="browse">
   <div class="row">
-    <div class="input-field col s6">
+    <div class="input-field col s12 m4 l3">
           <i class="material-icons prefix pink-dark">search</i>                    
           <input name="search" id="search" type="text" class="validate">
           <label for="search">Search</label>
     </div>
-    <div class="input-field col s6"> 
+      <div class="input-field col s2 m2 l1">
+      <select class="" type="string" [(ngModel)] = "ageRange" name = "ageRange" id="ageRange">
+      <option value="" disabled selected>Ages</option>
+      <option value="1">18-20</option>
+      <option value="2">21-30</option>
+      <option value="3">31-45</option>
+      <option value="4">46-60</option>
+      <option value="5">60-80</option>
+      <option value="6">80+</option>
+      </select>
+      </div>
+      <div class="input-field col s2 m2 l1">      
+      <select class="" type="string" [(ngModel)] = "sex" name = "sex" id="sex">
+      <option value="" disabled selected>Sex</option>
+      <option value="1">Male</option>
+      <option value="2">Female</option>
+      </select>
+      </div>
+    <div class="input-field col s4 m2 l2">
+      <select class="" type="string" [(ngModel)] = "locationRange" name = "locationRange" id="locationRange">
+      <option value="" disabled selected>Radius</option>
+       <option value="1">50 miles</option>
+      <option value="2">100 miles</option>
+      <option value="3">1000 miles</option>
+      <option value="3">Anywhere</option>
       
-    </div>
+      </select>
+      </div>
+    <div class="input-field col s4 m2 l2">  
+      <select class="" type="string" [(ngModel)] = "sexualOrientation" name = "sexualOrientation" id="sexualOrientation">
+      <option value="" disabled selected>Orientation</option>
+      <option value="1">Asexual</option>
+      <option value="2">Bisexual</option>
+      <option value="3">Heterosexual</option>
+      <option value="4">Homosexual</option>
+      </select>
+      </div>
   </div>
     
     <div *ngIf="profile !== null" class="row">

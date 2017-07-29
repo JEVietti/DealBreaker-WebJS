@@ -1,7 +1,6 @@
 /* Inclusion and Routing File for importing Created Components, Modules, and Routing
  * The Junction of declarations with small implementations for protecting and nesting
  * url paths as well as defining roles of imports.
- * 
 */
 
 //Base package modules needed for implementation
@@ -35,6 +34,9 @@ import { ForgotComponent } from './components/forgot/forgot.component';
 import { TermsComponent } from './components/terms/terms.component';
 import {ProfileCardComponent} from './components/profile-card/profile-card.component';
 import {ImageManageComponent} from './components/image-manage/image-manage.component'
+import { PendingRelationshipComponent } from './components/pending-relationship/pending-relationship.component';
+import { ConfirmedRelationshipComponent } from './components/confirmed-relationship/confirmed-relationship.component';
+import { RejectedRelationshipComponent } from './components/rejected-relationship/rejected-relationship.component';
 
 //User Created or Customized Services and Providers
 import {ValidateService} from './services/validate.service';
@@ -44,14 +46,17 @@ import {ProfileService} from './services/profile.service';
 import {AuthGuard} from './guards/auth.guard';
 import { RegisterService } from './services/register.service';
 import { BrowseService } from './services/browse.service';
+import { RelationshipService } from './services/relationship.service';
 
 
 
 
 
-//Application Routing in which the path -> component, 
-//each path can be protected by an guard - AuthGuard: logged in status
-//see guards/auth.guard.tcs for implementation
+
+/* Application Routing in which the path -> component, 
+ * each path can be protected by an guard - AuthGuard: logged in status
+ * see guards/auth.guard.tcs for implementation
+*/
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent}, 
@@ -64,6 +69,8 @@ const appRoutes: Routes = [
     {path:':id', component: ProfileComponent}
   ]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: 'pending', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: 'confirmed', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: '404', component: NotFoundComponent},
   {path: 'privacy', component: PrivacyPolicyComponent},  
   {path: 'terms', component: TermsComponent},          
@@ -101,7 +108,10 @@ const appRoutes: Routes = [
     ForgotComponent,
     TermsComponent,
     ProfileCardComponent,
-    ImageManageComponent
+    ImageManageComponent,
+    RejectedRelationshipComponent,
+    PendingRelationshipComponent,
+    ConfirmedRelationshipComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +128,8 @@ const appRoutes: Routes = [
     ImagesService, 
     ProfileService,
     RegisterService, 
-    BrowseService
+    BrowseService,
+    RelationshipService
   ],
   bootstrap: [AppComponent]
 })
