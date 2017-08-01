@@ -2,6 +2,14 @@
 const Profile = require('../models/profile')
 const ObjectID = require('mongodb').ObjectID
 
+/**
+ *
+ * @param {HTTP Request} req
+ * @param {HTTP Response} res
+ * 
+ * @return {HTTP Response}
+ * 
+ */
 function getProfileById (req, res) {
   // console.log('Reached Profile GET!')
   var username = req.query.profile
@@ -12,42 +20,54 @@ function getProfileById (req, res) {
   }
  // If User is not specified - empty url or / url
   if (username === undefined || username === '') {
-    var response = {'success': false}
     const uid = req.user._id
     // console.log('By ID')
-    Profile.getProfileById(uid, (err, profile) => {
-      // console.log(profile)
-
-      if (err) {
-        console.log('Reached Error!')
-        response = {
-          success: false,
-          profile: profile,
-          msg: 'Unknown Error'
-        }
-      } else if (profile != null) {
+    Profile.getProfileById(uid)
+    .then((profile) => {
+      if (profile) {
         // Remove the id values of mongodb before sending response
         profile._id = undefined
-        if (profile.images != null) { // if images exist for the user
+        if (profile.images !== null) { // if images exist for the user
           profile.images._id = undefined
         }
         // console.log('Profile!')
-        response = {
+        return res.status(200).json({
           success: true,
-          profile: profile
-        }
-      } else {
-        // console.log('Reached Unfound!')
-        response = {
-          success: false,
-          profile: { }
-        }
+          profile: profile})
       }
-      return res.json(response)
+        // console.log('Reached Unfound!')
+      return res.status(404).json({
+        success: false,
+        profile: {}
+      })
+    })
+    .catch((err) => {
+      if (err) {
+        console.log('Reached Error!')
+        return res.status(400).json({
+          success: false,
+          profile: {},
+          msg: 'Unknown Error'
+        })
+      }
+    })
+  } else {
+    return res.status(400).json({
+      success: false,
+      profile: {},
+      msg: 'Unknown Error'
     })
   }
 }
 
+/**
+ *
+ * @param {HTTP Request} req
+ * @param {HTTP Response} res
+ * 
+ * @return {HTTP Response}
+ * 
+ */
 function getProfileByUsername (req, res) {
   // console.log(req)
   // console.log('Reached Profile GET!')
@@ -55,30 +75,42 @@ function getProfileByUsername (req, res) {
   username = username.toLowerCase()
   // console.log('By Username')
         // User is Specified
-  Profile.getProfileByUsername(username, (err, profile) => {
-    if (err) throw err
-    // console.log(profile)
-    if (profile == null) {
+  Profile.getProfileByUsername(username)
+  .then((profile) => {
+    if (profile === null) {
       return res.status(404).json({
         'success': false,
         'msg': 'User Not Found!',
         profile: {}
       })
-    } else {
-        // Remove the id values of mongodb before sending response
-      profile._id = undefined
-      if (profile.images != null) { // if images exist for the user
-        profile.images._id = undefined
-      }
-      return res.status(200).json({success: true, profile: profile})
+    }
+      // Remove the id values of mongodb before sending response
+    profile._id = undefined
+    if (profile.images !== null) { // if images exist for the user
+      profile.images._id = undefined
+    }
+    return res.status(200).json({success: true, profile: profile})
+  })
+  .catch((err) => {
+    if (err) {
+      console.log(err)
+      return res.json({success: false, profile: null, msg: 'Unknown Error'})
     }
   })
 }
 
+/**
+ *
+ * @param {HTTP Request} req
+ * @param {HTTP Response} res
+ * 
+ * @return {HTTP Response}
+ * 
+ */
 function createProfile (req, res) {
   const uid = new ObjectID(req.user._id)
 
-  let newProfile = new Profile({
+  const newProfile = new Profile({
     _id: uid,
     username: req.user.username,
     fname: req.body.fname,
@@ -94,23 +126,36 @@ function createProfile (req, res) {
     images: uid
   })
 
-  if (Object.keys(req.body).length === 0) {
-    res.status(401).json({success: false, msg: 'Request Malformed'})
+  if (Object.keys(req.body).length !== 10) {
+    return res.status(400).json({success: false, msg: 'Request Malformed'})
   }
 
-  Profile.create(newProfile, (err) => {
-    if (err) {
-      return res.status(400).json({success: false, msg: 'Failed to Create Profile'})
-    } else {
+  Profile.create(newProfile)
+  .then((result) => {
+    if (result) {
       return res.status(201).json({success: true, msg: 'Created Profile'})
+    }
+  })
+  .catch((err) => {
+    if (err) {
+      console.log(err)
+      return res.status(400).json({success: false, msg: 'Failed to Create Profile'})
     }
   })
 }
 
+/**
+ *
+ * @param {HTTP Request} req
+ * @param {HTTP Response} res
+ * 
+ * @return {HTTP Response}
+ * 
+ */
 function updateProfile (req, res) {
   const uid = new ObjectID(req.user._id)
-  console.log("Update Profile")
-  let newProfile = new Profile({
+  console.log('Update Profile')
+  const newProfile = new Profile({
     _id: uid,
     username: req.body.username,
     fname: req.body.fname,
@@ -126,27 +171,41 @@ function updateProfile (req, res) {
     images: uid
   })
 
-  Profile.update(newProfile, (err) => {
+  Profile.update(newProfile._id, newProfile)
+  .then((result) => {
+    if (result) {
+      return res.status(200).json({ success: true, msg: "Updated Profile" })
+    }
+  })
+  .catch((err) => {
     if (err) {
-      return res.status(200).json({success: false, msg: 'Failed to Update Profile'})
-    } else {
-      return res.status(200).json({success: true, msg: 'Updated Profile'})
+      return res.status(400).json({success: false, msg: 'Failed to Update Profile'})
     }
   })
 }
 
+/**
+ *
+ * @param {HTTP Request} req
+ * @param {HTTP Response} res
+ * 
+ * @return {HTTP Response}
+ * 
+ */
 function deleteProfile (req, res) {
   const id = new ObjectID(req.user._id)
-  Profile.delete(id, (err) => {
+  Profile.delete(id)
+  .then(() => res.status(200).json({success: true, msg: 'Profile Deleted!'}))
+  .catch((err) => {
     if (err) {
       return res.status(400).json({success: false, msg: 'Failed to Delete Profile'})
-    } else {
-      return res.status(200).json({success: true, msg: 'Profile Deleted!'})
     }
   })
 }
 
-// Declaring the Functions available when including the Module
+/**
+ *
+ */
 // module.exports.get = getProfile
 module.exports.getById = getProfileById
 module.exports.getByUsername = getProfileByUsername

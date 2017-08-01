@@ -97,6 +97,7 @@ angular-src/e2e/*.map
 #System Files
 .DS_Store
 Thumbs.db
+.eslintrc.json
 
 angular-src/e2e/
 react-src/*

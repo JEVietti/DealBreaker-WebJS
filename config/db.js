@@ -3,5 +3,4 @@ module.exports = {
   database: 'mongodb://localhost:27017/dealbreaker',
   secret: 'deal_secret',
   S3_Bucket: 'dealbreakerjs'
- 
 }

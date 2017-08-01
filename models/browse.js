@@ -1,33 +1,34 @@
+/** Browse Module
+ *
+ */
 const mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 // require('../config/db')
 const Profile = require('../models/profile')
-const Schema = mongoose.Schema
-/*
-const BrowseSchema = mongoose.Schema({
-  location: {
-    type: String,
-
-    sex: {
-      type: String,
-
-      sexualOrientation: {
-        type: String,
-
-        profiles: [{
-          type: Schema.Types.ObjectId,
-          ref: 'Profile'
-        }]
-      }
-    }
-  }
-})
-*/
 
 // Export Model Functions
-module.exports.getAll = function (callback) {
-  Profile.find().populate('images').lean().exec(callback)
+/**
+ * Get All Profiles in a set
+ * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
+ *
+ */
+function getAll (setNumber) {
+  return Profile.find().skip(10 * setNumber).limit(10).populate('images').lean().exec()
+}
+/** Find Profiles matching specified preferences
+ *
+ * @param {Number} ageRange - +/- for the user's current age
+ * @param {String} sex Desired sex of the user
+ * @param {String} sexualOrientation Desired sexual orientation
+ * @param {Array<Number>} locationRange Latitude and Longitude to search for within the user's coordinates
+ * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
+ */
+function getMatching (ageRange, sex, sexualOrientation, locationRange, setNumber) {
+  return Profile.find().populate('images').lean().exec()
 }
 
-module.exports.getMatching = function (pref, callback) {
-  Profile.find().populate('images').lean().exec(callback)
-}
+/**
+ * Export Module Functions
+ */
+module.exports.getAll = getAll
+module.exports.getMatching = getMatching
