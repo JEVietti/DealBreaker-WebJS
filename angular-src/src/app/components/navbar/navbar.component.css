@@ -5,6 +5,15 @@ nav{
   line-height: 50px;
 }
 
+#drawer {
+  height: 50px;
+  line-height: 50px;
+}
+
+.navbar-fixed {
+  height: 50px;
+}
+
 .grad-dark{
 
   background: lightgray; /* For browsers that do not support gradients */
@@ -22,6 +31,8 @@ nav{
     font-size: 45px; color: pink; 
     line-height: 50px;
     text-align: center;
+    padding-right: 0px;
+    padding-left: 20px;
 }
 
 li > a:hover {
@@ -44,6 +55,7 @@ li > a:hover {
 .dropdown-button {
   width: 150px;
 }
+
 .dropdown-button i {
   line-height: 50px;
 }

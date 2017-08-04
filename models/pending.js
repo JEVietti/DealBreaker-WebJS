@@ -35,7 +35,7 @@ const Pending = module.exports = mongoose.model('Pending', PendingSchema)
  * @param {*} id
  */
 function getRequestorList (id) {
-  return Pending.findById(id).select('requestor').limit(10).sort({createdAt: -1}).populate({path: 'requestor.profile', model: 'Profile'}).exec()
+  return Pending.findById(id).select('requestor').limit(10).sort({ createdAt: -1 }).populate({ path: 'requestor.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
 }
 
 /**
@@ -43,7 +43,7 @@ function getRequestorList (id) {
  * @param {*} id
  */
 function getRequesteeList (id) {
-  return Pending.findById(id).select('requestee').limit(10).sort({createdAt: -1}).populate({path: 'requestee.profile', model: 'Profile'}).exec()
+  return Pending.findById(id).select('requestee').limit(10).sort({ createdAt: -1 }).populate({ path: 'requestee.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
 }
 
 /**

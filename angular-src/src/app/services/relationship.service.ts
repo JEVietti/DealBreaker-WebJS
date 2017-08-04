@@ -4,7 +4,7 @@ import {tokenNotExpired} from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/operator/map'; //map the data 
+import 'rxjs/add/operator/map'; // map the data
 
 const ROOT_URL = 'http://localhost:8000';
 
@@ -20,45 +20,34 @@ export class RelationshipService {
   private profilesAdd = new Subject<any>();
   private profilesConfirm = new Subject<any>();
   constructor(private http: Http) { this.isDev = true }
-  
 
-//Register Profile Requests to API EndPoint
+
+// Register Profile Requests to API EndPoint
   sendPendingRequest(profile){
     this.loadAuthToken();
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/pending/')
     return this.http.post(ep, profile, {headers: headers})
-      .map(res=> res.json());
-  } 
+      .map(res => res.json());
+  }
 
-  //Register Profile Requests to API EndPoint
+  // Register Profile Requests to API EndPoint
   removePendingRequest(profile){
     this.loadAuthToken();
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/pending/')
     return this.http.put(ep, profile, {headers: headers})
       .map(res=> res.json());
   }
-    
-  // Send the confirmation request 
+
+  // Send the confirmation request
   sendConfirmRequest(profile){
     this.loadAuthToken();
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', this.authToken);
-    const ep = this.prepEndpoint('/api/confirm/')
-    return this.http.post(ep, profile, {headers: headers})
-      .map(res=> res.json());
-  } 
-
-  // Send a rejection request in which no relationship has been established
-  sendReject(profile) {
-    this.loadAuthToken();
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/confirm/')
@@ -66,11 +55,22 @@ export class RelationshipService {
       .map(res=> res.json());
   }
 
+  // Send a rejection request in which no relationship has been established
+  sendReject(profile) {
+    this.loadAuthToken();
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    const ep = this.prepEndpoint('/api/confirm/')
+    return this.http.post(ep, profile, {headers: headers})
+      .map(res => res.json());
+  }
 
-  // Send a rejection request of a particular profile that has been requested 
+
+  // Send a rejection request of a particular profile that has been requested
   rejectRequest(profile){
     this.loadAuthToken();
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/reject/')
@@ -82,7 +82,7 @@ export class RelationshipService {
   // Must be the rejector not the rejectee
   removeRejectRequest(profile){
     this.loadAuthToken();
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/reject/')
@@ -94,25 +94,25 @@ export class RelationshipService {
     return JSON.parse(localStorage.getItem(tokenId))
   }
 
-//Load both tokens: JWT Auth and User data object
+// Load both tokens: JWT Auth and User data object
   loadAuthToken(){
-    this.authToken = localStorage.getItem('id_token'); 
+    this.authToken = localStorage.getItem('id_token');
   }
 
 
   fetchProfiles(profiles) {
-    //console.log('Fetch ' + profiles )
+    // console.log('Fetch ' + profiles )
     this.profiles.next(profiles)
   }
 
   listenProfiles():Observable<any> {
-    //console.log('Listen')
+    // console.log('Listen')
     console.log(this.profiles.asObservable())
     return this.profiles.asObservable()
   }
 
   profileToReject(p, i) {
-  const profile= {
+  const profile = {
       profile: p,
       index: i
     }
@@ -124,7 +124,7 @@ export class RelationshipService {
   }
 
   profileToAdd(p, i) {
-    const profile= {
+    const profile = {
         profile: p,
         index: i
     }
@@ -133,11 +133,11 @@ export class RelationshipService {
 
   listenProfileToAdd(): Observable<any>{
     return this.profilesAdd.asObservable()
-    
+
   }
 
   profileToRemoveRequest(p, i) {
-  const profile= {
+  const profile = {
       profile: p,
       index: i
     }
@@ -145,7 +145,7 @@ export class RelationshipService {
   }
 
   profileToRemoveReject(p, i) {
-  const profile= {
+  const profile = {
       profile: p,
       index: i
     }
@@ -162,7 +162,7 @@ export class RelationshipService {
 
 
   profileToConfirm(p, i) {
-    const profile= {
+    const profile = {
       profile: p,
       index: i
     }
@@ -171,28 +171,83 @@ export class RelationshipService {
 
   listenProfileToConfirm(): Observable<any>{
     return this.profilesConfirm.asObservable()
-    
+
   }
-  //Get the Profile of the user that is already logged in
+  // Get the Profile of the user that is already logged in
   getProfiles(queryMap: Map<String, any>){
-    let headers = new Headers();
-    let params = new URLSearchParams()
+    const headers = new Headers();
+    const params = new URLSearchParams()
     queryMap.forEach((value, key, element) => {
       params.set(key.toString(), value.toString())
     });
-    this.loadAuthToken(); //load the Auth Token
+    this.loadAuthToken(); // load the Auth Token
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    const ep = this.prepEndpoint('/api/browse/profiles')    
+    const ep = this.prepEndpoint('/api/browse/profiles')
     return this.http.get(ep, {headers: headers, params: params})
-    .map(res=> res.json());
+    .map(res => res.json());
+  }
+
+  getConfirmed() {
+    const headers = new Headers();
+    const params = new URLSearchParams()
+    this.loadAuthToken(); // load the Auth Token
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    const ep = this.prepEndpoint('/api/confirm')
+    return this.http.get(ep, {headers: headers})
+    .map(res => res.json())
+  }
+
+  getRejectorList() {
+    const headers = new Headers();
+    const params = new URLSearchParams()
+    this.loadAuthToken(); // load the Auth Token
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    const ep = this.prepEndpoint('/api/reject/rejecting')
+    return this.http.get(ep, { headers: headers })
+      .map(res => res.json())
+  }
+
+  getRejecteeList() {
+    const headers = new Headers();
+    const params = new URLSearchParams()
+    this.loadAuthToken(); // load the Auth Token
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    const ep = this.prepEndpoint('/api/reject/rejected')
+    return this.http.get(ep, { headers: headers })
+      .map(res => res.json())
+  }
+
+  getRequestedList() {
+    const headers = new Headers();
+    const params = new URLSearchParams()
+    this.loadAuthToken(); // load the Auth Token
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    const ep = this.prepEndpoint('/api/pending/requested')
+    return this.http.get(ep, { headers: headers })
+      .map(res => res.json())
+  }
+
+  getRequestsList() {
+    const headers = new Headers();
+    const params = new URLSearchParams()
+    this.loadAuthToken(); // load the Auth Token
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    const ep = this.prepEndpoint('/api/pending/requests')
+    return this.http.get(ep, { headers: headers })
+      .map(res => res.json())
   }
 
    prepEndpoint(ep){
-    if(this.isDev){
-      return ROOT_URL+ep;
+    if (this.isDev){
+      return ROOT_URL + ep;
     } else {
-      return ep;      
+      return ep;
     }
   }
 }

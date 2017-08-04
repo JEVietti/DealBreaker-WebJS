@@ -49,6 +49,8 @@ overflow-x: hidden;
 
 .card-reveal {
  border: 1px solid #eee;
+ padding-left: 0px;
+ padding-right: 0px;
 }
 
 .card {

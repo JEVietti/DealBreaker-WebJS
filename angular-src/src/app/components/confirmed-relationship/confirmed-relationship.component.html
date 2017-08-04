@@ -1,3 +1,9 @@
-<p>
-  confirmed-relationship works!
-</p>
+<div *ngIf="relationships" class="row">
+  <div class="" *ngFor="let relationship of relationships">
+  <app-profile-card #confirmed [data]="relationship"></app-profile-card>    
+  </div>
+</div>
+
+<div *ngIf="!relationships" class="row">
+  <p class="center"> Your match is waiting. </p>
+</div>

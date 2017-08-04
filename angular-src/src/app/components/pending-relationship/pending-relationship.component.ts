@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { RelationshipService } from '../../services/relationship.service'
-import { Subscription } from "rxjs/Subscription";
+import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
+import { Subscription } from 'rxjs/Subscription';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 
 declare const $: any;
@@ -10,14 +11,19 @@ declare const $: any;
   templateUrl: './pending-relationship.component.html',
   styleUrls: ['./pending-relationship.component.css']
 })
-export class PendingRelationshipComponent implements OnInit {
+export class PendingRelationshipComponent implements OnInit, AfterContentInit, OnDestroy {
   private profile: any;
   private profileRequests: Array<any>;
   private profileRequested: Array<any>;
-  constructor( private relationshipService: RelationshipService) { 
 
+  // Subscriptions
+
+  constructor( private relationshipService: RelationshipService) {
+    this.profileRequested = []
+    this.profileRequests = []
   }
 
+  // Lifecycle hooks
   ngOnInit() {
     this.fetchRequests()
     this.fetchRequesting()
@@ -30,12 +36,32 @@ export class PendingRelationshipComponent implements OnInit {
       this.getProfileRequests()
   }
 
-  fetchRequests(){
+  ngOnDestroy() {
 
   }
 
-  fetchRequesting(){
-    
+  fetchRequesting() {
+    this.relationshipService.getRequestedList().subscribe(res => {
+      console.log(res)
+      if (res.profiles.requestor !== undefined) {
+        res.profiles.requestor.forEach(element => {
+          element.profile.status = 'requesting'
+          this.profileRequested.push(element.profile);
+        })
+      }
+    })
+  }
+
+  fetchRequests() {
+    this.relationshipService.getRequestsList().subscribe(res => {
+      console.log(res)
+      if (res.profiles.requestee !== undefined) {
+        res.profiles.requestee.forEach(element => {
+          element.profile.status = 'pending'
+          this.profileRequests.push(element.profile);
+        })
+      }
+    })
   }
 
   getProfileRequests() {
@@ -46,39 +72,42 @@ export class PendingRelationshipComponent implements OnInit {
   }
 
 
-  getProfileRemoveRequest(){
+  getProfileRemoveRequest() {
     this.relationshipService.listenProfileToRemoveRequest().subscribe(res => {
       console.log(res)
-      this.relationshipService.removePendingRequest({_id: res.profile._id}).subscribe(res => {
-        console.log(res)        
-      })      
+      this.relationshipService.removePendingRequest({_id: res.profile._id}).subscribe(remove => {
+        console.log(remove)
+      })
     })
   }
 
-  getProfileReject(){
+  getProfileReject() {
     this.relationshipService.listenProfileToReject().subscribe(res => {
       console.log(res)
-      this.relationshipService.rejectRequest({_id: res.profile._id}).subscribe(res => {
-        console.log(res)
-      })      
+      this.relationshipService.rejectRequest({_id: res.profile._id}).subscribe(reject => {
+        console.log(reject)
+      })
     })
   }
 
-  getProfileRemoveReject(){
+  getProfileRemoveReject() {
     this.relationshipService.listenProfileToRemoveReject().subscribe(res => {
       console.log(res)
-      this.relationshipService.removeRejectRequest({_id: res.profile._id}).subscribe(res => {
-        console.log(res)        
-      })      
+      this.relationshipService.removeRejectRequest({_id: res.profile._id}).subscribe(remove => {
+        console.log(remove)
+      })
     })
   }
 
-  getProfileConfirm(){
+  getProfileConfirm() {
     this.relationshipService.listenProfileToConfirm().subscribe(res => {
-      console.log(res)      
+      console.log(res)
+      this.relationshipService.sendConfirmRequest({_id: res.profile._id}).subscribe(confim => {
+        console.log(confirm)
+      })
     })
   }
 
-  
+
 
 }

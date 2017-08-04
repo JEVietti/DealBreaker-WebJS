@@ -19,27 +19,26 @@
             </div>
 
             <div style="padding-top: 10px;" id="bio">
-              <h4 class="center"> Biography</h4>
-              <p class="list-group-item center" id="bioText"> {{profile.biography}} </p>
+            <p class="list-group-item center" id="bioText"> {{profile.biography}} </p>
             </div>
             <div style="padding-top: 15px;" class="row center">
           
-                <div class="col s12 m4 l4">
-                    <h4> Seeking </h4>
+                <div class="center col s12 m12 l4">
+                    <h5 > Seeking </h5>
                     <ul>
                       <li *ngFor="let sk of profile.seeking" class="list-group-item"> {{sk}} </li>
                     </ul>
                 </div>
           
-                <div class="col s12 m4 l4">
-                  <h4 class="center">Dealbreakers</h4>
+                <div class="col s12 m12 l4">
+                  <h5 class="center">Dealbreakers</h5>
                     <ul>
                     <li *ngFor="let db of profile.dealbreakers" class="list-group-item"> {{db}} </li>
                     </ul>
               </div>    
                 
-                <div class="col s12 m4 l4">
-                    <h4> Interests</h4>
+                <div class="center col s12 m12 l4">
+                    <h5 class="bold grey-text"> Interests</h5>
                     <ul>
                       <li *ngFor="let int of profile.interests" class="list-group-item"> {{int}} </li>
                     </ul>           

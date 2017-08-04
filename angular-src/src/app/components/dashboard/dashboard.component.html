@@ -1,2 +1,32 @@
-<h2 class="page-header">Dashboard</h2>
-<app-rejected-relationship></app-rejected-relationship>
+<div class="row">
+  <div class="col s12 m12 l3">
+  <ul class="tabs center">
+    <li class="tab">
+      <a href="#confirmedComp">Relationships</a></li>
+  </ul>
+  <div id="confirmedComp">
+    <app-confirmed-relationship></app-confirmed-relationship>
+  </div>
+</div>
+
+<div class="center col s12 m12 l6">
+  <app-profile></app-profile>
+</div>
+
+
+<div id="requestCenter" class="right col s12 m12 l3">
+  <ul class="tabs center">
+    <li class="tab col s6"><a href="#requestsComp">Requests</a></li>
+    <li class="tab col s6"><a href="#rejectComp">Rejected</a></li>
+  </ul>
+  <div>
+    <div id="requestsComp" class="tab-content center col s12">
+    <app-pending-relationship></app-pending-relationship>
+    </div>
+  <div id="rejectComp" class="tab-content center col s12">
+    <app-rejected-relationship></app-rejected-relationship>
+    </div>
+  </div>
+</div>
+
+</div>

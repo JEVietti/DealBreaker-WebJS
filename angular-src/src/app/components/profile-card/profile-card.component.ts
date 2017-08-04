@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Input } from '@angular/core';
 import {BrowseService} from '../../services/browse.service'
 import {RelationshipService} from '../../services/relationship.service'
 import {ProfileService} from '../../services/profile.service';
@@ -13,21 +13,28 @@ declare const Materialize: any;
 })
 
 export class ProfileCardComponent implements OnInit {
-  private profiles: Array<any>;
-  constructor(private relationshipService: RelationshipService, private profileService: ProfileService) { this.profiles = [] }
+  @Input() private data: any;
+  // private profiles: Array<any>;
+  private profile: any;
+
+  // Subscriptions
+
+  constructor(private relationshipService: RelationshipService, private profileService: ProfileService) {}
 
   ngOnInit() {
-    this.fetchProfiles()
-  }
-
-  ngAfterContentInit(){
-   
+    console.log(this.data)
+    if (this.data === undefined) {
+      // this.fetchProfiles()
+    } else if(this.data !== undefined) {
+      this.profile = this.data
+    }
+    this.initMaterialize()
   }
 
   quickAdd(profile, index) {
     console.log(profile)
     console.log(index)
-    this.profiles[index].status = 'requesting'
+    this.profile.status = 'requesting'
     // this.profiles.splice(index, 1)
     this.relationshipService.profileToAdd(profile, index)
     // Materialize.toast('Request Sent!')
@@ -36,7 +43,7 @@ export class ProfileCardComponent implements OnInit {
   quickAddRevert(profile, index) {
     console.log(profile)
     console.log(index)
-    this.profiles[index].status = undefined
+    this.profile.status = undefined
     // this.profiles.splice(index, 1)    
     this.relationshipService.profileToRemoveRequest(profile, index)
     // Materialize.toast('Request Sent!')
@@ -45,8 +52,8 @@ export class ProfileCardComponent implements OnInit {
   quickReject(profile, index){
     console.log(profile)
     console.log(index)
-    this.profiles[index].status = 'reject'    
-    // this.profiles.splice(index, 1)    
+    this.profile.status = 'reject'
+    // this.profiles.splice(index, 1)
     this.relationshipService.profileToReject(profile, index)
   }
 
@@ -54,36 +61,37 @@ export class ProfileCardComponent implements OnInit {
     console.log(profile)
     console.log(index)
     // this.profiles.splice(index, 1)
-    this.profiles[index].status = undefined
+    this.profile.status = undefined
     this.relationshipService.profileToRemoveReject(profile, index)
     // Materialize.toast('Request Sent!')
   }
-
+/*
   fetchProfiles(){
     this.relationshipService.listenProfiles().subscribe(res => {
       // console.log('Listen')  
-      // console.log(res)  
-      res.forEach(element => {
-        element.age = this.profileService.calculateAge(element.birthdate)     
-      });
-      
-      if(this.profiles.length == 0) {
-        this.profiles = res
-      } else {
-        this.profiles.concat(res)
-      }      
+      console.log(res)  
+      if(res !== null){
+        res.forEach(element => {
+          element.age = this.profileService.calculateAge(element.birthdate)
+        });
+
+        if (this.profiles.length == 0) {
+          this.profiles = res
+        } else {
+          this.profiles.concat(res)
+        }
+      }
       this.initMaterialize()
     })
   }
-
+*/
   initMaterialize(){
      $(document).ready(function(){
       $('.activator').on('click', () => {
-        // console.log('activated')       
+        // console.log('activated')
         setTimeout(function() {
           // console.log('Reveal')
            $('ul.tabs').tabs();
-        
         }, 10)
       })
     });

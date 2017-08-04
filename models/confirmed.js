@@ -27,7 +27,7 @@ const Confirmed = module.exports = mongoose.model('Confirmed', ConfirmedSchema)
  * @param {ObjectId(String) || String} id
  */
 function getConfirmList (id) {
-  return Confirmed.findById(id).select('confirm').limit(10).sort({createdAt: -1}).populate({path: 'confirm.profile', model: 'Profile'}).exec()
+  return Confirmed.findById(id).select('confirm').limit(10).sort({ createdAt: -1 }).populate({ path: 'confirm.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
 }
 
 /** Create Confirmation

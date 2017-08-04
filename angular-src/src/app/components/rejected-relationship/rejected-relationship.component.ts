@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { RelationshipService } from '../../services/relationship.service'
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from 'rxjs/Subscription';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 
 declare const $: any;
@@ -10,13 +10,15 @@ declare const $: any;
   templateUrl: './rejected-relationship.component.html',
   styleUrls: ['./rejected-relationship.component.css']
 })
-export class RejectedRelationshipComponent implements OnInit {
+export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
 
   private profile: any;
   private profileRejector: Array<any>;
   private profileRejectee: Array<any>;
 
-  constructor( private relationshipService: RelationshipService) { 
+  constructor( private relationshipService: RelationshipService) {
+    this.profileRejectee = []
+    this.profileRejector = []
   }
 
   ngOnInit() {
@@ -27,58 +29,48 @@ export class RejectedRelationshipComponent implements OnInit {
   ngAfterContentInit() {
       $(document).ready(function() {
         $('select').material_select();
+       
       });
       this.getProfileRequests()
   }
 
-  fetchRejector(){
-
+  fetchRejector() {
+    this.relationshipService.getRejectorList().subscribe(res => {
+      // console.log(res)
+      if (res.profiles.rejector.length !== 0) {
+        res.profiles.rejector.forEach(element => {
+        element.profile.status = 'reject'
+          this.profileRejector.push(element.profile)
+        });
+      }
+      // this.relationshipService.fetchProfiles(this.profileRejector)
+    })
   }
 
-  fetchRejectee(){
-
+  fetchRejectee() {
+    this.relationshipService.getRejecteeList().subscribe(res => {
+      // console.log(res)
+      if(res.profiles.rejectee.length !== 0) {
+        res.profiles.rejectee.forEach(element => {
+          element.profile.status = 'rejected'
+          this.profileRejectee.push(element.profile)
+        });
+      } 
+      // this.relationshipService.fetchProfiles(this.profileRejectee)
+    })
   }
 
   getProfileRequests() {
-    this.getProfileRemoveRequest()
     this.getProfileRemoveReject()
-    this.getProfileReject()
-    this.getProfileConfirm()
   }
 
-
-  getProfileRemoveRequest(){
-    this.relationshipService.listenProfileToRemoveRequest().subscribe(res => {
-      console.log(res)
-      this.relationshipService.removePendingRequest({_id: res.profile._id}).subscribe(res => {
-        console.log(res)        
-      })      
-    })
-  }
-
-  getProfileReject(){
-    this.relationshipService.listenProfileToReject().subscribe(res => {
-      console.log(res)
-      this.relationshipService.rejectRequest({_id: res.profile._id}).subscribe(res => {
-        console.log(res)
-      })      
-    })
-  }
-
-  getProfileRemoveReject(){
+  getProfileRemoveReject() {
     this.relationshipService.listenProfileToRemoveReject().subscribe(res => {
       console.log(res)
-      this.relationshipService.removeRejectRequest({_id: res.profile._id}).subscribe(res => {
-        console.log(res)        
-      })      
+      this.relationshipService.removeRejectRequest({_id: res.profile._id}).subscribe(remove => {
+        console.log(remove)
+      })
     })
   }
-
-  getProfileConfirm(){
-    this.relationshipService.listenProfileToConfirm().subscribe(res => {
-      console.log(res)      
-    })
-  }
-
 
 }

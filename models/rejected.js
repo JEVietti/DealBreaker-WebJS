@@ -37,7 +37,7 @@ const Rejected = module.exports = mongoose.model('Rejected', RejectedSchema)
  * @return {Array<Profiles>} rejector array
  */
 function getRejectorList (id) {
-  return Rejected.findById(id).select('rejector').limit(10).populate({path: 'rejector.profile', model: 'Profile'}).exec()
+  return Rejected.findById(id).select('rejector').limit(10).populate({path: 'rejector.profile', model: 'Profile', populate: {path: 'images', model:'Images'}}).exec()
 }
 
 /** Get list of users that have rejected you
@@ -47,7 +47,7 @@ function getRejectorList (id) {
  * @return {Array<Profiles>} rejectee array
  */
 function getRejecteeList (id) {
-  return Rejected.findById(id).select('rejectee').limit(10).populate({path: 'rejectee.profile', model: 'Profile'}).exec()
+  return Rejected.findById(id).select('rejectee').limit(10).populate({ path: 'rejectee.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
 }
 
 /** Add entry of user you have rejected
@@ -59,7 +59,7 @@ function getRejecteeList (id) {
  * 
  */
 function createRejector (id, partnerId) {
-  return Rejected.findByIdAndUpdate(id, {$addToSet: {rejector: {id: partnerId, profile: partnerId}}}, {upsert: true, safe: true, new: true, setDefaultsOnInsert: true}).exec()
+  return Rejected.findByIdAndUpdate(id, {$addToSet: {rejector: {_id: partnerId, profile: partnerId}}}, {upsert: true, safe: true, new: true, setDefaultsOnInsert: true}).exec()
 }
 
 /** Add entry of user to selected user has rejected
@@ -71,7 +71,7 @@ function createRejector (id, partnerId) {
  * 
  */
 function createRejectee (id, partnerId) {
-  return Rejected.findByIdAndUpdate(id, {$addToSet: {rejectee: {id: partnerId, profile: partnerId}}}, {upsert: true, safe: true, new: true, setDefaultsOnInsert: true}).exec()
+  return Rejected.findByIdAndUpdate(id, {$addToSet: {rejectee: {_id: partnerId, profile: partnerId}}}, {upsert: true, safe: true, new: true, setDefaultsOnInsert: true}).exec()
 }
 
 /** Delete a User you have previously rejected

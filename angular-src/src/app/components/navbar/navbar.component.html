@@ -6,9 +6,9 @@
                     <i id="logo" class="fa fa-heartbeat" s></i> 
                 </a>
 
-                <a href="/" data-activates="mobile-nav" class=" hide-on-large-only button-collapse"><i class=" hide-on-large-only material-icons">menu</i></a>
+                <a href="/" data-activates="mobile-nav" class=" hide-on-large-only button-collapse"><i id="drawer" class=" hide-on-large-only material-icons">menu</i></a>
                 <ul class="left hide-on-med-and-down">
-                    <li ><a class="home tooltipped" data-position="bottom" data-delay="50" data-tooltip="Go Home?" [routerLink] = "['/']">Home</a></li>
+                    <li ><a class="home" [routerLink] = "['/']">Home</a></li>
                     <li *ngIf="authService.loggedIn()"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Find Your Match!" [routerLink] = "['/browse']"  >Browse</a></li>
                     <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
                 </ul>
@@ -24,7 +24,7 @@
                         </a>
                     
                         <ul id="profileDropDown" class="dropdown-content">
-                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Visit your Profile"><a [routerLink] = "['/profile']" class="pink-text  darken-3"> <i class="material-icons prefix">person_outline</i>  Profile</a></li>
+                            <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Action Center"><a [routerLink] = "['/dashboard']" class="pink-text  darken-3"> <i class="material-icons prefix">person_outline</i>  Dashboard</a></li>
                             <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Add/Remove Profile Images"><a [routerLink] = "['/profile/images']" class="pink-text  darken-3"> <i class="material-icons prefix">images</i>  Images</a></li>
                             <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Edit Location/Information"><a [routerLink] = "['/profile/setup']" class="pink-text  darken-3"> <i class="material-icons prefix">mode_edit</i>  Edit</a></li>                                        
                             <li class="tooltipped" data-position="left" data-delay="50" data-tooltip="Change Account Details" ><a [routerLink] = "['/account']" class="pink-text darken-3"> <i class="material-icons prefix">settings</i>  Settings</a></li>  
@@ -53,7 +53,7 @@
             <li > <a class="home pink-text darken-3" [routerLink] = "['/']"> <i class="material-icons pink-text  darken-3 left">home</i>Home</a> </li>
             <li *ngIf="authService.loggedIn()"> <a class="pink-text  darken-3" [routerLink] = "['/browse']"> <i class="material-icons pink-text  darken-3 left">group</i> Browse </a> </li>
             <!-- <li *ngIf="authService.loggedIn()"><a [routerLink] = "['/dashboard']">Dashboard</a></li> -->
-            <li> <a class="pink-text  darken-3"  [routerLink] = "['/profile']"> <i class="material-icons pink-text  darken-3 left">person_outline</i> Profile </a> </li>            
+            <li> <a class="pink-text  darken-3"  [routerLink] = "['/dashboard']"> <i class="material-icons pink-text  darken-3 left">person_outline</i> Dashboard </a> </li>            
             <li> <a class="pink-text  darken-3" [routerLink] = "['/profile/images']"> <i class="material-icons pink-text  darken-3 left">images</i> Images </a> </li>   
             <li> <a [routerLink] = "['/profile/setup']" class="pink-text  darken-3"> <i class="material-icons pink-text  darken-3 left">mode_edit</i> Edit </a> </li>                                        
             <li> <a [routerLink] = "['/account']" class="pink-text  darken-3"> <i class="material-icons pink-text  darken-3 left">settings</i> Settings </a> </li>        

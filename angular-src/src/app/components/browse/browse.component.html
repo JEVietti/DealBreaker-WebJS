@@ -44,7 +44,11 @@
       </div>
   </div>
     
-    <div *ngIf="profile !== null" class="row">
-        <app-profile-card></app-profile-card>
+  <div *ngIf="profileSet" class="row">
+    <div *ngFor="let profile of profileSet; let i = index" class="col s12 m6 l4">
+        <app-profile-card [data]="profile"></app-profile-card>      
     </div>
-    </div>
+  </div>
+</div>
+
+<button (click)="loadMore()"></button>

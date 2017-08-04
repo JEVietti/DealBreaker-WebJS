@@ -47,6 +47,7 @@ import {AuthGuard} from './guards/auth.guard';
 import { RegisterService } from './services/register.service';
 import { BrowseService } from './services/browse.service';
 import { RelationshipService } from './services/relationship.service';
+import { ActionCardComponent } from './components/action-card/action-card.component';
 
 
 
@@ -111,7 +112,8 @@ const appRoutes: Routes = [
     ImageManageComponent,
     RejectedRelationshipComponent,
     PendingRelationshipComponent,
-    ConfirmedRelationshipComponent
+    ConfirmedRelationshipComponent,
+    ActionCardComponent
   ],
   imports: [
     BrowserModule,

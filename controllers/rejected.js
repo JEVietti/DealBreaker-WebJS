@@ -182,7 +182,7 @@ function deleteRejected (req, res) {
  * Declaring the Functions available when including the Module
  */
 // module.exports.get = getRejected
-module.exports.getByRejectedId = getRejectedById
+module.exports.getRejectedById = getRejectedById
 module.exports.getRejectorById = getRejectorById
 module.exports.getByUsername = getRejectedByUsername
 module.exports.create = createRejected

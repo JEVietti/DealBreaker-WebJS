@@ -1,3 +1,11 @@
-<p>
-  rejected-relationship works!
-</p>
+<div *ngIf="profileRejector" class="row">
+  <div *ngFor="let rejector of profileRejector">
+  <app-profile-card [data]="rejector"></app-profile-card>
+  </div>
+</div>
+
+<div *ngIf="profileRejectee" class="row">
+  <div *ngFor="let rejectee of profileRejectee">
+  <app-profile-card [data]="this.profileRejectee"></app-profile-card>
+  </div>
+</div>

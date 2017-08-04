@@ -1,5 +1,4 @@
-<div *ngFor="let profile of profiles; let i = index"> 
-<div class="card col s12 m6 l4">
+ <div class="card">
   <div class="card-location">
    <p> {{profile.location.city}}, {{profile.location.state}}, {{profile.location.country}} </p>
    <p> {{profile.sex}} | {{profile.sexualOrientation}} </p>
@@ -10,32 +9,35 @@
         <img *ngIf="profile.images !== null" class="circle profile-img activator" src={{profile.images.gallery[0].url}}>  
     </div>
     <div class="card-content">
-      <span class="card-title activator grey-text text-darken-4">{{profile.fname}} {{profile.lname}}<i class="material-icons right grey-text">expand_more</i></span>      
+      <span class="card-title activator grey-text left-align text-darken-4">{{profile.fname}} {{profile.lname}}<i class="material-icons right grey-text">expand_more</i></span>      
     </div>
     <div class="card-action">
-      <div class="col s3"><a href="/profile/{{profile.username}}">Profile</a> </div>
+      <div>
+        <a class="left" href="/profile/{{profile.username}}">Profile</a> 
        <div class="right red-text">
-         <i *ngIf="profile.status === undefined" (click)="quickReject(profile, i)" class="material-icons right">delete</i> 
-         <div *ngIf="profile.status === 'reject'"> Rejected User
-              <i (click)="quickRejectRevert(profile, i)" class="material-icons right">undo</i>
+         <i *ngIf="profile.status === undefined" (click)="quickReject(profile)" class="material-icons right">delete</i> 
+         <div *ngIf="profile.status === 'reject'"> Rejecting
+              <i (click)="quickRejectRevert(profile)" class="material-icons right">undo</i>
          </div>
        
-        <i *ngIf="profile.status === undefined" (click)="quickAdd(profile, i)" class="material-icons right">person_add</i>
-        <div class="right red-text" *ngIf="profile.status === 'requesting'"> Request Sent
-            <i (click)="quickAddRevert(profile, i)" class="material-icons right"> check </i>
+        <i *ngIf="profile.status === undefined" (click)="quickAdd(profile)" class="material-icons right">person_add</i>
+        <div class="right grey-text" *ngIf="profile.status === 'requesting'"> Sent
+            <i (click)="quickAddRevert(profile)" class="material-icons grey-text right"> check </i>
         </div>
-        <div class="right red-text" *ngIf="profile.status === 'pending'"> Confirm Match
-            <i (click)="quickAddRevert(profile, i)" class="material-icons right"> check </i>
+        <div class="right red-text" *ngIf="profile.status === 'pending'"> Confirm
+            <i (click)="quickAddRevert(profile)" class="material-icons right"> check </i>
         </div>
         
-       
+      </div>
       </div>
     </div>
     <div class="card-reveal">
     
       <span class="card-title grey-text text-darken-4"> 
-        {{profile.fname}} {{profile.lname}} 
-        <i class="material-icons right">expand_less</i>
+        <div class="left-align"> <span class="reveal-title">{{profile.fname}} {{profile.lname}}</span>
+        <i class="material-icons reveal-icon right">expand_less</i>
+  
+        </div> 
        
        <div class="card-tabs tabs-fixed-width">
       <ul class="cardTabs" class="tabs tabs-fixed-width center">
@@ -60,4 +62,3 @@
       </span>
     </div>
   </div>
-</div>
