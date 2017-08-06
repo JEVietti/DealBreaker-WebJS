@@ -27,6 +27,7 @@ export class ProfileCardComponent implements OnInit {
       // this.fetchProfiles()
     } else if(this.data !== undefined) {
       this.profile = this.data
+      this.profile.age = this.profileService.calculateAge(this.data.birthdate)
     }
     this.initMaterialize()
   }

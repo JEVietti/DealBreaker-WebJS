@@ -1,32 +1,64 @@
 <div class="row">
-  <div class="col s12 m12 l3">
-  <ul class="tabs center">
-    <li class="tab">
-      <a href="#confirmedComp">Relationships</a></li>
-  </ul>
-  <div id="confirmedComp">
-    <app-confirmed-relationship></app-confirmed-relationship>
-  </div>
-</div>
-
-<div class="center col s12 m12 l6">
-  <app-profile></app-profile>
-</div>
-
-
-<div id="requestCenter" class="right col s12 m12 l3">
-  <ul class="tabs center">
-    <li class="tab col s6"><a href="#requestsComp">Requests</a></li>
-    <li class="tab col s6"><a href="#rejectComp">Rejected</a></li>
-  </ul>
-  <div>
-    <div id="requestsComp" class="tab-content center col s12">
-    <app-pending-relationship></app-pending-relationship>
-    </div>
-  <div id="rejectComp" class="tab-content center col s12">
-    <app-rejected-relationship></app-rejected-relationship>
+  <div class="hide-on-med-and-down col s12 m12 l3">
+    <ul class="tabs center">
+      <li class="tab"><a href="#confirmedComp">Relationships</a></li>
+    </ul>
+    <div id="confirmedComp">
+      <app-confirmed-relationship></app-confirmed-relationship>
     </div>
   </div>
-</div>
+
+  <div class="center col s12 m12 l6">
+    <app-profile></app-profile>
+  </div>
+
+  <div class="hide-on-med-and-down col s12 m6 l3">
+    <ul class="tabs">
+      <li class="tab col s6"><a href="#requestComp">Requests</a></li>
+      <li class="tab col s6"><a href="#rejectedComp">Reject</a></li>
+    </ul>
+    <div id="requestComp" class="tab-content col s12">
+      <ul class="tabs center">
+        <li class="tab"> <a href="#pending"> Pending </a></li>
+        <li class="tab"> <a href="#sent"> Sent </a> </li>
+      </ul>
+      <div id="pending">
+        <app-pending-relationship></app-pending-relationship>
+      </div>
+      <div id="sent">
+        <app-sent-relationship></app-sent-relationship>        
+      </div>
+    </div>
+    <div id="rejectedComp" class="col s12">
+      <app-rejected-relationship></app-rejected-relationship>      
+    </div>
+  </div>
+  
+  <div class="hide-on-large-only col s12 m12 l3">
+    <ul class="tabs">
+      <li class="tab col s4 m4"><a href="#confirmedSmallComp">Relationships</a></li>      
+      <li id="reqSmallTab" class="tab col s4 m4"><a href="#requestSmallComp">Requests</a></li>
+      <li class="tab col s4 m4"><a href="#rejectedSmallComp">Reject</a></li>
+    </ul>
+     <div id="requestSmallComp" class="tab-content col s12">
+      <ul class="tabs center">
+        <li class="tab"> <a class="active" href="#pendingSmall"> Pending </a></li>
+        <li class="tab"> <a href="#sentSmall"> Sent </a> </li>
+      </ul>
+      <div id="pendingSmall">
+        <app-pending-relationship></app-pending-relationship>        
+      </div>
+      <div id="sentSmall">
+        <app-sent-relationship></app-sent-relationship>        
+      </div>
+    </div>
+    <div id="confirmedSmallComp" class="col s12">
+      <app-confirmed-relationship></app-confirmed-relationship>
+    </div>
+    <div id="rejectedSmallComp" class="col s12">
+      <app-rejected-relationship></app-rejected-relationship>
+    </div>
+  </div>
 
 </div>
+

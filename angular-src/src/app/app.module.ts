@@ -48,6 +48,7 @@ import { RegisterService } from './services/register.service';
 import { BrowseService } from './services/browse.service';
 import { RelationshipService } from './services/relationship.service';
 import { ActionCardComponent } from './components/action-card/action-card.component';
+import { SentRelationshipComponent } from './components/sent-relationship/sent-relationship.component';
 
 
 
@@ -70,7 +71,7 @@ const appRoutes: Routes = [
     {path:':id', component: ProfileComponent}
   ]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  {path: 'pending', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: 'pending', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: 'confirmed', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: '404', component: NotFoundComponent},
   {path: 'privacy', component: PrivacyPolicyComponent},  
@@ -113,7 +114,8 @@ const appRoutes: Routes = [
     RejectedRelationshipComponent,
     PendingRelationshipComponent,
     ConfirmedRelationshipComponent,
-    ActionCardComponent
+    ActionCardComponent,
+    SentRelationshipComponent
   ],
   imports: [
     BrowserModule,

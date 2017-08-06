@@ -54,7 +54,7 @@
       <div id="{{profile.username}}-db">
              
         <ul class="tab-text left flow-text"> 
-          <li *ngFor="let db of profile.dealbreakers">{{db}}</li>
+          <div class="chip" *ngFor="let db of profile.dealbreakers">{{db}}</div>
         </ul>
       
       </div>  

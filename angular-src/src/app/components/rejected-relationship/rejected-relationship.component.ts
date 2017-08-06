@@ -27,11 +27,10 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit() {
-      $(document).ready(function() {
+      //this.getProfileRequests()
+      $(document).ready(function () {
         $('select').material_select();
-       
       });
-      this.getProfileRequests()
   }
 
   fetchRejector() {
@@ -59,7 +58,7 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
       // this.relationshipService.fetchProfiles(this.profileRejectee)
     })
   }
-
+/*
   getProfileRequests() {
     this.getProfileRemoveReject()
   }
@@ -72,5 +71,5 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
       })
     })
   }
-
+*/
 }

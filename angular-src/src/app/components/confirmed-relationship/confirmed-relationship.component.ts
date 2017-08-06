@@ -25,7 +25,7 @@ export class ConfirmedRelationshipComponent implements OnInit, AfterContentInit,
       $(document).ready(function() {
         $('select').material_select();
       });
-      this.getProfileRequests()
+      //this.getProfileRequests()
   }
 
   ngOnDestroy() {
@@ -38,6 +38,7 @@ export class ConfirmedRelationshipComponent implements OnInit, AfterContentInit,
     })
   }
 
+  /*
   getProfileRequests() {
     this.getProfileReject()
     this.getProfileConfirm()
@@ -61,7 +62,7 @@ export class ConfirmedRelationshipComponent implements OnInit, AfterContentInit,
       })
     })
   }
-
+  */
 
 
 }

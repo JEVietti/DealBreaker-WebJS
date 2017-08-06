@@ -14,43 +14,27 @@ declare const $: any;
 export class PendingRelationshipComponent implements OnInit, AfterContentInit, OnDestroy {
   private profile: any;
   private profileRequests: Array<any>;
-  private profileRequested: Array<any>;
 
   // Subscriptions
 
   constructor( private relationshipService: RelationshipService) {
-    this.profileRequested = []
     this.profileRequests = []
   }
 
   // Lifecycle hooks
   ngOnInit() {
     this.fetchRequests()
-    this.fetchRequesting()
   }
 
   ngAfterContentInit() {
-      $(document).ready(function() {
-        $('select').material_select();
-      });
-      this.getProfileRequests()
+
   }
 
   ngOnDestroy() {
 
   }
 
-  fetchRequesting() {
-    this.relationshipService.getRequestedList().subscribe(res => {
-      console.log(res)
-      if (res.profiles.requestor !== undefined) {
-        res.profiles.requestor.forEach(element => {
-          element.profile.status = 'requesting'
-          this.profileRequested.push(element.profile);
-        })
-      }
-    })
-  }
+
 
   fetchRequests() {
     this.relationshipService.getRequestsList().subscribe(res => {
@@ -64,6 +48,7 @@ export class PendingRelationshipComponent implements OnInit, AfterContentInit, O
     })
   }
 
+  /*
   getProfileRequests() {
     this.getProfileRemoveRequest()
     this.getProfileRemoveReject()
@@ -107,6 +92,7 @@ export class PendingRelationshipComponent implements OnInit, AfterContentInit, O
       })
     })
   }
+  */
 
 
 
