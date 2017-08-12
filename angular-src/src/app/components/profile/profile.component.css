@@ -117,19 +117,23 @@ li.list-group-item {
     width:100%;
 }
     
-.tab.active {
+a.active {
     -moz-transition: border-color .5s ease;
     -o-transition: border-color .5s ease;
     -webkit-transition: border-color .5s ease;
     transition: border-color .5s ease;
-    border-right: 3px solid #424242;
+    border-right: 2px solid #ee6e73;
 }
 
-.tab.hover {
-     border-right: 3px solid #eeeeee;
+li.tab :hover{
+     border-right: 2px solid lightgray;
 }
 
 .chip {
     background-color: #ee6e73;
     color: white;
+}
+
+li.indicator {
+    height: 10px !important;
 }

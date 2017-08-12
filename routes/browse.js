@@ -10,7 +10,7 @@ const BrowseController = require('../controllers/browse')
  * Browsing - Protected by Authentication
  * Get All Profiles with no preferences
  */
-router.get('/all', (req, res, next) => {
+router.get('/all', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   BrowseController.getAll(req, res)
 })
 
@@ -18,14 +18,14 @@ router.get('/all', (req, res, next) => {
  * Get Profiles by Preferences
  * Preferences defined in the request parameters
  */
-router.get('/*', (req, res, next) => {
+router.get('/*', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   BrowseController.getSpecific(req, res)
 })
 
 /** HTTP GET:
  * By Default get all of the profiles
  */
-router.get('*', (req, res, next) => {
+router.get('*', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   BrowseController.getAll(req, res)
 })
 

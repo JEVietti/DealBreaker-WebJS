@@ -37,6 +37,8 @@ import {ImageManageComponent} from './components/image-manage/image-manage.compo
 import { PendingRelationshipComponent } from './components/pending-relationship/pending-relationship.component';
 import { ConfirmedRelationshipComponent } from './components/confirmed-relationship/confirmed-relationship.component';
 import { RejectedRelationshipComponent } from './components/rejected-relationship/rejected-relationship.component';
+import { ActionCardComponent } from './components/action-card/action-card.component';
+import { SentRelationshipComponent } from './components/sent-relationship/sent-relationship.component';
 
 //User Created or Customized Services and Providers
 import {ValidateService} from './services/validate.service';
@@ -47,8 +49,8 @@ import {AuthGuard} from './guards/auth.guard';
 import { RegisterService } from './services/register.service';
 import { BrowseService } from './services/browse.service';
 import { RelationshipService } from './services/relationship.service';
-import { ActionCardComponent } from './components/action-card/action-card.component';
-import { SentRelationshipComponent } from './components/sent-relationship/sent-relationship.component';
+import { ChatService } from './services/chat.service';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 
@@ -61,29 +63,29 @@ import { SentRelationshipComponent } from './components/sent-relationship/sent-r
 */
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'register', component: RegisterComponent}, 
+  {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent}, 
   {path: 'browse', component: BrowseComponent}, 
-  {path: 'profile', canActivate:[AuthGuard], children:[
-    {path:'', component: ProfileComponent},
-    { path:'setup', component: ProfileSetupComponent},
-    { path:'images', component: ImagesComponent},            
-    {path:':id', component: ProfileComponent}
+  {path: 'profile', canActivate: [AuthGuard], children: [
+    {path: '', component: ProfileComponent},
+    { path: 'setup', component: ProfileSetupComponent},
+    { path: 'images', component: ImagesComponent},
+    {path: ':id', component: ProfileComponent}
   ]},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'pending', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: 'confirmed', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: '404', component: NotFoundComponent},
-  {path: 'privacy', component: PrivacyPolicyComponent},  
-  {path: 'terms', component: TermsComponent},          
-  {path: 'account', component: AccountComponent, canActivate:[AuthGuard]},     
+  {path: 'privacy', component: PrivacyPolicyComponent},
+  {path: 'terms', component: TermsComponent},
+  {path: 'account', component: AccountComponent, canActivate:[AuthGuard]},
   {path: 'forgot', children:[
-    {path:':id', component: ForgotComponent}
-  ]}, 
+    {path: ':id', component: ForgotComponent}
+  ]},
   {path: 'reset', children:[
     {path: '', component: UpdatePasswordComponent,canActivate:[AuthGuard]},
-    {path:':token', component: UpdatePasswordComponent}
-  ]},             
+    {path: ':token', component: UpdatePasswordComponent}
+  ]},
   {path: '**', redirectTo: '/404'}
 ]
 
@@ -115,7 +117,8 @@ const appRoutes: Routes = [
     PendingRelationshipComponent,
     ConfirmedRelationshipComponent,
     ActionCardComponent,
-    SentRelationshipComponent
+    SentRelationshipComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -123,17 +126,18 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes)
-    
+
   ],
   providers: [
-    AuthService, 
-    ValidateService, 
-    AuthGuard, 
-    ImagesService, 
+    AuthService,
+    ValidateService,
+    AuthGuard,
+    ImagesService,
     ProfileService,
-    RegisterService, 
+    RegisterService,
     BrowseService,
-    RelationshipService
+    RelationshipService,
+    ChatService
   ],
   bootstrap: [AppComponent]
 })

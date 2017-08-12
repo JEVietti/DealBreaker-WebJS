@@ -4,7 +4,10 @@
 const mongoose = require('mongoose')
 mongoose.Promise = require('bluebird')
 // require('../config/db')
-const Profile = require('../models/profile')
+const Profile = require('./profile')
+const Confirmed = require('./confirmed')
+const Pending = require('./pending')
+const Rejected = require('./rejected')
 
 // Export Model Functions
 /**
@@ -12,19 +15,90 @@ const Profile = require('../models/profile')
  * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
  *
  */
-function getAll (setNumber) {
-  return Profile.find().skip(10 * setNumber).limit(10).populate('images').lean().exec()
+function getAll (diffArr, setNumber) {
+  // console.log(diffArr)
+  const pCount = 1;
+  const parameters = {
+    _id: {$nin: diffArr}
+  }
+  return Profile.find(parameters).skip(setNumber * pCount).limit(pCount).populate({ path: 'images', model: 'Images' }).lean().exec()
 }
 /** Find Profiles matching specified preferences
  *
- * @param {Number} ageRange - +/- for the user's current age
+ * @param {Array<Number>} ageRange Max and Min Age- +/- for the user's current age
  * @param {String} sex Desired sex of the user
  * @param {String} sexualOrientation Desired sexual orientation
  * @param {Array<Number>} locationRange Latitude and Longitude to search for within the user's coordinates
  * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
  */
-function getMatching (ageRange, sex, sexualOrientation, locationRange, setNumber) {
-  return Profile.find().populate('images').lean().exec()
+function getMatching (diffArr, ageRange, sex, sexualOrientation, baseLocation, locationRange, setNumber) {
+  const pCount = 1;  
+  let maxDate = new Date()
+  maxDate.setFullYear(maxDate.getFullYear() - ageRange[1])
+  console.log(maxDate)
+  let minDate = new Date()
+  minDate.setFullYear(minDate.getFullYear() - ageRange[0])
+  console.log(minDate)  
+  console.log(diffArr)
+  const parameters = {
+    _id: { $nin: diffArr },
+    sex: {$eq: sex},
+    birthdate: {$lte: minDate, $gte: maxDate},
+    sexualOrientation: {$eq: sexualOrientation},
+    "location.coordinates": {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: baseLocation
+        },
+        $maxDistance: locationRange
+      }
+    }
+
+      
+    
+  }
+  return Profile.find(parameters).skip(setNumber * pCount).limit(pCount).populate({ path: 'images', model: 'Images' }).lean().exec()
+}
+
+/** Find Profiles matching specified preferences
+ *
+ * @param {Array<Number>} ageRange Max and Min Age- +/- for the user's current age
+ * @param {String} sex Desired sex of the user
+ * @param {String} sexualOrientation Desired sexual orientation
+ * @param {Array<Number>} locationRange Latitude and Longitude to search for within the user's coordinates
+ * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
+ */
+function getMatchingWithName(diffArr, fname, lname, ageRange, sex, sexualOrientation, baseLocation, locationRange, setNumber) {
+  const pCount = 1;
+  let maxDate = new Date()
+  maxDate.setFullYear(maxDate.getFullYear() - ageRange[1])
+  console.log(maxDate)
+  let minDate = new Date()
+  minDate.setFullYear(minDate.getFullYear() - ageRange[0])
+  console.log(minDate)
+  console.log(diffArr)
+  const parameters = {
+    _id: { $nin: diffArr },
+    fname: {$eq: fname},
+    lname: {$eq: lname},
+    sex: { $eq: sex },
+    birthdate: { $lte: minDate, $gte: maxDate },
+    sexualOrientation: { $eq: sexualOrientation },
+    "location.coordinates": {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: baseLocation
+        },
+        $maxDistance: locationRange
+      }
+    }
+
+
+
+  }
+  return Profile.find(parameters).skip(setNumber * pCount).limit(pCount).populate({ path: 'images', model: 'Images' }).lean().exec()
 }
 
 /**
@@ -32,3 +106,4 @@ function getMatching (ageRange, sex, sexualOrientation, locationRange, setNumber
  */
 module.exports.getAll = getAll
 module.exports.getMatching = getMatching
+module.exports.getMatchingWithName = getMatchingWithName

@@ -13,6 +13,7 @@ const ConfirmedSchema = mongoose.Schema({
   _id: Schema.Types.ObjectId,
 
   confirm: [{
+    _id: Schema.Types.ObjectId,
     profile: {
       type: Schema.Types.ObjectId,
       ref: 'Profile'
@@ -26,8 +27,17 @@ const Confirmed = module.exports = mongoose.model('Confirmed', ConfirmedSchema)
  *
  * @param {ObjectId(String) || String} id
  */
+function getConfirmIDList(id) {
+  return Confirmed.findById(id).select('confirm._id').exec()
+}
+
+
+/** Get the List of Users/Profiles you have been Confirmed with
+ *
+ * @param {ObjectId(String) || String} id
+ */
 function getConfirmList (id) {
-  return Confirmed.findById(id).select('confirm').limit(10).sort({ createdAt: -1 }).populate({ path: 'confirm.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
+  return Confirmed.findById(id).select('confirm').limit(10).populate({ path: 'confirm.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
 }
 
 /** Create Confirmation
@@ -54,6 +64,7 @@ function deleteConfirm (id, partnerId) {
 /** Exporting Functions defined above
  *  Format: module.export.exportName = functionName
 */
+module.exports.getConfirmIDList = getConfirmIDList
 module.exports.getConfirmed = getConfirmList
 module.exports.createConfirm = createConfirm
 module.exports.deleteConfirm = deleteConfirm

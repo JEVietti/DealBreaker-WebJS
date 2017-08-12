@@ -3,3 +3,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+li.tab {
+  cursor: hand;
+  cursor: pointer;
+}
+

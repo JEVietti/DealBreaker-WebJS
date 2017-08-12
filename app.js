@@ -8,6 +8,7 @@ const path = require('path')
 const cors = require('cors')
 const passport = require('passport')
 const mongoose = require('mongoose')
+const socketIO= require('socket.io')
 
 /*
   const fs = require('fs');
@@ -19,8 +20,9 @@ const testDBConfig = require('./test/config-debug.spec.js')// test db config fil
 // Database - Mongoose Setup
 if (process.env.NODE_ENV !== 'test') {
   console.log('Not testing')
+  mongoose.set('debug', true);
 
-  mongoose.connect(dbConfig.database)
+  mongoose.connect(dbConfig.database, {useMongoClient: true})
 
   // Testing Connection
   mongoose.connection.on('connected', () => {
@@ -32,8 +34,9 @@ if (process.env.NODE_ENV !== 'test') {
   })
 } else if (process.env.NODE_ENV === 'test') {
   console.log('Testing')
+  mongoose.set('debug', true);  
 
-  mongoose.connect(testDBConfig.database) // config file
+  mongoose.connect(testDBConfig.database, {useMongoClient: true}) // config file
   // Testing Connection
   mongoose.connection.on('connected', () => {
     console.log('DB connection successful ' + testDBConfig.database)
@@ -46,6 +49,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 const app = express()
 const port = 8000
+
 const users = require('./routes/users')
 const profiles = require('./routes/profiles')
 const rejected = require('./routes/rejected')
@@ -55,6 +59,7 @@ const images = require('./routes/images')
 const browse = require('./routes/browse')
 const AWS = require('aws-sdk')
 AWS.config.loadFromPath('./config/s3Config.json')
+
 
 // CORS MiddleWare
 app.use(cors())
@@ -85,9 +90,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'))
 })
 
+const server = require('http').createServer(app)
+const io = socketIO.listen(server)
+
 // server on port:
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Server started on port ' + port)
 })
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+  socket.on('disconnect', () => console.log('Client disconnected'));
+});
 
 module.exports = app

@@ -1,6 +1,5 @@
 
 <div class="row">
-  
     <div *ngIf="profileRequests && profileRequests.length > 0" > 
       <div *ngFor="let requests of profileRequests">
         <app-profile-card [data]="requests"></app-profile-card>

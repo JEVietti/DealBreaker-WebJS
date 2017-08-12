@@ -34,6 +34,23 @@ const Pending = module.exports = mongoose.model('Pending', PendingSchema)
  *
  * @param {*} id
  */
+function getRequestorIDList(id) {
+  return Pending.findById(id).select('requestor._id').exec()
+}
+
+/**
+ *
+ * @param {*} id
+ */
+function getRequesteeIDList(id) {
+  return Pending.findById(id).select('requestee._id').exec()
+}
+
+
+/**
+ *
+ * @param {*} id
+ */
 function getRequestorList (id) {
   return Pending.findById(id).select('requestor').limit(10).sort({ createdAt: -1 }).populate({ path: 'requestor.profile', model: 'Profile', populate: { path: 'images', model: 'Images' }}).exec()
 }
@@ -91,6 +108,8 @@ function deleteRequestee (id, partnerId) {
 /** Exporting Functions defined above
  *  Format: module.export.exportName = functionName
 */
+module.exports.getRequestorIDList = getRequestorIDList
+module.exports.getRequesteeIDList = getRequesteeIDList
 module.exports.getRequestor = getRequestorList
 module.exports.getRequestee = getRequesteeList
 module.exports.createRequestor = createRequestor

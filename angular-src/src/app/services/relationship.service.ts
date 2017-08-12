@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers, URLSearchParams} from '@angular/http';
+import {Http, Headers, URLSearchParams, QueryEncoder} from '@angular/http';
 import {tokenNotExpired} from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -23,7 +23,7 @@ export class RelationshipService {
 
 
 // Register Profile Requests to API EndPoint
-  sendPendingRequest(profile){
+  sendPendingRequest(profile) {
     this.loadAuthToken();
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -34,25 +34,36 @@ export class RelationshipService {
   }
 
   // Register Profile Requests to API EndPoint
-  removePendingRequest(profile){
+  removePendingRequest(profile) {
     this.loadAuthToken();
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/pending/')
     return this.http.put(ep, profile, {headers: headers})
-      .map(res=> res.json());
+      .map(res => res.json());
   }
 
   // Send the confirmation request
-  sendConfirmRequest(profile){
+  confirmRequest(profile) {
     this.loadAuthToken();
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/confirm/')
     return this.http.post(ep, profile, {headers: headers})
-      .map(res=> res.json());
+      .map(res => res.json());
+  }
+
+  // Send the confirmation request
+  rejectConfirmRequest(profile) {
+    this.loadAuthToken();
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.authToken);
+    const ep = this.prepEndpoint('/api/confirm/reject')
+    return this.http.put(ep, profile, { headers: headers })
+      .map(res => res.json());
   }
 
   // Send a rejection request in which no relationship has been established
@@ -61,8 +72,8 @@ export class RelationshipService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
-    const ep = this.prepEndpoint('/api/confirm/')
-    return this.http.post(ep, profile, {headers: headers})
+    const ep = this.prepEndpoint('/api/pending/reject')
+    return this.http.put(ep, profile, {headers: headers})
       .map(res => res.json());
   }
 
@@ -75,7 +86,7 @@ export class RelationshipService {
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/reject/')
     return this.http.post(ep, profile, {headers: headers})
-      .map(res=> res.json());
+      .map(res => res.json());
   }
 
   // Remove a Rejection request of a particular profile that has been previously rejected
@@ -87,7 +98,7 @@ export class RelationshipService {
     headers.append('Authorization', this.authToken);
     const ep = this.prepEndpoint('/api/reject/')
     return this.http.put(ep, profile, {headers: headers})
-      .map(res=> res.json());
+      .map(res => res.json());
   }
 
   getTokenData(tokenId){
@@ -120,6 +131,18 @@ export class RelationshipService {
   }
 
   listenProfileToReject(): Observable<any>{
+    return this.profilesReject.asObservable()
+  }
+
+  profileToRejectConfirm(p, i) {
+    const profile = {
+      profile: p,
+      index: i
+    }
+    this.profilesReject.next(profile)
+  }
+
+  listenProfileToRejectConfirm(): Observable<any> {
     return this.profilesReject.asObservable()
   }
 
@@ -178,12 +201,13 @@ export class RelationshipService {
     const headers = new Headers();
     const params = new URLSearchParams()
     queryMap.forEach((value, key, element) => {
-      params.set(key.toString(), value.toString())
+      params.append((key.toString()), (value.toString()))
     });
+    console.log(params)
     this.loadAuthToken(); // load the Auth Token
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    const ep = this.prepEndpoint('/api/browse/profiles')
+    const ep = this.prepEndpoint('/api/browse/pref')
     return this.http.get(ep, {headers: headers, params: params})
     .map(res => res.json());
   }
@@ -245,9 +269,8 @@ export class RelationshipService {
 
    prepEndpoint(ep){
     if (this.isDev){
-      return ROOT_URL + ep;
-    } else {
-      return ep;
+      ep =  ROOT_URL + ep;
     }
+      return ep;
   }
 }

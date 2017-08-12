@@ -4,6 +4,9 @@ import { SentRelationshipComponent } from '../../components/sent-relationship/se
 import { ConfirmedRelationshipComponent } from '../../components/confirmed-relationship/confirmed-relationship.component'
 import { RejectedRelationshipComponent } from '../../components/rejected-relationship/rejected-relationship.component'
 import { RelationshipService } from '../../services/relationship.service'
+
+import {Subscription} from 'rxjs/Subscription';
+
 declare const $: any;
 
 @Component({
@@ -12,7 +15,21 @@ declare const $: any;
   styleUrls: ['./dashboard.component.css']
 })
 
-export class DashboardComponent implements OnInit, AfterContentInit {
+export class DashboardComponent implements OnInit, AfterContentInit, OnDestroy {
+
+  // Subscriptions
+  removeRequestSub: Subscription;
+  removeRequestSubListener: Subscription;
+  addRequestSub: Subscription;
+  addRequestSubListener: Subscription;
+  rejectRequestSub: Subscription;
+  rejectRequestSubListener: Subscription;
+  removeRejectSub: Subscription;
+  removeRejectSubListener: Subscription;
+  confirmRequestSub: Subscription;
+  confirmRequestSubListener: Subscription;
+  confirmRejectSub: Subscription;
+  confirmRejectSubListener: Subscription; 
 
   constructor(private relationshipService: RelationshipService) {}
 
@@ -23,6 +40,45 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
 
+  }
+
+  ngOnDestroy() {
+    if (this.removeRequestSub) {
+      this.removeRequestSub.unsubscribe()
+    }
+    if (this.removeRequestSubListener) {
+      this.removeRequestSubListener.unsubscribe()
+    }
+    if (this.addRequestSub) {
+      this.addRequestSub.unsubscribe()
+    }
+    if (this.addRequestSubListener) {
+      this.addRequestSubListener.unsubscribe()
+    }
+    if (this.rejectRequestSub) {
+      this.rejectRequestSub.unsubscribe()
+    }
+    if (this.rejectRequestSubListener) {
+      this.rejectRequestSubListener.unsubscribe()
+    }
+    if (this.removeRejectSub) {
+      this.removeRejectSub.unsubscribe()
+    }
+    if (this.removeRejectSubListener) {
+      this.removeRejectSubListener.unsubscribe()
+    }
+    if (this.confirmRequestSub) {
+      this.confirmRequestSub.unsubscribe()
+    }
+    if (this.confirmRequestSubListener) {
+      this.confirmRequestSubListener.unsubscribe()
+    }
+    if (this.confirmRejectSub) {
+      this.confirmRejectSub.unsubscribe()
+    }
+    if (this.confirmRejectSubListener) {
+      this.confirmRejectSubListener.unsubscribe()
+    }
   }
 
   initMaterialize() {
@@ -50,18 +106,18 @@ export class DashboardComponent implements OnInit, AfterContentInit {
   }
 
   getProfileRemoveRequest() {
-    this.relationshipService.listenProfileToRemoveRequest().subscribe(res => {
+    this.removeRequestSubListener = this.relationshipService.listenProfileToRemoveRequest().subscribe(res => {
       console.log(res)
-      this.relationshipService.removePendingRequest({ _id: res.profile._id }).subscribe(remove => {
+      this.removeRequestSub = this.relationshipService.removePendingRequest({ _id: res.profile._id }).subscribe(remove => {
         console.log(remove)
       })
     })
   }
 
   getProfileAdd() {
-    this.relationshipService.listenProfileToAdd().subscribe(res => {
+    this.addRequestSubListener = this.relationshipService.listenProfileToAdd().subscribe(res => {
       console.log(res.profile._id)
-      this.relationshipService.sendPendingRequest({ _id: res.profile._id }).subscribe(request => {
+      this.addRequestSub = this.relationshipService.sendPendingRequest({ _id: res.profile._id }).subscribe(request => {
         console.log(request)
       })
     })
@@ -69,27 +125,27 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
 
   getProfileReject() {
-    this.relationshipService.listenProfileToReject().subscribe(res => {
+    this.rejectRequestSubListener = this.relationshipService.listenProfileToReject().subscribe(res => {
       console.log(res)
-      this.relationshipService.rejectRequest({ _id: res.profile._id }).subscribe(res => {
+      this.rejectRequestSub = this.relationshipService.rejectRequest({ _id: res.profile._id }).subscribe(res => {
         console.log(res)
       })
     })
   }
 
   getProfileRemoveReject() {
-    this.relationshipService.listenProfileToRemoveReject().subscribe(res => {
+    this.removeRejectSubListener = this.relationshipService.listenProfileToRemoveReject().subscribe(res => {
       console.log(res)
-      this.relationshipService.removeRejectRequest({ _id: res.profile._id }).subscribe(remove => {
+      this.removeRejectSub = this.relationshipService.removeRejectRequest({ _id: res.profile._id }).subscribe(remove => {
         console.log(remove)
       })
     })
   }
 
   getProfileConfirm() {
-    this.relationshipService.listenProfileToConfirm().subscribe(res => {
+    this.confirmRequestSubListener = this.relationshipService.listenProfileToConfirm().subscribe(res => {
       console.log(res)
-      this.relationshipService.sendConfirmRequest(res.profile._id).subscribe(confirm => {
+      this.confirmRequestSub = this.relationshipService.confirmRequest(res.profile._id).subscribe(confirm => {
         console.log(confirm)
       })
     })

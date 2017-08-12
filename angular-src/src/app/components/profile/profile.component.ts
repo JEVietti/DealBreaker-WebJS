@@ -7,7 +7,7 @@
  * the request is called async by the Profile Service
 */
 
-import { Component, OnInit, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ProfileService } from '../../services/profile.service'
 import { Subscription } from 'rxjs/Subscription';
@@ -22,7 +22,7 @@ declare const Materialize: any;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit, AfterContentInit, AfterViewInit {
+export class ProfileComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   profile:any;
   myProfile: boolean;
   // sub: any;
@@ -42,10 +42,11 @@ export class ProfileComponent implements OnInit, AfterContentInit, AfterViewInit
     private router: Router,
     private route: ActivatedRoute,
     private profileService: ProfileService
-  ) {}
+  ) {
+    this.initProfile();
+  }
 
   ngOnInit() {
-      this.initProfile();
   }
 
   ngAfterContentInit() {
@@ -54,18 +55,20 @@ export class ProfileComponent implements OnInit, AfterContentInit, AfterViewInit
           // console.log('this is the click');
           e.preventDefault();
         });
+        this.initMaterialize()
     })
   }
 
-  ngAfterViewInit(){
-      this.initMaterialize()
+  ngAfterViewInit() {
+
   }
 
   initMaterialize() {
     $(document).ready(function(){
+      $('ul.tabs').tabs();
       $('.carousel').carousel();
-      $('.materialboxed').materialbox();
-         // $('.carousel.carousel-slider').carousel();
+      $('#profileAttributes').find('.indicator').remove()
+      $('.tabs-vertical').find('.indicator').remove()
     });
   }
 
@@ -80,82 +83,69 @@ initProfile(){
     if(this.id === undefined){
       this.myProfile = true
       // Request the Profile, Same as User tha has been logged in
-       this.profileSub = this.profileService.getProfile().subscribe(profile => {
-         if(profile != undefined){
-             // Profile Exists
-            if(profile.success){
-              //// console.log(profile);
-              this.profile = profile.profile;
-
-              this.location = this.profile.location.city + ', ' + this.profile.location.state + ', ' + this.profile.location.country 
-                // console.log(this.profile.birthdate)
-              this.age = this.profileService.calculateAge(this.profile.birthdate);
-              if(this.profile.images != null){
-                const images = (this.profile.images.gallery);
-                for(var i=0; i<images.length; i++){
-                  this.gallery.push(images[i].url);
-                }
-                $(document).ready(function(){
-                  // $('.carousel').carousel();
-                 $('ul.tabs').tabs();
-                    // Materialize.toast('I am a toast!', 3000, 'toast-container round') // 'rounded' is the class I'm applying to the toast
-                  $('.carousel.carousel-slider').carousel();
-
-                });
-              }
-              // console.log(this.gallery);
-              // console.log(this.profile);
+      this.profileSub = this.profileService.getProfile().subscribe(profile => {
+        if (profile !== undefined) {
+          // Profile Exists
+          if (profile.success) {
+            // console.log(profile);
+            this.profile = profile.profile;
+            this.location = this.profile.location.city + ', ' + this.profile.location.state + ', ' + this.profile.location.country 
+            // console.log(this.profile.birthdate)
+            this.age = this.profileService.calculateAge(this.profile.birthdate);
+            this.fetchImages()
             // Profile Does not exist - reroute to the setup page: components/profile-setup
-            } else {
-              // console.log(profile.profile);
-              this.router.navigate(['profile/setup']);
-            }
-         }
-    },
-    err=>{
-      // console.log(err);
-      this.router.navigate(['/404'])
-    });
-  }
-  // route to a specific /id: username
-  else {
-    this.myProfile = false
-      // Request API async to endpoint /profile/id
-       this.profileIDSub = this.profileService.getProfileById(this.id).subscribe(profile => {
-         //// console.log(profile.success);
-         // if profile found display its contents
-        if(profile.success){
-           // console.log(profile);
-              this.profile = profile.profile;
-               this.location = this.profile.location.city + ', ' + this.profile.location.state + ', ' + this.profile.location.country
-               // console.log(this.profile.birthdate)
-              this.age = this.profileService.calculateAge(this.profile.birthdate);
-              if(this.profile.images != null){
-
-              let images = (this.profile.images.gallery);
-              for(let i =0; i < images.length; i++){
-                this.gallery.push(images[i].url);
-              }
-                $(document).ready(function(){
-                  $('.carousel').carousel();
-                   $('.materialboxed').materialbox();
-                  // $('.carousel.carousel-slider').carousel();
-
-                });
-              }
-              // console.log(this.gallery);
-              // console.log(this.profile);
+          } else {
+            // console.log(profile.profile);
+            this.router.navigate(['profile/setup']);
+          }
         }
+        this.initMaterialize()
+      },
+    (err) => {
+      // console.log(err);
+      this.router.navigate(['profile/setup']);
+    });
+  // route to a specific /id: username
+    return
+    }
+      this.myProfile = false
+      // Request API async to endpoint /profile/id
+      this.profileIDSub = this.profileService.getProfileById(this.id).subscribe(profile => {
+        // console.log(profile.success);
+        // if profile found display its contents
+        if (profile.success) {
+          this.fetchImages()
+          // console.log(profile);
+          this.profile = profile.profile;
+          this.location = this.profile.location.city + ', ' + this.profile.location.state + ', ' + this.profile.location.country
+          // console.log(this.profile.birthdate)
+          this.age = this.profileService.calculateAge(this.profile.birthdate);
+        } else {
         // otherwise set to null, which in teh callback will display User Not Found!
-        else {
           this.profile = null;
         }
-    },
-    err => {
-      this.profile = null;
-    });
+        this.initMaterialize()
+      },
+      err => {
+        this.profile = null;
+      });
   }
-}
+
+  fetchImages() {
+    if(this.profile !== undefined) {
+      if (this.profile.images != null) {
+        const images = (this.profile.images.gallery);
+        for (let i = 0; i < images.length; i++) {
+          this.gallery.push(images[i].url);
+        }
+        $(document).ready(function () {
+          $('.carousel').carousel();
+        });
+      }
+    } else {
+      this.gallery = null;
+    }
+  }
 
 // If path changes - destroy the object and the subscribe rx/js
  ngOnDestroy() {

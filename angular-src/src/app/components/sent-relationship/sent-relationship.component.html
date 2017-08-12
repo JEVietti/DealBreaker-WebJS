@@ -1,11 +1,10 @@
-<div>
+<div class="row">
   <div *ngIf="profileRequested && profileRequested.length > 0">
-    <div *ngFor="let requesting of this.profileRequested">
-      <app-profile-card [data]="requesting"></app-profile-card>
-    <div>
+    <div *ngFor="let requesting of this.profileRequested">    
+      <app-profile-card [data]="requesting"></app-profile-card>    
+    </div>
   </div>
-
   <div *ngIf="profileRequested.length === 0">
-    <p> Put yourself out there. </p>
+    <p> False </p>
   </div>
 </div>

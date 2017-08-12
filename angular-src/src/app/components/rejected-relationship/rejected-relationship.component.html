@@ -1,11 +1,10 @@
-<div *ngIf="profileRejector" class="row">
+<div *ngIf="profileRejector.length > 0" class="row">
   <div *ngFor="let rejector of profileRejector">
   <app-profile-card [data]="rejector"></app-profile-card>
   </div>
 </div>
 
-<div *ngIf="profileRejectee" class="row">
-  <div *ngFor="let rejectee of profileRejectee">
-  <app-profile-card [data]="this.profileRejectee"></app-profile-card>
-  </div>
+<div *ngIf="profileRejector.length === 0" class="row">
+  <p> Well can't say you're picky. </p>
 </div>
+

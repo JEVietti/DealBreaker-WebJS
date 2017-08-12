@@ -141,7 +141,7 @@ describe('Create a Profile', () => {
               country: 'United States',
               state: 'California',
               city: 'Los Angeles',
-              coordinates: [34.0498, -118.2498]
+              coordinates: [-118.2498, 34.09]
             },
             birthdate: '1990-11-15',
             sex: 'Female',
@@ -183,7 +183,7 @@ describe('Create a Profile then Get it', () => {
             country: 'United States',
             state: 'California',
             city: 'Los Angeles',
-            coordinates: [34.0498, -118.2498] },
+            coordinates: [-118.2498, 34.049] },
           birthdate: '1990-11-15',
           sex: 'Female',
           sexualOrientation: 'Straight',
@@ -287,7 +287,7 @@ describe('Update a Profile then Get It', () => {
               country: 'United States',
               state: 'California',
               city: 'Los Angeles',
-              coordinates: [34.0498, -118.2498]
+              coordinates: [-118.2498, 34.049]
             },
             birthdate: '1990-11-15',
             sex: 'Female',

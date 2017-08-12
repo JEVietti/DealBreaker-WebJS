@@ -13,8 +13,8 @@
       </div>
       <div id="showcase-img" class="parallax"><img  class="responsive-img" src="../../assets/images/home.jpg" alt="Unsplashed background img 1"></div>
       <div class="row center">
-          <a id="home-reg" class = "btn btn-large button-front-right red waves-effect waves-light  button-head" data-position="bottom" data-delay="50" data-tooltip="Register Page" [routerLink]="['/register']">Register</a> 
-          <a id="home-login"  class = "btn waves-effect button-front-left pink waves-light btn-large button-head" data-position="bottom" data-delay="50" data-tooltip="Login Page" [routerLink]="['/login']">Login</a>  
+          <a *ngIf="authService.loggedIn()" id="home-reg" class = "btn btn-large button-front-right red waves-effect waves-light  button-head" data-position="bottom" data-delay="50" data-tooltip="Register Page" [routerLink]="['/register']">Register</a> 
+          <a *ngIf="authService.loggedIn()" id="home-login"  class = "btn waves-effect button-front-left pink waves-light btn-large button-head" data-position="bottom" data-delay="50" data-tooltip="Login Page" [routerLink]="['/login']">Login</a>  
       </div>
   </div>
   <ul class="main container-fluid">

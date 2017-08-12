@@ -5,8 +5,8 @@
    <p> {{profile.age}} </p>
   </div>
     <div class="card-image waves-effect waves-block waves-light">
-       <img *ngIf="profile.images === null" class="circle profile-img activator" src="../assets/images/defaultProfilePic.png">
-        <img *ngIf="profile.images !== null" class="circle profile-img activator" src={{profile.images.gallery[0].url}}>  
+       <img *ngIf="!profile.images" class="circle profile-img activator" src="../assets/images/defaultProfilePic.png">
+        <img *ngIf="profile.images" class="circle profile-img activator" src={{profile.images.gallery[0].url}}>  
     </div>
     <div class="card-content">
       <span class="card-title activator grey-text left-align text-darken-4">{{profile.fname}} {{profile.lname}}<i class="material-icons right grey-text">expand_more</i></span>      
@@ -14,21 +14,32 @@
     <div class="card-action">
       <div>
         <a class="left" href="/profile/{{profile.username}}">Profile</a> 
-       <div class="right red-text">
-         <i *ngIf="profile.status === undefined" (click)="quickReject(profile)" class="material-icons right">delete</i> 
-         <div *ngIf="profile.status === 'reject'"> Rejecting
-              <i (click)="quickRejectRevert(profile)" class="material-icons right">undo</i>
-         </div>
-       
-        <i *ngIf="profile.status === undefined" (click)="quickAdd(profile)" class="material-icons right">person_add</i>
-        <div class="right grey-text" *ngIf="profile.status === 'requesting'"> Sent
-            <i (click)="quickAddRevert(profile)" class="material-icons grey-text right"> check </i>
-        </div>
-        <div class="right red-text" *ngIf="profile.status === 'pending'"> Confirm
-            <i (click)="quickAddRevert(profile)" class="material-icons right"> check </i>
-        </div>
+        <div class="right red-text">
+          
+          <div *ngIf="profile.status === undefined" class="material-icons">
+            <i (click)="quickAdd(profile)" class="material-icons right">person_add</i>
+            <i (click)="quickReject(profile)" class="material-icons right">delete</i>
+          </div>
         
-      </div>
+          <div *ngIf="profile.status === 'reject'">
+            <i (click)="quickRejectRevert(profile)" class="material-icons right">undo</i>
+          </div>
+        
+          <div *ngIf="profile.status === 'requesting'" class="right grey-text"> Sent
+            <i (click)="quickAddRevert(profile)" class="material-icons grey-text right"> check </i>
+          </div>
+
+          <div *ngIf="profile.status === 'pending'" class="right red-text">
+            <i (click)="quickReject(profile)" class="material-icons right">delete</i>          
+            <i (click)="quickConfirm(profile)" class="material-icons right"> check </i>
+          </div>
+
+          <div *ngIf="profile.status === 'confirm'" class="material-icons">
+            <i href="/message" class="material-icons right">send</i>            
+            <i (click)="quickRejectConfirm(profile)" class="material-icons right">delete</i>
+          </div>
+        
+        </div>
       </div>
     </div>
     <div class="card-reveal">

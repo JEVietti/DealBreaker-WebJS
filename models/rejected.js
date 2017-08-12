@@ -36,6 +36,28 @@ const Rejected = module.exports = mongoose.model('Rejected', RejectedSchema)
  * 
  * @return {Array<Profiles>} rejector array
  */
+function getRejectorIDList(id) {
+  return Rejected.findById(id).select('rejector._id').exec()
+}
+
+/** Get List of user you have rejected
+ * 
+ * @param {ObjectId(String) || String} id - id of user
+ * 
+ * @return {Array<Profiles>} rejector array
+ */
+function getRejecteeIDList(id) {
+  return Rejected.findById(id).select('rejectee._id').exec()
+}
+
+
+
+/** Get List of user you have rejected
+ * 
+ * @param {ObjectId(String) || String} id - id of user
+ * 
+ * @return {Array<Profiles>} rejector array
+ */
 function getRejectorList (id) {
   return Rejected.findById(id).select('rejector').limit(10).populate({path: 'rejector.profile', model: 'Profile', populate: {path: 'images', model:'Images'}}).exec()
 }
@@ -105,6 +127,8 @@ function deleteRejectee (id, partnerId) {
 /**
  * 
  */
+module.exports.getRejectorIDList = getRejectorIDList
+module.exports.getRejecteeIDList = getRejecteeIDList
 module.exports.getRejector = getRejectorList
 module.exports.getRejectee = getRejecteeList
 module.exports.createRejector = createRejector

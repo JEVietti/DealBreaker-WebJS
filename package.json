@@ -18,12 +18,14 @@
     "body-parser": "*",
     "cors": "*",
     "express": "*",
+    "http": "0.0.0",
     "jsonwebtoken": "*",
     "mongoose": "^4.11.4",
     "mongoose-schema-extend": "^0.2.2",
     "nodemailer": "^4.0.1",
     "passport": "*",
-    "passport-jwt": "*"
+    "passport-jwt": "*",
+    "socket.io": "^2.0.3"
   },
   "author": "Joseph Vietti",
   "license": "ISC",

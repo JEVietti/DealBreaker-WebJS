@@ -69,8 +69,8 @@ export class ProfileSetupComponent implements OnInit {
     this.initMaterialize()
     this.monthPairs = [{value:1,label: "January"},{value:2,label: "February"},{value:3,label: "March"},{value:4,label: "April"},{value:5,label: "May"},{value:6,label: "June"},{value:7,label: "July"}, {value:8,label: "August"}, {value:9,label: "September"}, {value:10,label: "October"},{value:11,label: "November"}, {value:12,label: "December"} ];
 
-    var currentYear = new Date().getFullYear();
-    for(var i=currentYear; i >= currentYear-100; i--){
+    let currentYear = new Date().getFullYear();
+    for(let i=currentYear; i >= currentYear-100; i--){
       this.yearList.push(i);
     }  
     this.dayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
@@ -97,7 +97,7 @@ export class ProfileSetupComponent implements OnInit {
     // console.log('Position Found')
     // console.log(position)
     Materialize.toast('Fetching Location ...', 2000, 'rounded center toast-danger')    
-    var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    let loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
     const geocoder = new google.maps.Geocoder;
     geocoder.geocode({location: loc}, (result, status) => {
      // console.log(result[0])
@@ -109,8 +109,8 @@ export class ProfileSetupComponent implements OnInit {
       Materialize.toast('Location Fetched', 2000, 'rounded center toast-success')    
       const formattedLoc = this.city + ", " + this.state + ", " + this.country
       // console.log(position)
-      this.coord[0] = position.coords.latitude
-      this.coord[1] = position.coords.longitude
+      this.coord[1] = position.coords.latitude
+      this.coord[0] = position.coords.longitude
       this.location = formattedLoc
       this.ref.detectChanges()
       // console.log(this.location)
@@ -141,8 +141,8 @@ export class ProfileSetupComponent implements OnInit {
 
   getLocation(place: any){
     // console.log(place)
-    var components = place.address_components
-    for(var i=0; i< components.length; i++){
+    let components = place.address_components
+    for(let i=0; i< components.length; i++){
       if(components[i].types[0] == "locality"){
         this.city = components[i].long_name
       }
@@ -165,14 +165,14 @@ export class ProfileSetupComponent implements OnInit {
         this.lname = res.profile.lname
         this.sex = res.profile.sex
         this.sexualOrientation = res.profile.sexualOrientation
-        
-        var birth = res.profile.birthdate
-        var birthdate = birth.split("-")
+
+        let birth = res.profile.birthdate
+        let birthdate = birth.split("-")
         this.dobMonth = parseInt(birthdate[1])
         this.dobDay = parseInt(birthdate[2])
-        this.dobYear = parseInt(birthdate[0]) 
-        
-        var loc = res.profile.location
+        this.dobYear = parseInt(birthdate[0])
+
+        let loc = res.profile.location
         this.location = loc.city + ", " + loc.state + ", " + loc.country 
         this.locationData = loc
         this.state = loc.state
@@ -183,12 +183,12 @@ export class ProfileSetupComponent implements OnInit {
         }
         this.biography = res.profile.biography
         $('#biography').trigger('autoresize');
-        
+
         this.seeking = res.profile.seeking
         this.interests = res.profile.interests
         this.dealBreakers = res.profile.dealbreakers
         $('.chips').material_chip();
-        var chipData: Array<Object> = [];
+        let chipData: Array<Object> = [];
         if (this.dealBreakers != null) {
           // console.log("dealBreakers")
            chipData = []
@@ -198,15 +198,15 @@ export class ProfileSetupComponent implements OnInit {
            $('#dealBreakers').material_chip({
              data: chipData,
              placeholder: '+dealbreaker'
-          });        
-           
+          });
+
         } 
         if (this.seeking != null) {
           // console.log("seeking")
-          
+
            chipData = []
           this.seeking.forEach(element => {
-            chipData.push({tag:element})            
+            chipData.push({tag:element})
           });
           $('#seeking').material_chip({
             data: chipData,
@@ -222,31 +222,39 @@ export class ProfileSetupComponent implements OnInit {
           $('#interests').material_chip({
             data: chipData,
             placeholder: '+interests'
-          });        
-                
+          });
         }
 
 
       } else {
         this.profile = null
         $(document).ready(()=> {
-        $('select').material_select();    
+          $('select').material_select();
+          $('#seeking').material_chip();
+          $('#interests').material_chip();
+          $('#dealBreakers').material_chip();
+          $('.chips').material_chip();
+          $('.chips-placeholder').material_chip({
+                placeholder: 'Enter an Attribute',
+                secondaryPlaceholder: '+quality',
+          });
+        });
+      }
+    },
+    err => {
+      console.log(err)
+      $(document).ready(() => {
+        $('select').material_select();
         $('#seeking').material_chip();
         $('#interests').material_chip();
         $('#dealBreakers').material_chip();
         $('.chips').material_chip();
-         $('.chips-placeholder').material_chip({
-              placeholder: 'Enter an Attribute',
-              secondaryPlaceholder: '+quality',
+        $('.chips-placeholder').material_chip({
+          placeholder: 'Enter an Attribute',
+          secondaryPlaceholder: '+quality',
         });
-        });
-      }
-    },
-    err=>{
-      //// console.log(err);
-      Materialize.toast('Unauthorized Please log in!', 5000, 'rounded toast-danger')
-      this.router.navigate(['/login'])
-    }); 
+      });
+    });
   }
 
   loadGoogle(){
@@ -263,10 +271,9 @@ export class ProfileSetupComponent implements OnInit {
     autocomplete.addListener('place_changed', ()=>{
       let place = autocomplete.getPlace();
       if(place.geometry != undefined){
-        this.coord[0] = place.geometry.location.lat();
-        this.coord[1] = place.geometry.location.lng();
+        this.coord[1] = place.geometry.location.lat();
+        this.coord[0] = place.geometry.location.lng();
         let address = place.formatted_address;
-  
         this.place = place
         // console.log(place)
       } else {
@@ -276,24 +283,24 @@ export class ProfileSetupComponent implements OnInit {
   }
 
   public getQualities(){
-    var temp;
+    let temp;
     temp = $('#seeking').material_chip('data');
     //// console.log(temp);
    if(temp){    
-   for(var i=0; i<temp.length; i++){
+   for(let i=0; i<temp.length; i++){
      this.seeking[i] = temp[i].tag;
    }
    }
 
    temp = $('#interests').material_chip('data');
    if(temp){
-     for(var i=0; i<temp.length; i++){
+     for(let i=0; i<temp.length; i++){
        this.interests[i] = temp[i].tag;
      }
    }
    temp = $('#dealBreakers').material_chip('data');
    if(temp){
-     for(var i=0; i<temp.length; i++){
+     for(let i=0; i<temp.length; i++){
        this.dealBreakers[i] = temp[i].tag;
      }
    }

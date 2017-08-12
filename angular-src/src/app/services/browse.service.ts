@@ -94,9 +94,9 @@ export class BrowseService {
     this.loadAuthToken(); //load the Auth Token
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    const ep = this.prepEndpoint('/api/browse/profiles')    
+    const ep = this.prepEndpoint('/api/browse/all')    
     return this.http.get(ep, {headers: headers, params: params})
-    .map(res=> res.json());
+    .map(res => res.json());
   }
 
    prepEndpoint(ep){

@@ -58,6 +58,22 @@ export class ProfileCardComponent implements OnInit {
     this.relationshipService.profileToReject(profile, index)
   }
 
+  quickConfirm(profile, index) {
+    console.log(profile)
+    console.log(index)
+    this.profile.status = 'reject'
+    // this.profiles.splice(index, 1)
+    this.relationshipService.profileToConfirm(profile, index)
+  }
+
+  quickRejectConfirm(profile, index) {
+    console.log(profile)
+    console.log(index)
+    this.profile.status = 'reject'
+    // this.profiles.splice(index, 1)
+    this.relationshipService.profileToRejectConfirm(profile, index)
+  }
+
   quickRejectRevert(profile, index) {
     console.log(profile)
     console.log(index)

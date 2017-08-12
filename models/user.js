@@ -53,8 +53,12 @@ const UserSchema = mongoose.Schema({
   }
 })
 
+UserSchema.index({ "usename": {unique: true} })
+
+
 // Export the model  and its functions for controllers
 const User = module.exports = mongoose.model('User', UserSchema)
+
 
 /** Get User Information by ObjectID
  * Used in passport authentication for JWT tokens

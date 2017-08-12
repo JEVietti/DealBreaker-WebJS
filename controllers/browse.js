@@ -5,6 +5,8 @@
  * pending, confirmed, rejected, and themselves all should be removed.
  */
 const Browse = require('../models/browse')
+const Rejected = require('../models/rejected')
+const Pending = require('../models/pending')
 
 /** Get All Profiles up to 10 at a time
  * Limiting found in model function, no filtering
@@ -17,17 +19,58 @@ const Browse = require('../models/browse')
  *
  */
 function getProfiles (req, res) {
-  const setNumber = 0 || req.params.set
-  Browse.getAll(setNumber)
-  .then((result) => {
-    if (result != null) {
-      return res.json({success: true, profiles: result})
-    } else {
-      return res.json({success: false, profiles: null})
+  console.log('All')
+  console.log(req.query)
+  const id = req.user._id
+  const setNumber = (req.query.page - 1) || (req.params.page - 1) || 0  
+  let diffArr = []
+  diffArr.push(id)
+
+  Rejected.getRejectorIDList(id)
+  .then(rejecting => {
+    // console.log(rejecting)
+    if(rejecting) {
+      rejecting.rejector.forEach(function (element) {
+        diffArr.push(element._id)
+      }, this);
     }
+    // console.log(diffArr)
+    return Rejected.getRejecteeIDList(id)
+  })  
+  .then(rejected => {
+    if(rejected) {
+      rejected.rejectee.forEach(function (element) {
+        diffArr.push(element._id)
+      }, this);
+    }
+    return Pending.getRequestorIDList(id)
+  })
+  .then(requesting => {
+    if(requesting) {
+      requesting.requestor.forEach(function (element) {
+        diffArr.push(element._id)
+      }, this);
+    }
+    return Pending.getRequesteeIDList(id)
+  })
+  .then(requested => {
+    if(requested) {
+      requested.requestee.forEach(function (element) {
+        diffArr.push(element._id)
+      }, this);
+    }     
+    Browse.getAll(diffArr, setNumber)
+      .then((result) => {
+        if (result != null) {
+          return res.json({ success: true, profiles: result })
+        } else {
+          return res.json({ success: false, profiles: null })
+        }
+      })
   })
   .catch(err => {
     if (err) {
+      console.log(err)
       return res.json({success: false, profiles: null})
     }
   })
@@ -46,41 +89,81 @@ function getProfiles (req, res) {
  * 
  */
 function getProfilesByQuery (req, res) {
+  console.log('Matching')
+  const id = req.user._id
+  const setNumber = (req.query.page - 1) || (req.params.page - 1) || 0
+  console.log(req.query)
+  console.log(req.url)
   console.log(req.params)
-  // console.log(req.query)
   if (Object.keys(req.query).length === 0) {
     return res.status(200).json({success: false, msg: 'Malformed Request!'})
   }
   const query = {
-    baseLocation: (req.query.baseLocation),
+    latitude: (req.query.lat),
+    longitude: (req.query.long),
     locationRange: Number(req.query.location),
     orientation: req.query.orientation,
     sex: req.query.sex,
-    ageRange: Number(req.query.age)
+    ageRange: [
+      Number(req.query.minAge),      
+      Number(req.query.maxAge)
+    ]
   }
 
-  for (const val of Object.values(query)) {
-    if (val === undefined || val === null) {
-      return res.status(200).json({success: false, msg: 'Malformed Request!'})
-    }
+  if (query.latitude !== undefined && query.longitude !== undefined) {
+    query.baseLocation = [Number(query.longitude), Number(query.latitude)]
+    console.log(query.baseLocation)
   }
 
-  if (query.baseLocation !== undefined) {
-    query.baseLocation = query.baseLocation.split(',').map(Number)
-  }
+  let diffArr = []
+  diffArr.push(id)
 
-  console.log(query)
-  Browse.getMatching(query)
-    .then((result) => {
-      if (result) {
-        return res.status(200).json({success: true, profiles: result})
-      } else {
-        return res.json({success: false, profiles: null})
+  Rejected.getRejectorIDList(id)
+    .then(rejecting => {
+      if(rejecting) {
+        console.log(rejecting)
+        rejecting.rejector.forEach(function (element) {
+          diffArr.push(element._id)
+        }, this);
       }
+      // console.log(diffArr)
+      return Rejected.getRejecteeIDList(id)
+    })
+    .then(rejected => {
+      if(rejected) {
+        rejected.rejectee.forEach(function (element) {
+          diffArr.push(element._id)
+        }, this);
+      }
+      return Pending.getRequestorIDList(id)
+    })
+    .then(requesting => {
+      if (requesting) {
+        requesting.requestor.forEach(function (element) {
+          diffArr.push(element._id)
+        }, this);
+      } 
+      return Pending.getRequesteeIDList(id)
+    })
+    .then(requested => {
+      if(requested) {
+        requested.requestee.forEach(function (element) {
+          diffArr.push(element._id)
+        }, this);
+      }
+      Browse.getMatching(diffArr, query.ageRange, query.sex, query.orientation, query.baseLocation, query.locationRange, setNumber)
+        .then((result) => {
+          if (result) {
+            console.log(result)
+            return res.status(200).json({ success: true, profiles: result })
+          }
+          return res.status(200).json({ success: false, profiles: null })
+        })
     })
     .catch(err => {
       if (err) {
-        return res.status(200).json({success: false, msg: 'Unknown Error!'})
+        console.log(err)
+        return res.json({ success: false, profiles: null })
       }
     })
 }

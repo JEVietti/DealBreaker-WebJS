@@ -21,7 +21,7 @@ const ProfileSchema = mongoose.Schema({
 
   birthdate: {
     id: '/properties/profile_info/properties/birthDate',
-    type: String,
+    type: Date,
     upsert: true
   },
 
@@ -99,9 +99,22 @@ const ProfileSchema = mongoose.Schema({
   }
 
 })
-ProfileSchema.index({location: {coordinates: '2dsphere'} })
+
+ProfileSchema.index({"location.coordinates" : "2dsphere"})
 
 const Profile = module.exports = mongoose.model('Profile', ProfileSchema)
+
+Profile.on('index', function (err) {
+  console.log('ON INDEX')
+  if (err) console.log(err)
+})
+
+/*
+Profile.ensureIndexes(function (err) {
+  console.log('ENSURE INDEX')
+  if (err) console.log(err)
+})
+*/
 
 /** Get Profile
  * Populate Gallery of Images from Images Model
@@ -125,7 +138,7 @@ function getProfileByUsername (username) {
  * @param {Object} newProfile
  */
 function createProfile (newProfile) {
-  return Profile.findByIdAndUpdate(newProfile._id, newProfile, {upsert: true, safe: true}).exec()
+  return Profile.findByIdAndUpdate(newProfile._id, newProfile, {upsert: true, new: true}).exec()
 }
 
 /**
@@ -134,7 +147,7 @@ function createProfile (newProfile) {
  * @param {Object} newProfile
  */
 function updateProfile (id, newProfile) {
-  return Profile.findByIdAndUpdate(id, newProfile).exec()
+  return Profile.findByIdAndUpdate(id, newProfile, { upsert: true, new: true }).exec()
 }
 
 /** Delete Method: passed the profile/user id which is encoded in the jwt token

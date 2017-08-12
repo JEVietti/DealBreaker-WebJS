@@ -7,7 +7,7 @@
          </div>
        
          <div>
-          <div *ngIf=" gallery === null || gallery.length === 0" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
+          <div *ngIf="gallery === null || gallery.length === 0" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
             <img class="responsive-img center defaultProfile" src="../assets/images/defaultProfilePic.png">
           </div>
          </div>
@@ -33,7 +33,7 @@
             <div class="hide-on-med-and-up row">
               <div class="tabs-vertical">
                 <div class="col s4 m3 l3">
-                  <ul class="tabs">
+                  <ul id="profileAttributes" class="tabs">
                     <li class="tab">
                       <a href="#dbSmall">Dealbreakers</a>
                     </li>
