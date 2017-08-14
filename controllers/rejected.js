@@ -26,7 +26,7 @@ function getRejectorById (req, res) {
     if (result) {
       return res.status(200).json({success: true, profiles: result})
     }
-    return res.status(400).json({ status: false, msg: 'Malformed Request' })          
+    return res.status(200).json({ status: false, msg: 'Not rejecting', profiles: [] })          
   })
   .catch((err) => {
     if (err) {

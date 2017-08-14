@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
   password: String; //password for auth
   cpassword: String;
   terms: boolean = false;
+  privacy: boolean = false;
 
   registerSub: Subscription;
   regEmailSub: Subscription;
@@ -58,14 +59,16 @@ export class RegisterComponent implements OnInit {
     }  
 
     this.dayList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-    
   }
 
-  
-
   ngOnInit() {
-  
- 
+  }
+
+  ngAfterViewInit() {
+    $(document).ready(function () {
+      // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+      $('.modal').modal();
+    });
   }
 
 
@@ -116,8 +119,7 @@ export class RegisterComponent implements OnInit {
       else {
         password.attr( "class", "invalid" );
         $("label[for='password']").attr( "class", "active" );
-        $("label[for='password']").attr( "data-error", "Passwords be at least 8 characters long, must have at least one digit, one lowercase, and one uppercase" );   
-
+        $("label[for='password']").attr( "data-error", "Passwords be at least 8 characters long, must have at least one digit, one lowercase, and one uppercase" );
       }
     })
 
@@ -140,6 +142,13 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  agreeTerms(status: boolean) {
+
+  }
+
+  agreePrivacy(status: boolean) {
+
+  }
 
   //Ajax call, in service, to check if username is taken
   //then update the view to inform the user

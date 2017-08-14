@@ -195,7 +195,9 @@ function updateProfile (req, res) {
 function deleteProfile (req, res) {
   const id = new ObjectID(req.user._id)
   Profile.delete(id)
-  .then(() => res.status(200).json({success: true, msg: 'Profile Deleted!'}))
+  .then((result) => {
+    return res.status(200).json({success: true, msg: 'Profile Deleted!'})
+  })
   .catch((err) => {
     if (err) {
       return res.status(400).json({success: false, msg: 'Failed to Delete Profile'})

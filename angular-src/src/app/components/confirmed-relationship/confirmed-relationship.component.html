@@ -4,6 +4,6 @@
   </div>
 </div>
 
-<div *ngIf="!relationships" class="row">
+<div *ngIf="!relationships || relationships.length === 0" class="row">
   <p class="center"> Your match is waiting. </p>
 </div>

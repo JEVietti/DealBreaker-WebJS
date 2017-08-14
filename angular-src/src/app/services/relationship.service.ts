@@ -50,8 +50,8 @@ export class RelationshipService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.authToken);
-    const ep = this.prepEndpoint('/api/confirm/')
-    return this.http.post(ep, profile, {headers: headers})
+    const ep = this.prepEndpoint('/api/pending/accept')
+    return this.http.put(ep, profile, {headers: headers})
       .map(res => res.json());
   }
 
@@ -201,7 +201,14 @@ export class RelationshipService {
     const headers = new Headers();
     const params = new URLSearchParams()
     queryMap.forEach((value, key, element) => {
-      params.append((key.toString()), (value.toString()))
+      if (Array.isArray(value)) {
+        console.log('Array')
+        value.forEach(arrElement => {
+          params.append(key.toString(), arrElement.toString())
+        });
+      } else {
+        params.append(key.toString(), value.toString())
+      }
     });
     console.log(params)
     this.loadAuthToken(); // load the Auth Token

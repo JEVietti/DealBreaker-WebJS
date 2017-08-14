@@ -20,7 +20,7 @@ function getRequestorById (req, res) {
   const id = req.user._id
   Pending.getRequestor(id)
   .then((result) => {
-    res.status(200).json({success: true, profiles: result})
+    return res.status(200).json({success: true, profiles: result})
   })
   .catch(err => {
     if (err) {
@@ -41,7 +41,7 @@ function getRequestedById (req, res) {
   const id = req.user._id
   Pending.getRequestee(id)
   .then((result) => {
-    res.status(200).json({success: true, profiles: result})
+    return res.status(200).json({success: true, profiles: result})
   })
   .catch(err => {
     if (err) {
@@ -143,6 +143,7 @@ function updatePending (req, res) {
  */
 function confirmPending (req, res) {
   let id = req.body._id
+  console.log(req.body)
   const requestor = {
     _id: new ObjectID(req.user._id),
     partnerId: new ObjectID(id)
@@ -159,10 +160,10 @@ function confirmPending (req, res) {
     }
   })
   .then((result) => {
-    return Pending.deleteRequestor(requestor._id, requestor.partnerId)
+    return Pending.deleteRequestor(requestor.partnerId, requestor._id)
   })
   .then((result) => {
-    return Pending.deleteRequestee(requestor._id, requestor.partnerId)
+    return Pending.deleteRequestee(requestor.partnerId, requestor._id)
   })
   .then((result) => {
     return res.status(201).json({status: true, msg: 'Confirmed Relationship'})
@@ -201,11 +202,11 @@ function rejectPending (req, res) {
   })
   .then((result) => {
     if (result) {
-      return Pending.deleteRequestor(requestor._id, requestor.partnerId)
+      return Pending.deleteRequestor(requestor.partnerId, requestor._id)
     }
   })
   .then((result) => {
-      return Pending.deleteRequestee(requestor._id, requestor.partnerId)
+      return Pending.deleteRequestee(requestor.partnerId, requestor._id)
   })
   .then((result) => {
       return res.status(201).json({status: true, msg: 'Rejected Relationship'})

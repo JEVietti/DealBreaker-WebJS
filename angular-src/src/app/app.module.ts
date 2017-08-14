@@ -24,7 +24,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProfileSetupComponent } from './components/profile-setup/profile-setup.component';
 import { ImagesComponent } from './components/images/images.component';
-import { BirthdateComponent } from './components/birthdate/birthdate.component';
 import { AboutComponent } from './components/about/about.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { AccountComponent } from './components/account/account.component';
@@ -40,7 +39,7 @@ import { RejectedRelationshipComponent } from './components/rejected-relationshi
 import { ActionCardComponent } from './components/action-card/action-card.component';
 import { SentRelationshipComponent } from './components/sent-relationship/sent-relationship.component';
 
-//User Created or Customized Services and Providers
+// User Created or Customized Services and Providers
 import {ValidateService} from './services/validate.service';
 import {AuthService} from './services/auth.service';
 import {ImagesService} from './services/images.service';
@@ -103,7 +102,6 @@ const appRoutes: Routes = [
     FooterComponent,
     ProfileSetupComponent,
     ImagesComponent,
-    BirthdateComponent,
     AboutComponent,
     PrivacyPolicyComponent,
     AccountComponent,

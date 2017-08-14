@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterContentInit, Input } from '@angular/core';
+import { Router } from '@angular/router'
 import {BrowseService} from '../../services/browse.service'
 import {RelationshipService} from '../../services/relationship.service'
 import {ProfileService} from '../../services/profile.service';
@@ -19,7 +20,7 @@ export class ProfileCardComponent implements OnInit {
 
   // Subscriptions
 
-  constructor(private relationshipService: RelationshipService, private profileService: ProfileService) {}
+  constructor(private router: Router, private relationshipService: RelationshipService, private profileService: ProfileService) {}
 
   ngOnInit() {
     console.log(this.data)

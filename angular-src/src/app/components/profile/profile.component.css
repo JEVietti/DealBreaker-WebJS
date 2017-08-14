@@ -20,14 +20,14 @@
 }
 
 .carousel {
-      height: 400px;
+    height: 400px;
     background-color: gray;
       
 }
 
 .carousel-item a {
     max-height: 100%;
-    min-width: 400px;
+    min-width: 100%;
     
 }
 
@@ -117,7 +117,7 @@ li.list-group-item {
     width:100%;
 }
     
-a.active {
+li a.active {
     -moz-transition: border-color .5s ease;
     -o-transition: border-color .5s ease;
     -webkit-transition: border-color .5s ease;

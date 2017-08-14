@@ -26,7 +26,7 @@ export class SentRelationshipComponent implements OnInit {
   fetchRequesting() {
     this.relationshipService.getRequestedList().subscribe(res => {
       console.log(res)
-      if (res.profiles.requestor !== undefined) {
+      if (res.profiles) {
         res.profiles.requestor.forEach(element => {
           element.profile.status = 'requesting'
           this.profileRequested.push(element.profile);

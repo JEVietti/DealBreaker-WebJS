@@ -18,6 +18,7 @@ export class ConfirmedRelationshipComponent implements OnInit, AfterContentInit,
   constructor( private relationshipService: RelationshipService) {}
 
   ngOnInit() {
+    this.relationships = new Array()
     this.fetchConfirmed()
   }
 
@@ -34,7 +35,13 @@ export class ConfirmedRelationshipComponent implements OnInit, AfterContentInit,
 
   fetchConfirmed(){
     this.relationshipService.getConfirmed().subscribe(res => {
-
+      console.log(res)
+      if (res.profiles) {
+        res.profiles.confirm.forEach(element => {
+          element.profile.status = 'confirm'
+          this.relationships.push(element.profile)
+        });
+      }
     })
   }
 

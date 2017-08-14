@@ -89,7 +89,14 @@ export class BrowseService {
     let headers = new Headers();
     let params = new URLSearchParams()
     queryMap.forEach((value, key, element) => {
-      params.set(key.toString(), value.toString())
+      if (value.isArray()) {
+        console.log('Array')
+        value.forEach(arrElement => {
+          params.append(key.toString() , arrElement.toString())
+        });
+      } else {
+        params.append(key.toString(), value.toString())
+      }
     });
     this.loadAuthToken(); //load the Auth Token
     headers.append('Authorization', this.authToken);

@@ -99,8 +99,7 @@ function getProfilesByQuery (req, res) {
     return res.status(200).json({success: false, msg: 'Malformed Request!'})
   }
   const query = {
-    latitude: (req.query.lat),
-    longitude: (req.query.long),
+    baseLocation: (req.query.baseLocation),
     locationRange: Number(req.query.location),
     orientation: req.query.orientation,
     sex: req.query.sex,
@@ -110,8 +109,8 @@ function getProfilesByQuery (req, res) {
     ]
   }
 
-  if (query.latitude !== undefined && query.longitude !== undefined) {
-    query.baseLocation = [Number(query.longitude), Number(query.latitude)]
+  if (query.baseLocation) {
+    query.baseLocation = [Number(query.baseLocation[0]), Number(query.baseLocation[1])]
     console.log(query.baseLocation)
   }
 

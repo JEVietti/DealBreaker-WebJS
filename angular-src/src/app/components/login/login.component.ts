@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         Materialize.toast("You are now logged in!", 500, 'rounded toast-success');
           this.authService.storeUserData(data.token, data.user);
            setTimeout(()=>{
-           window.location.replace('/profile')    
+           window.location.replace('/dashboard')    
           }, 600)
       }
       else{

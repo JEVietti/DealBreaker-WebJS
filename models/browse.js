@@ -17,7 +17,7 @@ const Rejected = require('./rejected')
  */
 function getAll (diffArr, setNumber) {
   // console.log(diffArr)
-  const pCount = 1;
+  const pCount = 9;
   const parameters = {
     _id: {$nin: diffArr}
   }
@@ -32,7 +32,7 @@ function getAll (diffArr, setNumber) {
  * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
  */
 function getMatching (diffArr, ageRange, sex, sexualOrientation, baseLocation, locationRange, setNumber) {
-  const pCount = 1;  
+  const pCount = 9;  
   let maxDate = new Date()
   maxDate.setFullYear(maxDate.getFullYear() - ageRange[1])
   console.log(maxDate)
@@ -42,9 +42,9 @@ function getMatching (diffArr, ageRange, sex, sexualOrientation, baseLocation, l
   console.log(diffArr)
   const parameters = {
     _id: { $nin: diffArr },
-    sex: {$eq: sex},
+    sex: {$in: sex},
     birthdate: {$lte: minDate, $gte: maxDate},
-    sexualOrientation: {$eq: sexualOrientation},
+    sexualOrientation: {$in: sexualOrientation},
     "location.coordinates": {
       $near: {
         $geometry: {
@@ -70,7 +70,7 @@ function getMatching (diffArr, ageRange, sex, sexualOrientation, baseLocation, l
  * @param {Number} setNumber - Pagination, Set Limitation in which a set of profiles are sent at a time
  */
 function getMatchingWithName(diffArr, fname, lname, ageRange, sex, sexualOrientation, baseLocation, locationRange, setNumber) {
-  const pCount = 1;
+  const pCount = 9;
   let maxDate = new Date()
   maxDate.setFullYear(maxDate.getFullYear() - ageRange[1])
   console.log(maxDate)
@@ -80,8 +80,8 @@ function getMatchingWithName(diffArr, fname, lname, ageRange, sex, sexualOrienta
   console.log(diffArr)
   const parameters = {
     _id: { $nin: diffArr },
-    fname: {$eq: fname},
-    lname: {$eq: lname},
+    fname: {in: fname},
+    lname: {$in: lname},
     sex: { $eq: sex },
     birthdate: { $lte: minDate, $gte: maxDate },
     sexualOrientation: { $eq: sexualOrientation },
@@ -94,9 +94,6 @@ function getMatchingWithName(diffArr, fname, lname, ageRange, sex, sexualOrienta
         $maxDistance: locationRange
       }
     }
-
-
-
   }
   return Profile.find(parameters).skip(setNumber * pCount).limit(pCount).populate({ path: 'images', model: 'Images' }).lean().exec()
 }

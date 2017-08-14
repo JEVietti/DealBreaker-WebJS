@@ -22,9 +22,7 @@ function getConfirmedById (req, res) {
   }
   Confirmed.getConfirmed(id)
   .then((result) => {
-    if (result) {
-      res.status(200).json({success: true, profiles: result})
-    }
+     return  res.status(200).json({success: true, profiles: result})
   })
   .catch((err) => {
     if (err) {

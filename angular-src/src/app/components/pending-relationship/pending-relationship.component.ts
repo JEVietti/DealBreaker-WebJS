@@ -39,7 +39,7 @@ export class PendingRelationshipComponent implements OnInit, AfterContentInit, O
   fetchRequests() {
     this.relationshipService.getRequestsList().subscribe(res => {
       console.log(res)
-      if (res.profiles.requestee !== undefined) {
+      if (res.profiles && res.profiles.requestee.length > 0) {
         res.profiles.requestee.forEach(element => {
           element.profile.status = 'pending'
           this.profileRequests.push(element.profile);

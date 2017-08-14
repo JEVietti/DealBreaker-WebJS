@@ -114,9 +114,9 @@ initProfile(){
         // console.log(profile.success);
         // if profile found display its contents
         if (profile.success) {
-          this.fetchImages()
-          // console.log(profile);
+          console.log(profile);
           this.profile = profile.profile;
+          this.fetchImages()          
           this.location = this.profile.location.city + ', ' + this.profile.location.state + ', ' + this.profile.location.country
           // console.log(this.profile.birthdate)
           this.age = this.profileService.calculateAge(this.profile.birthdate);

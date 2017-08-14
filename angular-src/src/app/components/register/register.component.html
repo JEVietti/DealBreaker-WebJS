@@ -73,9 +73,32 @@
       <div class="row">
       <input type="checkbox" id="terms" />
       <label for="terms">I hereby have read and agree to the </label>
-       <a class="blue0-text text-darken-3 " [routerLink] = "['/terms']"> Terms of Service </a> 
+      
+      <!-- Modal Trigger -->
+      <a class="blue-text text-darken-3 modal-trigger" href="#term"> Terms of Service </a>
+
+      <!-- Modal Structure -->
+      <div id="term" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <app-terms></app-terms>
+        </div>
+        <div class="modal-footer">
+          <a (click)="agreeTerms(true)" class="modal-action modal-close pink-text waves-effect waves-red btn-flat">Agree</a>          
+        </div>
+      </div>
+
        and 
-        <a class="blue0-text text-darken-3 link" [routerLink] = "['/privacy']"> Privacy Policy </a> 
+      
+       <a class="blue-text text-darken-3 modal-trigger" href="#privacy"> Privacy Policy </a>    
+      
+       <div id="privacy" class="modal modal-fixed-footer">
+        <div class="modal-content">
+          <app-privacy-policy></app-privacy-policy>
+        </div>
+        <div class="modal-footer">
+          <a (click)="agreePrivacy(true)" class="modal-action modal-close pink-text waves-effect waves-red btn-flat">Agree</a>
+        </div>
+      </div>
     </div>
 
   <input type="submit" class="btn btn-primary pink" value="Submit">

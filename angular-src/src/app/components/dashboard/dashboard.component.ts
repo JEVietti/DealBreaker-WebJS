@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit, AfterContentInit, OnDestroy {
   confirmRequestSubListener: Subscription;
   confirmRejectSub: Subscription;
   confirmRejectSubListener: Subscription; 
+  rejectConfirmSub: Subscription;
+  rejectConfirmSubListener: Subscription; 
 
   constructor(private relationshipService: RelationshipService) {}
 
@@ -79,17 +81,21 @@ export class DashboardComponent implements OnInit, AfterContentInit, OnDestroy {
     if (this.confirmRejectSubListener) {
       this.confirmRejectSubListener.unsubscribe()
     }
+    if (this.rejectConfirmSub) {
+      this.confirmRejectSub.unsubscribe()
+    }
+    if (this.rejectConfirmSubListener) {
+      this.rejectConfirmSubListener.unsubscribe()
+    }
   }
 
   initMaterialize() {
     $(document).ready(function () {
       $('#reqSmallTab').on('click', () => {
-        console.log('clicked')
         $('ul.tabs').tabs()
       })
       $('ul.tabs').tabs({
         onShow: function(tab) {
-          console.log(tab)
           $('#requestComp').tabs()
           $('#requestSmallComp').tabs()
         }
@@ -103,6 +109,7 @@ export class DashboardComponent implements OnInit, AfterContentInit, OnDestroy {
     this.getProfileReject()
     this.getProfileRemoveReject()
     this.getProfileConfirm()
+    this.getProfileRejectConfirm()
   }
 
   getProfileRemoveRequest() {
@@ -145,7 +152,16 @@ export class DashboardComponent implements OnInit, AfterContentInit, OnDestroy {
   getProfileConfirm() {
     this.confirmRequestSubListener = this.relationshipService.listenProfileToConfirm().subscribe(res => {
       console.log(res)
-      this.confirmRequestSub = this.relationshipService.confirmRequest(res.profile._id).subscribe(confirm => {
+      this.confirmRequestSub = this.relationshipService.confirmRequest({_id: res.profile._id}).subscribe(confirm => {
+        console.log(confirm)
+      })
+    })
+  }
+
+  getProfileRejectConfirm() {
+    this.rejectConfirmSubListener = this.relationshipService.listenProfileToRejectConfirm().subscribe(res => {
+      console.log(res)
+      this.rejectConfirmSub = this.relationshipService.rejectConfirmRequest({ _id: res.profile._id }).subscribe(confirm => {
         console.log(confirm)
       })
     })

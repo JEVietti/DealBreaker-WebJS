@@ -41,10 +41,28 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
 
   constructor( private profileService: ProfileService, private relationshipService: RelationshipService) {
     this.preferences = new Map()
-    this.sexualities = ["Asexual", "Bisexual", "Heterosexual", 'Homosexual']
-    this.ageList = [{ value: 18, label: "18-20" }, { value: 21, label: "21-30" }, { value: 30, label: "30-45" }, { value: 45, label: "45-60" }, { value: 60, label: "60-80" }, { value: 80, label: "80+" }];
-    this.sexList = [{ value: 'Male', label: 'M' }, { value: 'Female', label: 'F' }]
-    this.locationList = [{ value: 80468, label: '50/80 mi/km' }, { value: 402336, label: '250/400 mi/km' }, { value: 804672, label: '500/805 mi/km' }, { value: 40075020, label: 'Anywhere' }]
+    this.sexualities = [
+      "Any",
+      "Asexual", 
+      "Bisexual", 
+      "Heterosexual", 
+      'Homosexual'
+    ]
+    this.ageList = [
+      { value: 18, label: "18-20" },
+      { value: 21, label: "21-30" },
+      { value: 30, label: "30-45" },
+      { value: 45, label: "45-60" },
+      { value: 60, label: "60-80" },
+      { value: 80, label: "80+" }
+    ];
+    this.sexList = [{ value: 'Any', label: 'Any' }, { value: 'Male', label: 'M' }, { value: 'Female', label: 'F' }]
+    this.locationList = [
+      { value: 80468, label: '50/80 mi/km' }, 
+      { value: 402336, label: '250/400 mi/km' },
+      { value: 804672, label: '500/805 mi/km' }, 
+      { value: 40075020, label: 'Anywhere' }
+    ]
 
     this.loadPreferences()
   }
@@ -150,17 +168,15 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
           }
         } else if (profile.sex === 'Female') {
           if (profile.sexualOrientation === 'Heterosexual') {
-            this.setSexPref('Female')
-          } else if (profile.sexualOrientation === 'Homosexual') {
             this.setSexPref('Male')
-          } else if (profile.sexualOrientation === 'Heterosexual') {
-            this.setSexPref(['Male', 'Female'])
+          } else if (profile.sexualOrientation === 'Homosexual') {
+            this.setSexPref('Female')
           } else {
             this.setSexPref(['Male', 'Female'])
           }
         }
         this.sexualOrientation = profile.sexualOrientation
-        this.setOrientationPref(profile.sexualOrientation)
+        this.setOrientationPref(this.sexualOrientation)
 
         this.locationRange = 80468
         this.setLocationRangePref(80468)
@@ -210,7 +226,7 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
         this.browse(this.preferences)
       })
 
-      $('#sexualOrientation').on('change', () => {
+      $('#sexualOrientation').on('change', (e) => {
         this.profileSet = [];        
         this.page = 1
         this.setPage(this.page)        
@@ -229,10 +245,10 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
 
   browse(preferences) {
     console.log(this.preferences)
-    $('#loader').fadeIn(400).delay(500)
+    $('#loader').fadeIn(300).delay(200)
     this.browseSub = this.relationshipService.getProfiles(preferences).subscribe(res => {
        if (res.profiles) {
-         $('#loader').fadeOut(500)
+         $('#loader').fadeOut(300).delay(200)
          console.log(res.profiles)
         res.profiles.forEach(element => {
           element.status = undefined
@@ -323,7 +339,11 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
    * @param sex
    */
   setSexPref(sex) {
-    this.sex = sex
+    this.sex = sex   
+    if(sex === 'Any') {
+      this.preferences.set('sex', ['Male', 'Female'])
+      return
+    }
     this.preferences.set('sex', sex)
   }
 
@@ -332,6 +352,11 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
    * @param orientation
    */
   setOrientationPref(orientation) {
+    this.sexualOrientation = orientation
+    if(orientation === 'Any') {
+      this.preferences.set('orientation', ['Asexual', 'Heterosexual', 'Bisexual', 'Homosexual'])
+      return
+    }
     this.preferences.set('orientation', orientation)
   }
 
@@ -354,8 +379,7 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
   }
 
   setLocationBase(loc) {
-    this.preferences.set('long', loc[0])
-    this.preferences.set('lat', loc[1])
+    this.preferences.set('baseLocation', loc)
   }
 
   setPage(page) {

@@ -167,7 +167,7 @@ function deleteImages (req, res) {
     s3.listObjectsV2(params, (err, data) => {
       if (err) {
         console.log(err)
-        res.end(err)
+        return res.end(err)
       }
 
       res.Contents.forEach(function(element) {

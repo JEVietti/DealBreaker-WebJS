@@ -23,7 +23,7 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.fetchRejector()
-    this.fetchRejectee()
+    // this.fetchRejectee()
   }
 
   ngAfterContentInit() {
@@ -36,7 +36,8 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
   fetchRejector() {
     this.relationshipService.getRejectorList().subscribe(res => {
       // console.log(res)
-      if (res.profiles.rejector.length !== 0) {
+      if (res.profiles && res.profiles.length > 0) {
+        console.log(res)
         res.profiles.rejector.forEach(element => {
         element.profile.status = 'reject'
           this.profileRejector.push(element.profile)
@@ -45,7 +46,7 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
       // this.relationshipService.fetchProfiles(this.profileRejector)
     })
   }
-
+/*
   fetchRejectee() {
     this.relationshipService.getRejecteeList().subscribe(res => {
       // console.log(res)
@@ -58,6 +59,7 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
       // this.relationshipService.fetchProfiles(this.profileRejectee)
     })
   }
+  */
 /*
   getProfileRequests() {
     this.getProfileRemoveReject()

@@ -1,4 +1,4 @@
- <div class="card">
+ <div class="card sticky-action">
   <div class="card-location">
    <p> {{profile.location.city}}, {{profile.location.state}}, {{profile.location.country}} </p>
    <p> {{profile.sex}} | {{profile.sexualOrientation}} </p>
@@ -13,7 +13,7 @@
     </div>
     <div class="card-action">
       <div>
-        <a class="left" href="/profile/{{profile.username}}">Profile</a> 
+        <a class="left" [routerLink] = "['/profile/'+ profile.username]" >Profile</a> 
         <div class="right red-text">
           
           <div *ngIf="profile.status === undefined" class="material-icons">
