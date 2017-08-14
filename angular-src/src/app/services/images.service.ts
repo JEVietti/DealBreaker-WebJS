@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, URLSearchParams} from '@angular/http';
 import {tokenNotExpired} from 'angular2-jwt';
 import {AuthService} from '../services/auth.service'
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map'; //map the data 
 
@@ -20,7 +20,7 @@ export class ImagesService {
     this.auth.loadAuthToken(); //load the Auth Token
     headers.append('Authorization', this.auth.authToken);    
     headers.append('Content-Type', 'application/json');
-    const ep = this.prepEndpoint(`/api/sign-s3?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`)
+    const ep = this.prepEndpoint(`/api/images/s3?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`)
     return this.http.get(ep, {headers: headers})
     .map(res => res.json());
   }
@@ -51,6 +51,7 @@ export class ImagesService {
 
   listenImages() : Observable<any> {
     console.log("image observed")
+    console.log(this.newImage.asObservable())
     return this.newImage.asObservable()
   }
 

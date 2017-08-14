@@ -1,8 +1,16 @@
-const mongoose = require('mongoose')
+/** User Model
+ * User Schema for Authentication and ID which allows easy population across collections
+ */
+let mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 const bcrypt = require('bcryptjs')
 require('../config/db')
 var ObjectID = require('mongodb').ObjectID
 
+/**
+ * User Schema hold the email, name, birthdate, and password always
+ * Contingently holds the reset password token and time window
+ */
 const UserSchema = mongoose.Schema({
   fname: {
     type: String,
@@ -26,6 +34,10 @@ const UserSchema = mongoose.Schema({
     upsert: true
   },
 
+  birthdate: {
+    type: String
+  },
+
   password: {
     type: String,
     required: true,
@@ -41,84 +53,125 @@ const UserSchema = mongoose.Schema({
   }
 })
 
+UserSchema.index({ "usename": {unique: true} })
+
+
+// Export the model  and its functions for controllers
 const User = module.exports = mongoose.model('User', UserSchema)
 
-module.exports.getUserById = function (id, callback) {
-  User.findById(id, callback)
+
+/** Get User Information by ObjectID
+ * Used in passport authentication for JWT tokens
+ * @param {ObjectID(String) || String} id
+ */
+function getUserById (id) {
+  return User.findById(id).exec()
 }
 
-module.exports.getUserByUsername = function (username, callback) {
+/**
+ * Used in basic authentication with user entered username
+ * @param {String} username
+ */
+function getUserByUsername (username) {
   const query = {username: username}
-  User.findOne(query, callback)
+  return User.findOne(query).exec()
 }
 
-module.exports.getUserByEmail = function (email, callback) {
+/**
+ * Get user from email for sending support emails and forgotten email and password
+ * @param {String} email
+ */
+function getUserByEmail (email) {
   const query = {email: email}
-  User.findOne(query, callback)
+  return User.findOne(query).exec()
 }
 
-module.exports.addUser = function (newUser, callback) {
-    // hashpassword usng bcrypt
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) throw err
-    bcrypt.hash(newUser.password, salt, (err, hashedPassword) => {
-      if (err) throw err
-      newUser.password = hashedPassword
-      newUser.save(callback)
-    })
-  })
+/**
+ * Registering a user to the collection
+ * @param {User.Model Object} newUser
+ */
+function addUser (newUser) {
+  return newUser.save()
 }
 
-module.exports.comparePassword = function (password, hash, callback) {
+/**
+ * Callback bcrypt function fo authentication - moved to controller for promises
+ * @param {String} password
+ * @param {String} hash
+ * @param {Callback (err, result)} callback
+ */
+function comparePassword (password, hash, callback) {
   bcrypt.compare(password, hash, (err, isMatch) => {
     if (err) throw err
     callback(null, isMatch)
   })
 }
 
-module.exports.checkUsername = function (uname, callback) {
-  const query = {username: uname}
-  User.findOne(query, callback)
+/**
+ * Check if username already exists in the collection
+ * @param {* username to use in query} userName
+ */
+function checkUsername (userName) {
+  const query = {username: userName}
+  return User.findOne(query).exec()
 }
 
-module.exports.checkEmail = function (email, callback) {
+/**
+ * Check if the email already exists in the collection
+ * @param {String} email
+ */
+function checkEmail (email) {
   const query = {email: email}
-  User.findOne(query, callback)
+  return User.findOne(query).exec()
 }
 
-module.exports.updateUser = function (user, callback) {
-   // hashpassword usng bcrypt
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) throw err
-    bcrypt.hash(user.password, salt, (err, hashedPassword) => {
-      if (err) throw err
-      user.password = hashedPassword
-      user.save(callback)
-    })
-  })
+/**
+ * Update a user useful for overriding the user
+ * @param {*user Object Matches Model Above} user
+ */
+function updateUser (user) {
+  return user.save()
 }
 
-module.exports.updatePassword = function (update, callback) {
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) throw err
-    bcrypt.hash(update.password, salt, (err, hashedPassword) => {
-      if (err) throw err
-      update.password = hashedPassword
-      User.findByIdAndUpdate(update._id, {password: update.password}, callback)
-    })
-  })
+/**
+ *
+ * @param {ObjectID(String) || String} id
+ * @param {String = HashedString} password
+ */
+function updatePassword (id, password) {
+  return User.findByIdAndUpdate(id, {password: password}).exec()
 }
 
-module.exports.updateEmail = function (update, callback) {
-  User.findByIdAndUpdate(update._id, {email: update.email}, callback)
-  console.log('Update Email')
+/**
+ * Update the email of a user
+ * @param {ObjectID(String) || String} id
+ * @param {String} email
+ * Returns Promise
+ */
+function updateEmail (id, email) {
+  return User.findByIdAndUpdate(id, {email: email}).exec()
 }
 
-module.exports.deleteUser = function (userID, callback) {
+/**
+ * Delete a user by ID
+ * @param {ObjectID(String) || String} userID - id of user
+ */
+function deleteUser (userID) {
   userID = new ObjectID(userID)
-  const userObj = {
-    _id: userID
-  }
-  console.log(userID)
-  User.remove(userObj, callback)
+  return User.findByIdAndRemove(userID).exec()
 }
+
+/** Exporting Functions defined above
+ * Format: module.export.exportName = functionName
+*/
+module.exports.getUserById = getUserById
+module.exports.getUserByUsername = getUserByUsername
+module.exports.checkUsername = checkUsername
+module.exports.checkEmail = checkEmail
+module.exports.deleteUser = deleteUser
+module.exports.updateEmail = updateEmail
+module.exports.updatePassword = updatePassword
+module.exports.updateUser = updateUser
+module.exports.comparePassword = comparePassword
+module.exports.addUser = addUser
+module.exports.getUserByEmail = getUserByEmail

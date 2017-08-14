@@ -27,14 +27,7 @@ export class AuthService {
   //Inject the HTTP Module
   constructor(private http:Http) { this.isDev = true; }
 
-//Register User Requests to API EndPoint
-  registerUser(user){
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const ep = this.prepEndpoint('/api/users/')
-    return this.http.post(ep, user, {headers: headers})
-      .map(res=> res.json());
-  }
+
 
 //Login Request with Username and Password Data in user object passed in
   authenticateUser(user){
@@ -44,7 +37,9 @@ export class AuthService {
     const ep = this.prepEndpoint('/api/users/auth')    
     return this.http.post(ep, user, {headers: headers})
       .map(res=> res.json());
+  
   }
+
 
 //Delete the User thats id is encoded and encrypted in the JWT auth token 
   deleteUser(){

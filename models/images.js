@@ -1,58 +1,81 @@
+/** Images Model and Functions
+ * Uses Mongoose as Connect to MongoDB Database with images collection
+ * Uses Promises - promise library bluebird
+ */
 const mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 require('../config/db')
-
 const Schema = mongoose.Schema
 
+/**
+ *
+ */
 const ImagesSchema = mongoose.Schema({
 
   _id: Schema.Types.ObjectId,
   username: {type: String, upsert: true},
-  gallery: [
-    {
-      _id: {type: Number, upsert: true, require: [true, 'id required']},
-      url: {
-        type: String,
-        upsert: true
-      }
+  gallery: [{
+    _id: {type: Number, upsert: true, require: [true, 'id required']},
+    url: {
+      type: String,
+      upsert: true
     }
-  ]
-
+  }]
 })
-
 const Images = module.exports = mongoose.model('Images', ImagesSchema)
 
-// Functions get Images by User/Profile Id
-function getImagesById (id, callback) {
-  Images.findById(id, callback).lean()
+/**
+ *
+ * @param {ObjectId(String) || String} id
+ */
+function getImagesById (id) {
+  return Images.findById(id).lean().exec()
 }
 
-// Get Images Aray by Username
-function getImagesByUsername (username, callback) {
+/**
+ *
+ * @param {String} username
+ */
+function getImagesByUsername (username) {
   const query = {username: username}
-  Images.find(query).lean().exec(callback)
+  return Images.find(query).lean().exec()
 }
 
-// Update the Images docuemnt for the user
-function updateImages (newImages, callback){
-  Images.findByIdAndUpdate(newImages._id, newImages, {upsert: true}).exec(callback)
+/**
+ *
+ * @param {ObjectId(String) || String} id
+ * @param {Object} newImages
+ */
+function updateImages (id, newImages) {
+  return Images.findByIdAndUpdate(id, newImages, {upsert: true, safe: true, new: true, setDefaultsOnInsert: true}).exec()
 }
 
-// Create Images if the Document does not exists
-function createImages (newImages, callback) {
-  // newImages.save(callback)
-  Images.findByIdAndUpdate(newImages._id, {$pushAll:{gallery: newImages.gallery}}, {upsert: true}).exec(callback)
-  
+/**
+ *
+ * @param {ObjectId(String) || String} id
+ * @param {Object} newImages Can hold multiple Images or a Single Image made up of a url
+ */
+function createImages (id, newImages) {
+  // newImages.save()
+  return Images.findByIdAndUpdate(id, {$pushAll: {gallery: newImages.gallery}}, {upsert: true, new: true, setDefaultsOnInsert: true}).exec()
 }
 
-function deleteImage (id, image, callback) {
-  //console.log(id)
-  const query = { _id: id}
-  console.log(image.url)
-  Images.findByIdAndUpdate(id, {$pull: { gallery: {
-			url : image.url
-		}}}, { multi: true }).exec(callback)
+/**
+ *
+ * @param {ObjectId(String) || String} id
+ * @param {String} url
+ */
+function deleteImage (id, url) {
+  // console.log(id)
+  // console.log(url)
+  return Images.findByIdAndUpdate(id, {$pull: { gallery: {
+    url: url
+  }}}, { multi: true }).exec()
 }
 
+/** Exporting Functions defined above
+ *  Format: module.export.exportName = functionName
+*/
 module.exports.create = createImages
 module.exports.getById = getImagesById
 module.exports.getByUsername = getImagesByUsername

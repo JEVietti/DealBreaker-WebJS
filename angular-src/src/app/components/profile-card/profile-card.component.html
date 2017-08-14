@@ -1,23 +1,75 @@
-<div class="row">
- <div class="col s12">
-    <div class="card small horizontal">
-      <div class="card-image">
-        <img class="circle card-image" src="https://s3-us-west-1.amazonaws.com/dealbreakerjs/jevietti/classpic.jpg">
-      </div>
-      <div class="card-stacked">
-        <div class="card-content">
-          <p class="flow-text">Joseph Vietti</p>
-          <p class=""> Biography </p>
-          <p class=""> Location </p>
-        </div>
-        <div class="card-action">
-          <div style="float:right;">
-          <a href="/profile">Profile</a>
-          <a href="#">Invite</a>
-          <a href="#">Reject</a>
+ <div class="card sticky-action">
+  <div class="card-location">
+   <p> {{profile.location.city}}, {{profile.location.state}}, {{profile.location.country}} </p>
+   <p> {{profile.sex}} | {{profile.sexualOrientation}} </p>
+   <p> {{profile.age}} </p>
+  </div>
+    <div class="card-image waves-effect waves-block waves-light">
+       <img *ngIf="!profile.images" class="circle responsive-img profile-img activator" src="../assets/images/defaultProfilePic.png">
+        <img *ngIf="profile.images" class="circle responsive-img profile-img activator" src={{profile.images.gallery[0].url}}>  
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text left-align text-darken-4">{{profile.fname}} {{profile.lname}}<i class="material-icons right grey-text">expand_more</i></span>      
+    </div>
+    <div class="card-action">
+      <div>
+        <a class="left" [routerLink] = "['/profile/'+ profile.username]" >Profile</a> 
+        <div class="right red-text">
+          
+          <div *ngIf="profile.status === undefined" class="material-icons">
+            <i (click)="quickAdd(profile)" class="material-icons right">person_add</i>
+            <i (click)="quickReject(profile)" class="material-icons right">delete</i>
           </div>
+        
+          <div *ngIf="profile.status === 'reject'">
+            <i (click)="quickRejectRevert(profile)" class="material-icons right">undo</i>
+          </div>
+        
+          <div *ngIf="profile.status === 'requesting'" class="right grey-text"> Sent
+            <i (click)="quickAddRevert(profile)" class="material-icons grey-text right"> check </i>
+          </div>
+
+          <div *ngIf="profile.status === 'pending'" class="right red-text">
+            <i (click)="quickReject(profile)" class="material-icons right">delete</i>          
+            <i (click)="quickConfirm(profile)" class="material-icons right"> check </i>
+          </div>
+
+          <div *ngIf="profile.status === 'confirm'" class="material-icons">
+            <i href="/message" class="material-icons right">send</i>            
+            <i (click)="quickRejectConfirm(profile)" class="material-icons right">delete</i>
+          </div>
+        
         </div>
       </div>
     </div>
+    <div class="card-reveal">
+    
+      <span class="card-title grey-text text-darken-4"> 
+        <div class="left-align"> <span class="reveal-title">{{profile.fname}} {{profile.lname}}</span>
+        <i class="material-icons reveal-icon right">expand_less</i>
+  
+        </div> 
+       
+       <div class="card-tabs tabs-fixed-width">
+      <ul class="cardTabs" class="tabs tabs-fixed-width center">
+        <li class="tab"><a class="active" href="#{{profile.username}}-bio">Biography</a></li>
+        <li class="tab"><a href="#{{profile.username}}-db">Dealbreakers <span class="badge red white-text">{{profile.dealbreakers.length}}</span> </a></li>
+
+      </ul>
+    </div>
+    <div class="card-content">
+      <div id="{{profile.username}}-bio">
+        
+         <p class="tab-text left flow-text"> {{profile.biography}} </p>
+      </div>
+      <div id="{{profile.username}}-db">
+             
+        <ul class="tab-text left flow-text"> 
+          <div class="chip" *ngFor="let db of profile.dealbreakers">{{db}}</div>
+        </ul>
+      
+      </div>  
+    </div>
+      </span>
+    </div>
   </div>
-</div>

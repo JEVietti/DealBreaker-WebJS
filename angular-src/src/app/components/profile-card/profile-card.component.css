@@ -1,9 +1,82 @@
 .card-image {
-    height: 90px !important;
-    width: 90px;
-    margin: 10px 15px 0px 10px;
+    height: 100px !important;
+    width: 100px !important;
+    max-height: 100% !important;
+     margin-left: 25px;
+    margin-top: 15px;
+}
+
+
+.card-content {
+    padding-top: 10px;
+}
+
+.card-location {
+    float:right;
+    margin-right: 10px;
+    font-size: 11px;
+    color: gray;
+    text-align: right;
+}
+
+
+.circle {
+    border-radius: 50% !important;
+}
+
+.profile-img {
+     height: 90px;
+    width: 90px !important;
+    margin-top: 10px;
+   
+}
+
+.card-action {
+    min-height: 50px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.tabs {
+overflow-x: hidden;
+}
+
+.tab-text {
+    font-size: 16px;
+}
+
+.card-reveal {
+ border: 1px solid #eee;
+ padding-left: 0px;
+ padding-right: 0px;
 }
 
 .card {
-    max-height: 200px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition:all 0.3s ease-in-out;
+    border: 1px solid #eee;
+}
+
+.card:hover {
+transition: all 0.3s ease-in-out;
+-webkit-transition:all 0.3s ease-in-out;
+-webkit-box-shadow: -2px 3px 35px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: -2px 3px 35px 0px rgba(0,0,0,0.75);
+box-shadow: -2px 3px 35px 0px rgba(0,0,0,0.75);
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+    color: red;
+}
+
+.card i {
+    cursor: hand;
+    cursor: pointer;
+    color: red;
+}
+
+span.badge {
+    margin-top: 12px;
 }

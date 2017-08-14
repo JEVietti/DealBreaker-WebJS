@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {ValidateService} from '../../services/validate.service';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from 'rxjs/Subscription';
 
 
 import 'rxjs/add/operator/map';
@@ -13,7 +13,7 @@ declare const Materialize: any;
   templateUrl: './forgot.component.html',
   styleUrls: ['./forgot.component.css']
 })
-export class ForgotComponent implements OnInit {
+export class ForgotComponent implements OnInit, OnDestroy {
   id: String;
   email: String;
 
@@ -29,12 +29,12 @@ export class ForgotComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //pass parameters for the username and temporary password for reset
-    this.authSub = this.route.params.subscribe((params: Params)=>{
+    // Pass parameters for the username and temporary password for reset
+    this.authSub = this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
-      if(this.id != "username" && this.id != "password"){
-        this.router.navigate(["/"]);
-      } 
+      if (this.id !== 'username' && this.id !== 'password'){
+        this.router.navigate(['/']);
+      }
    });
   }
 
@@ -46,13 +46,13 @@ export class ForgotComponent implements OnInit {
     if(this.validateInput(forgot)){
       this.forgotUserSub = this.auth.forgotUsername(forgot).subscribe (res => {
         if(res.success){
-          Materialize.toast( res.msg || "Success, check your email to retrieve your username.", 3000, 'rounded toast-success')                
+          Materialize.toast( res.msg || 'Success, check your email to retrieve your username.', 3000, 'rounded toast-success')
         } else {
-          Materialize.toast( res.msg ||  "Unknown error try again.", 5000, 'rounded toast-danger')      
+          Materialize.toast( res.msg ||  'Unknown error try again.', 5000, 'rounded toast-danger')
         }
       })
     } /*else {
-      Materialize.toast("Unknown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Unknown error try again.", {cssClass: 'alert-danger', timeout: 5000})
     }*/
   }
 
@@ -60,29 +60,29 @@ export class ForgotComponent implements OnInit {
     const forgot = {
       email: this.email
     }
-    
+
     if(this.validateInput(forgot)){
       this.forgotPasswordSub = this.auth.forgotPassword(forgot).subscribe (res => {
          if(res.success){
-          Materialize.toast( res.msg || "Success, check your email for further instruction to reset your password.", 3000, 'rounded toast-success')                
+          Materialize.toast( res.msg || 'Success, check your email for further instruction.', 3000, 'rounded toast-success')
         } else {
-          Materialize.toast( res.msg ||  "Unknown error try again.", 5000, 'rounded toast-danger')      
+          Materialize.toast( res.msg ||  'Unknown error try again.', 5000, 'rounded toast-danger')
         }
       })
     } /*else {
-      Materialize.toast("Unknown error try again.", {cssClass: 'alert-danger', timeout: 5000})      
+      Materialize.toast("Unknown error try again.", {cssClass: 'alert-danger', timeout: 5000})
     }*/
   }
 
   validateInput(forgot){
     if (forgot.email == null){
-      Materialize.toast("Fill in all fields.", 3000, 'rounded toast-success')
+      Materialize.toast('Fill in all fields.', 3000, 'rounded toast-success')
       return false;
-    } 
+    }
     else if (!this.validate.validateEmail(forgot.email)){
-      Materialize.toast("Emails invalid.", 5000, 'rounded toast-danger')      
+      Materialize.toast('Emails invalid.', 5000, 'rounded toast-danger')
       return false
-    } 
+    }
     return true
   }
 
@@ -100,4 +100,4 @@ export class ForgotComponent implements OnInit {
 
 }
 
-  
+

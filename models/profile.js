@@ -1,4 +1,9 @@
-const mongoose = require('mongoose')
+/** Profile Model
+ *
+ */
+let mongoose = require('mongoose')
+const bluebird = require('bluebird')
+mongoose = bluebird.promisifyAll(mongoose)
 // require('../config/db')
 const Schema = mongoose.Schema
 require('../models/images')
@@ -16,7 +21,7 @@ const ProfileSchema = mongoose.Schema({
 
   birthdate: {
     id: '/properties/profile_info/properties/birthDate',
-    type: String,
+    type: Date,
     upsert: true
   },
 
@@ -50,7 +55,7 @@ const ProfileSchema = mongoose.Schema({
       type: String,
       upsert: true
     },
-    coordinates: {type: [Number], default: [0,0]}
+    coordinates: {type: "Point", default: [0, 0]}
   },
 
   sex: {
@@ -94,42 +99,75 @@ const ProfileSchema = mongoose.Schema({
   }
 
 })
-ProfileSchema.index({location: '2dsphere'})
+
+ProfileSchema.index({"location.coordinates" : "2dsphere"})
 
 const Profile = module.exports = mongoose.model('Profile', ProfileSchema)
 
-// Populate the data after query using the same ID
-module.exports.getProfileById = function (id, callback) {
-  const query = {_id: id}
-  Profile.findOne(query).populate('images').lean().exec(callback)
+Profile.on('index', function (err) {
+  console.log('ON INDEX')
+  if (err) console.log(err)
+})
+
+/*
+Profile.ensureIndexes(function (err) {
+  console.log('ENSURE INDEX')
+  if (err) console.log(err)
+})
+*/
+
+/** Get Profile
+ * Populate Gallery of Images from Images Model
+ * @param {*} id
+ */
+function getProfileById (id) {
+  return Profile.findById(id).populate('images').lean().exec()
 }
 
-// Populate the data of the profile binded to the username,
-// the id of the username is then used to populate their images data.
-module.exports.getProfileByUsername = function (username, callback) {
+/** Populate the data of the profile bound to the username,
+ * the id of the username is then used to populate their images data.
+ * @param {*} username
+ */
+function getProfileByUsername (username) {
   const query = {username: username}
-  const data = Profile.findOne(query).populate('images')
-  data.lean().exec(callback)
+  return Profile.findOne(query).populate('images').lean().exec()
 }
 
-// Create method in which the data is saved with the passed in data from request
-// in which the callbakc is returned back to the controller
-module.exports.create = function (newProfile, callback) {
-  newProfile.save(callback)
+/** Profile Creation
+ * Create method in which the data is saved with the passed in data from request
+ * @param {Object} newProfile
+ */
+function createProfile (newProfile) {
+  return Profile.findByIdAndUpdate(newProfile._id, newProfile, {upsert: true, new: true}).exec()
 }
 
-// Update Method
-module.exports.update = function (newProfile, callback) {
-  Profile.findByIdAndUpdate(newProfile._id, newProfile).exec(callback)
+/**
+ *
+ * @param {ObjectId(String) || String} id
+ * @param {Object} newProfile
+ */
+function updateProfile (id, newProfile) {
+  return Profile.findByIdAndUpdate(id, newProfile, { upsert: true, new: true }).exec()
 }
 
-// Delete Method: passed the profile/user id which is encoded in the jwt token
-// the jwt token is parsed and decoded in the respective controller
-module.exports.delete = function (profileID, callback) {
+/** Delete Method: passed the profile/user id which is encoded in the jwt token
+ * the jwt token is parsed and decoded in the respective controller
+ *
+ * @param {*} profileID
+ */
+function deleteProfile (profileID) {
   profileID = new ObjectID(profileID)
   const query = {
     _id: profileID
   }
-  console.log(profileID)
-  Profile.remove(query, callback)
+  return Profile.remove(query).exec()
 }
+
+/** Exporting Functions defined above
+ *  Format: module.export.exportName = functionName
+*/
+module.exports.getProfileById = getProfileById
+module.exports.getProfileByUsername = getProfileByUsername
+module.exports.create = createProfile
+module.exports.update = updateProfile
+module.exports.delete = deleteProfile

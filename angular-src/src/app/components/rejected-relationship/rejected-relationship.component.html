@@ -1,0 +1,10 @@
+<div *ngIf="profileRejector.length > 0" class="row">
+  <div *ngFor="let rejector of profileRejector">
+  <app-profile-card [data]="rejector"></app-profile-card>
+  </div>
+</div>
+
+<div *ngIf="profileRejector.length === 0" class="row center">
+  <p> Well, can't say you're picky. </p>
+</div>
+

@@ -50,15 +50,24 @@ export class NavbarComponent implements OnInit {
 
   // MaterializeCSS Jquery Initialization Functions
   initMaterialize(){
-    $(document).ready(function() {
-      
+    $(document).ready(() => {
+
+      $("div.nav-wrapper li").click((e) => {
+          $("li").removeClass('active');
+          // console.log(e.target)
+          $(e.target).parent().addClass('active');    
+      });
+
       $(".button-collapse").sideNav();
       
       $('.tooltipped').tooltip();
       // setTimeout(function(){$(".tooltip").trigger("mouseleave.tooltip");}, 2000);
       
       $(".dropdown-button").dropdown({
-        hover: true,
+        inDuration: 50,
+        outDuration: 50,
+        belowOrigin: true,
+        closeOnClick: true,
         stopPropagation: false // Stops event propagation
       });
       

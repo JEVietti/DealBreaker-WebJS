@@ -1,12 +1,74 @@
-<div>
+<div id="browse">
   <div class="row">
-    <div class="input-field col s6">
-          <i class="material-icons prefix pink-dark">search</i>                    
-          <input name="search" id="search" type="text" class="validate">
-          <label for="search">Search</label>
+    <!--
+    <div class="input-field col s12 m4 l3">
+      <form #searchForm="ngForm" (ngSubmit)="search(searchForm.value)">
+        <i class="material-icons prefix pink-dark">search</i>                    
+        <input name="search" id="search" type="text" class="validate" ngModel>
+        <label for="search">Search</label>
+        <input type="Submit" class="btn btn red waves-effect waves-light" value="Search" />
+      </form>
+      <br />
     </div>
+    -->
+      <div class="col s2 m2 l1">
+        <label> Age</label>
+      <select class="browser-default" [(ngModel)] = "ageRange" name = "ageRange" id="ageRange">
+        <option [ngValue]="0" disabled selected>Ages</option>
+        <option *ngFor="let age of ageList" [ngValue]="age.value"> {{age.label}} </option> 
+      </select>
+      </div>
+
+      <div class="col s2 m1 l1">     
+        <label> Sex </label>         
+      <select class="browser-default" [(ngModel)] = "sex" name = "sex" id="sex">
+        <option [ngValue]="" disabled class = "selected">Sex</option>
+        <option *ngFor="let sex of sexList" [ngValue]="sex.value"> {{sex.label}} </option>        
+      </select>
+      </div>
     
-    <div class="row">
-        <app-profile-card></app-profile-card>
+      <div class="col s4 m2 l2">
+        <label> Location Range</label>      
+        <select class="browser-default" [(ngModel)] = "locationRange" name = "locationRange" id="locationRange">
+          <option [ngValue]="" disabled selected>From Current</option>
+          <option *ngFor="let range of locationList" [ngValue]="range.value"> {{range.label}} </option>        
+        </select>
+      </div>
+    
+      <div class="col s4 m2 l2">  
+        <label class="active" for="sexualOrientation" data-error="Field cannot be Empty" data-success=""> Sexual Orientation </label>
+        <select class="browser-default" type="string" [(ngModel)]="sexualOrientation" name="sexualOrientation" id="sexualOrientation">
+          <option value="" disabled selected="selected">Desired Orientation</option>
+          <option *ngFor="let sexuality of sexualities" [ngValue] = "sexuality" > {{sexuality}} </option>
+        </select>
+      </div>
+  </div>
+    
+  <div *ngIf="profileSet" class="row" id="profiles">
+    <div *ngFor="let profile of profileSet; let i = index" class="col s12 m6 l4">
+        <app-profile-card [data]="profile"></app-profile-card>      
     </div>
   </div>
+  <div *ngIf="!profileSet || profileSet.length === 0" class="row profiles">
+    <div class="heading center">
+      No Profiles Found Matching your Preferences.
+    </div>
+  </div>
+  <div class="center">
+  <div id="loader" style="display:none;" class="center preloader-wrapper small active">
+    <div class="spinner-layer center spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+</div>
+

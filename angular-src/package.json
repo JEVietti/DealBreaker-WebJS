@@ -27,6 +27,7 @@
     "core-js": "^2.4.1",
     "karma-chrome-launcher": "^2.2.0",
     "rxjs": "^5.4.1",
+    "socket.io-client": "^2.0.3",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.8.12"
   },
@@ -43,7 +44,7 @@
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.6.0",
-    "protractor": "~5.1.2",
+    "protractor": "^5.1.2",
     "ts-node": "3.1.0",
     "tslint": "^5.4.3",
     "typescript": "~2.3.4"

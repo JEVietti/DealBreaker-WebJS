@@ -1,0 +1,10 @@
+<div class="row">
+  <div *ngIf="profileRequested && profileRequested.length > 0">
+    <div *ngFor="let requesting of this.profileRequested">    
+      <app-profile-card [data]="requesting"></app-profile-card>    
+    </div>
+  </div>
+  <div *ngIf="profileRequested.length === 0" class="center">
+    <p> Put yourself out there. </p>
+  </div>
+</div>

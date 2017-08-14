@@ -20,22 +20,22 @@
 }
 
 .carousel {
-      height: 400px !important;
+    height: 400px;
     background-color: gray;
       
 }
 
 .carousel-item a {
-    max-height: 100% !important;
-    min-width: 400px !important;
+    max-height: 100%;
+    min-width: 100%;
     
 }
 
 .carousel .carousel-item {
     display: none;
-    max-width: 400px !important;
-    min-width: 350px !important;
-    height: 350px !important;
+    max-width: 400px;
+    min-width: 350px;
+    height: 350px;
     position: absolute;
     top: 0;
     left: 0;
@@ -80,15 +80,15 @@ img {
 img{
    
     margin: auto;
-    text-align: center !important;
+    text-align: center;
     
 }
 
 
 .materialboxed.active {
   
-    text-align: center !important;
-     max-height: auto !important;
+    text-align: center;
+     max-height: auto;
 }
 
 #qualities {
@@ -97,23 +97,43 @@ img{
   
 }
 div #materialbox-overlay {
-    height: 600px !important;
+    height: 600px;
 }
 
-li.list-group-item:hover {
-  
-    width: auto;        
-    -webkit-transform: scale(1.25, 1.25);
-  transform: scale(1.25, 1.25);
+li.list-group-item {
+    font-size: 20px;
 }
 
-li.list-group-item:after {
-    width: auto;        
- border-radius: 5px;
-  position: absolute;
-  z-index: -1;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+.tabs-vertical .tabs {
+    height: auto;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.tab {
+    width:100%;
+}
+    
+li a.active {
+    -moz-transition: border-color .5s ease;
+    -o-transition: border-color .5s ease;
+    -webkit-transition: border-color .5s ease;
+    transition: border-color .5s ease;
+    border-right: 2px solid #ee6e73;
+}
+
+li.tab :hover{
+     border-right: 2px solid lightgray;
+}
+
+.chip {
+    background-color: #ee6e73;
+    color: white;
+}
+
+li.indicator {
+    height: 10px !important;
 }

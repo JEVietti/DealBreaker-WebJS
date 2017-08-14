@@ -9,20 +9,13 @@ radio {
 }
 
 .sex-or{
-    float: right !important;
+    float: right;
 }
 
 .material-icons.pink-dark { color: #E75480; }
 
-/*
-* {
-  background: #000 !important;
-  color: #0f0 !important;
-  outline: solid #f00 1px !important;
 
- }
- */
- .pac-container { z-index: 10000 !important; }
+ .pac-container { z-index: 10000; }
 
 .radio {
     margin: auto;
@@ -36,7 +29,69 @@ radio {
     text-align: center;
 }
 
-.backdrop {
-    background-color: red !important;
+.chip.selected{background-color:red; color:#fff}
+
+.chips {
+    margin-bottom: 5px;
 }
 
+span {
+    font-size: 11px;
+}
+
+.formSuccess {
+    color: green !important;
+    font-size: 11px;
+}
+
+.formError {
+    color: red;
+    font-size: 11px;
+}
+
+.backdrop {
+    background-color: red ;
+}
+
+label {
+    color: gray;
+}
+
+input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-default):focus:not([readonly])+label, input[type=password]:not(.browser-default):focus:not([readonly])+label, input[type=email]:not(.browser-default):focus:not([readonly])+label, input[type=url]:not(.browser-default):focus:not([readonly])+label, input[type=time]:not(.browser-default):focus:not([readonly])+label, input[type=date]:not(.browser-default):focus:not([readonly])+label, input[type=datetime]:not(.browser-default):focus:not([readonly])+label, input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label, input[type=tel]:not(.browser-default):focus:not([readonly])+label, input[type=number]:not(.browser-default):focus:not([readonly])+label, input[type=search]:not(.browser-default):focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label
+{
+    color: red;
+    margin-bottom: 5px;
+    
+}
+
+label.active {
+    color: red;
+    padding-bottom: 3px;
+    
+}
+
+#biography {
+    margin: 0 0 0 0;
+}
+
+[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after {
+    border: 2px solid gray ;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: pink ;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+    border: 2px solid pink ;
+}
+
+h6 {
+    font-size: 11px;
+    color: red;
+    padding-bottom: 5px;
+}
+
+option:hover {
+    background-color: red;
+}

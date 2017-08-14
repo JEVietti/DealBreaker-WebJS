@@ -1,52 +1,157 @@
 <div *ngIf="profile">
        <div class="container-fluid">
         <div class="row-fluid" *ngIf=" gallery != null &&  gallery.length > 0">
-          <div  class="carousel center" >   
-            <a *ngFor="let image of gallery" class="carousel-item center"><img id="profileImage" class="materialboxed" src={{image}}></a>
+          <div class="carousel carousel-slider center" data-indicators=true>   
+            <a *ngFor="let image of gallery" class="carousel-item center"><img id="profileImage" src={{image}}></a>
          </div>
          </div>
        
          <div>
-          <div *ngIf=" gallery === null || gallery.length === 0" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
+          <div *ngIf="gallery === null || gallery.length === 0" style="margin-left:auto;margin-right:auto; height:400px; width:400px; max-width:100%;">
             <img class="responsive-img center defaultProfile" src="../assets/images/defaultProfilePic.png">
           </div>
          </div>
           
         <div class = "container">
-             <p class="list-group-item" id="profileName"> {{profile.fname}} {{profile.lname}}  </p>  
+          <div class="row">
+            <p class="list-group-item red-text lighten-3" id="profileName"> {{profile.fname}} {{profile.lname}} </p>
+          </div>
+          <div class="row">
             <div id="userInfo">
-              <p class="list-group-item flow-text" style="text-align: center; font-size: 20px;" id="userText"> Age: {{this.age}}   |   Sex: {{profile.sex}}   |   Sexual Orienation: {{profile.sexualOrientation}}   |   Location: {{this.location}} </p>
+              <p class="list-group-item  grey-text darken-4" style="text-align: center; font-size: 20px;" id="userText"> {{this.age}} | {{profile.sex}} | {{profile.sexualOrientation}} |  {{this.location}}
+                </p>
+            </div>
+          </div>
+            
+
+            <div class="row" id="bio">
+            <p class="list-group-item center" id="bioText"> {{profile.biography}} </p>
+            </div>
+            
+
+           
+            <div class="hide-on-med-and-up row">
+              <div class="tabs-vertical">
+                <div class="col s4 m3 l3">
+                  <ul id="profileAttributes" class="tabs">
+                    <li class="tab">
+                      <a href="#dbSmall">Dealbreakers</a>
+                    </li>
+                    <li class="tab">
+                      <a href="#seekingSmall">Seeking</a>
+                    </li>
+                    <li class="tab">
+                      <a href="#interestsSmall">Interests</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col s8 m9 l7">
+                  <div id="dbSmall" class="tab-content flow-text"> 
+                    <div class="chip" *ngFor="let db of profile.dealbreakers"> 
+                    {{db}}
+                  </div>
+                  </div>
+                  <div id="seekingSmall" class="tab-content flow-text">
+                    <div class="chip" *ngFor="let sk of profile.seeking">
+                      {{sk}}
+                    </div>
+                  </div>
+                  <div id="interestsSmall" class="tab-content flow-text">
+                    <div class="chip" *ngFor="let int of profile.interests">
+                      {{int}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+
+            <div class="hide-on-small-only row section">
+              <div class="tabs-vertical">
+                <div class="col s4 m3 l3">
+                  <ul class="tabs">
+                    <li class="tab">
+                      <a href="#db">Dealbreakers</a>
+                    </li>
+                   
+                  </ul>
+                </div>
+                <div class="col s8 m9 l7">
+                  <div id="db" class="tab-content flow-text">
+                    <div class="chip" *ngFor="let db of profile.dealbreakers">
+                      {{db}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hide-on-small-only row section">
+              <div class="tabs-vertical">
+                <div class="col s4 m3 l3">
+                  <ul class="tabs">
+                    
+                    <li class="tab">
+                      <a href="#seeking">Seeking</a>
+                    </li>
+                    
+                  </ul>
+                </div>
+                <div class="col s8 m9 l7">
+                 
+                  <div id="seeking" class="tab-content flow-text">
+                    <div class="chip" *ngFor="let sk of profile.seeking">
+                      {{sk}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hide-on-small-only row section">
+              <div class="tabs-vertical">
+                <div class="col s4 m3 l3">
+                  <ul class="tabs">
+                    <li class="tab">
+                      <a href="#interests">Interests</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col s8 m9 l7">
+                  
+                  <div id="interests" class="tab-content flow-text">
+                    <div class="chip" *ngFor="let int of profile.interests">
+                      {{int}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            <div style="padding-top: 10px;" id="bio">
-              <h4 class="center"> Biography</h4>
-              <p class="list-group-item center" id="bioText"> {{profile.biography}} </p>
-            </div>
-            <div style="padding-top: 15px;" class="row center">
-            
-                  <h4 class="center">Dealbreakers</h4>
-                  <ul>
-                  <li *ngFor="let db of profile.dealbreakers" class="list-group-item flow-text"> {{db}} </li>
-                  </ul>
-            
-               </div>
-             <div id="qualities" class = " row center">
-                <div class="col s6">
-                    <h4> Seeking </h4>
-                    <ul>
-                      <li *ngFor="let sk of profile.seeking" class="list-group-item"> {{sk}} </li>
-                    </ul>
-                </div>
-                
-                <div class="col s6">
-                    <h4> Interests</h4>
-                    <ul>
-                      <li *ngFor="let int of profile.interests" class="list-group-item"> {{int}} </li>
-                    </ul>           
-                </div> 
-            </div>            
+                      
         </div>
     </div>
+      <div *ngIf="!myProfile" class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+          <a class="btn-floating btn-large red lighten-2">
+            <i class="material-icons">more_vert</i>
+          </a>
+          <ul>
+            <!-- <li><a class="btn-floating blue"><i class="material-icons">send</i></a></li> -->            
+            <li><a class="btn-floating red"><i class="material-icons">remove</i></a></li>
+            <li><a class="btn-floating pink"><i class="material-icons">favorite</i></a></li>
+          </ul>
+        </div>
+        <div *ngIf="myProfile" class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+          <a class="btn-floating btn-large grey">
+            <i class="material-icons">mode_edit</i>
+          </a>
+          <ul>
+           <li><a [routerLink] = "['/profile/setup']" class="btn-floating green"><i class="material-icons">border_color</i></a></li>
+          <li><a [routerLink] = "['/profile/images']" class="btn-floating blue"><i class="material-icons">photo_library</i></a></li>
+          </ul>
+        </div>
+        
 </div>
 
 <div *ngIf="profile === null">

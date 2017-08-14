@@ -1,5 +1,10 @@
-<form  #emailForm="ngForm" class="col s6">
+<form  #emailForm="ngForm" class="row">
 <div class="input-field col s12">
+  <i class="material-icons prefix pink-dark">email</i>
+    <input disabled  id="curremail" [(ngModel)] = "curremail" name="curremail" type="text" class="validate disabled">
+    <label class="active" for="curremail">Current Email</label>
+  </div>
+  <div class="input-field col s12">
   <i class="material-icons prefix pink-dark">email</i>
     <input  id="email" [(ngModel)] = "email" name="email" type="text" class="validate">
     <label class="active" for="email">Email</label>

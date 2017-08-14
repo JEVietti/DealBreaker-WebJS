@@ -14,11 +14,10 @@ export class ProfileService {
   constructor( private http: Http) { this.isDev = true }
 
  loadAuthToken(){
-    this.authToken = localStorage.getItem('id_token'); 
+    this.authToken = localStorage.getItem('id_token');
   }
 
- 
-//Register Profile Requests to API EndPoint
+// Register Profile Requests to API EndPoint
   saveProfile(profile){
     this.loadAuthToken();
     let headers = new Headers();
@@ -46,7 +45,7 @@ export class ProfileService {
     let age = new Date();
     age.setTime(ageMS);
     let ageYear = age.getFullYear() - 1970;
-    console.log(ageYear); 
+    // console.log(ageYear); 
     return ageYear
 
   }

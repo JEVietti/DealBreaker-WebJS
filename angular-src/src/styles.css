@@ -16,20 +16,31 @@
   }
 
   .toast-danger {
-    background-color: #E23D28 !important;
-    font-style: bold !important;
-    text-align: center !important;
+    background-color: #E23D28 ;
+    font-style: bold ;
+    text-align: center;
   }
 
   .toast-success {
-    background-color: #E75480 !important;
-    font-style: bold !important;
+    background-color: #E75480 ;
+    font-style: bold ;
    
   }
 
   .circle {
-    border-radius: 50% !important;
+    border-radius: 50% ;
   }
+
+  .formSuccess {
+    color: green !important;
+    font-size: 11px;
+}
+
+.formError {
+    color: red;
+    font-size: 11px;
+}
+
 
 @media only screen and (min-width : 601px) and (max-width : 1260px) {
 .toast {
@@ -53,8 +64,7 @@ left: 0%;} }
   #toast-container {
   text-align: center;
   width: 50%;
-  margin: auto 0 !important; 
+  margin: auto 0; 
     
   } 
 }
-

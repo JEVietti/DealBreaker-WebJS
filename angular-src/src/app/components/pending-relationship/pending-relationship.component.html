@@ -1,3 +1,17 @@
-<p>
-  pending-relationship works!
-</p>
+
+<div class="row">
+    <div *ngIf="profileRequests && profileRequests.length > 0" > 
+      <div *ngFor="let requests of profileRequests">
+        <app-profile-card [data]="requests"></app-profile-card>
+      </div>
+    </div>
+    
+    <div *ngIf="profileRequests.length === 0" class="center"> 
+      <p> No one has found you yet. </p>
+    </div>
+</div>
+
+
+
+
+

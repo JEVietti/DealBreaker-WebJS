@@ -14,6 +14,7 @@ declare const Materialize: any;
 })
 export class UpdateEmailComponent implements OnInit {
   email: String;
+  curremail: String;
   confirmEmail: String;
   loadData: any;
 
@@ -28,7 +29,7 @@ export class UpdateEmailComponent implements OnInit {
     this.loadData = this.auth.getTokenData('user') 
     if(this.loadData != null){ 
      console.log(this.loadData)
-     this.email = this.loadData.email
+     this.curremail = this.loadData.email
     }
   }
 
