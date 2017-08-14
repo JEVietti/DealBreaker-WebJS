@@ -4,7 +4,7 @@
     <div class="section no-pad-bot no-pad-top">
       <div class="container">
         <br /><br />
-        <h2 class= "header center red-text text-lighten-2 ">Dealbreaker</h2>
+        <h2 class= "header title center red-text text-lighten-2 ">Dealbreaker Dating</h2>
         <div class="row center">
           <h5 class="header col s12 white-text slogan darken-6 "> Know before you start! </h5>
         </div>
@@ -13,8 +13,10 @@
       </div>
       <div id="showcase-img" class="parallax"><img  class="responsive-img" src="../../assets/images/home.jpg" alt="Unsplashed background img 1"></div>
       <div class="row center">
-          <a *ngIf="authService.loggedIn()" id="home-reg" class = "btn btn-large button-front-right red waves-effect waves-light  button-head" data-position="bottom" data-delay="50" data-tooltip="Register Page" [routerLink]="['/register']">Register</a> 
-          <a *ngIf="authService.loggedIn()" id="home-login"  class = "btn waves-effect button-front-left pink waves-light btn-large button-head" data-position="bottom" data-delay="50" data-tooltip="Login Page" [routerLink]="['/login']">Login</a>  
+          <a *ngIf="!authService.loggedIn()" id="home-reg" class = "btn btn-large button-front-right red waves-effect waves-light  button-head" data-position="bottom" data-delay="50" data-tooltip="Register Page" [routerLink]="['/register']">Register</a> 
+          <a *ngIf="!authService.loggedIn()" id="home-login"  class = "btn waves-effect button-front-left pink waves-light btn-large button-head" data-position="bottom" data-delay="50" data-tooltip="Login Page" [routerLink]="['/login']">Login</a>
+           <a *ngIf="authService.loggedIn()" id="home-reg" class = "btn btn-large button-front-right red waves-effect waves-light  button-head" data-position="bottom" data-delay="50" data-tooltip="Find your match!" [routerLink]="['/browse']">Browse</a> 
+          <a *ngIf="authService.loggedIn()" id="home-login"  class = "btn waves-effect button-front-left pink waves-light btn-large button-head" data-position="bottom" data-delay="50" data-tooltip="Manage Relationships" [routerLink]="['/dashboard']">Dashboard</a>  
       </div>
   </div>
   <ul class="main container-fluid">

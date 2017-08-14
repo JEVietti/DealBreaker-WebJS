@@ -20,7 +20,7 @@ const bcrypt = require('bcryptjs')
  */
 function validateCreate (req, res) {
 
-  if (Object.keys(req.body).length !== 6) {
+  if (Object.keys(req.body).length !== 7) {
     return res.status(400).json({success: false, msg: 'No registration date'})
   }
 
@@ -127,9 +127,8 @@ function emailAuth (req, res) {
       console.log(result)
       if (result != null) {
         return res.status(200).json({success: false, msg: 'Email Already exists!'})
-      } else {
-        res.status(200).json({success: true, msg: 'Email Available'})
       }
+      return res.status(200).json({success: true, msg: 'Email Available'})
     }).catch(err => {
       if (err) {
         console.log(err)

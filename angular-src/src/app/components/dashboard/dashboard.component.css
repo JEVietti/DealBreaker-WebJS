@@ -1,5 +1,47 @@
-#requestCenter {
+#sent {
   max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#rejectedComp {
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#confirmedComp {
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#pending {
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#sentSmall {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#rejectedSmallComp {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#confirmedSmallComp {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#pendingSmall {
+  max-height: 500px;
   overflow-y: auto;
   overflow-x: hidden;
 }

@@ -30,7 +30,7 @@
       <div class="col s4 m2 l2">
         <label> Location Range</label>      
         <select class="browser-default" [(ngModel)] = "locationRange" name = "locationRange" id="locationRange">
-          <option [ngValue]="" disabled selected>Radius</option>
+          <option [ngValue]="" disabled selected>From Current</option>
           <option *ngFor="let range of locationList" [ngValue]="range.value"> {{range.label}} </option>        
         </select>
       </div>

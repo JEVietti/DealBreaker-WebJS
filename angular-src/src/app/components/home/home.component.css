@@ -6,6 +6,7 @@
 .header {
   margin-top:0;
   margin-bottom: 5px;
+ 
 }
 
 section {
@@ -64,7 +65,7 @@ section {
 .slogan {
   font-style: italic;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 
@@ -89,13 +90,10 @@ section {
    margin-bottom: 10px;
 }
 
-.heading {
-  font-size: 28px;
-}
 
 .desc{
-    font-size: 18px;
-      font-weight: 300;
+    font-size: 22px;
+    font-weight: 300;
 }
 
 h5 {
@@ -121,4 +119,14 @@ ul {
   margin: 0, 0, 0, 0;
 }
 
+.title {
+  font-size: 3.6rem;
+  font-weight: 500;  
+ 
+}
+
+.heading {
+  font-size: 32px;
+  font-weight: 500;
+}
 

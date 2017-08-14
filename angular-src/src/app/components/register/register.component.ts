@@ -295,23 +295,23 @@ export class RegisterComponent implements OnInit {
       Materialize.toast("Fill in all fields",  5000, 'rounded toast-danger');
       return false;
     }
-    else if(this.validateService.validateName(this.fname)){
-      $("#email").attr( "class", "invalid" );
-      $("label[for='email']").attr( "class", "active" );
-       Materialize.toast("Invalid Email",  5000, 'rounded toast-danger');
+    else if(!this.validateService.validateName(this.fname)){
+      $("#fname").attr( "class", "invalid" );
+      $("label[for='fname']").attr( "class", "active" );
+       Materialize.toast("Invali First Name",  5000, 'rounded toast-danger');
       //$('#email').addClass("invalid");
       return false;
     }
-    else if(this.validateService.validateName(this.lname)){
+    else if(!this.validateService.validateName(this.lname)){
      
-      $("#email").attr( "class", "invalid" );
-      $("label[for='email']").attr( "class", "active" );
-       Materialize.toast("Invalid Email",  5000, 'rounded toast-danger');
+      $("#lname").attr( "class", "invalid" );
+      $("label[for='lname']").attr( "class", "active" );
+       Materialize.toast("Invalid Last Name",  5000, 'rounded toast-danger');
       //$('#email').addClass("invalid");
       return false;
     }
     //Email formatted correctly
-    else if(!this.validateService.validateEmail(user.email)){
+    else if(!this.validateService.validateEmail(user.email)) {
       
       $("#email").attr( "class", "invalid" );
       $("label[for='email']").attr( "class", "active" );

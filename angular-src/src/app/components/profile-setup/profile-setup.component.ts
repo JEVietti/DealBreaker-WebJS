@@ -522,8 +522,8 @@ export class ProfileSetupComponent implements OnInit {
 
   
 
-  onSetupSubmit(form){
-    // console.log(form)
+  onSetupSubmit(form) {
+    console.log(form)
     this.birthdate = this.dobYear + "-" + this.dobMonth + "-" + this.dobDay;
 
     this.biography = (document.getElementById("biography") as HTMLInputElement).value;
@@ -556,36 +556,37 @@ export class ProfileSetupComponent implements OnInit {
     }
 
 
-    if(this.validateSetup(newProfile)){
-      // console.log(newProfile)
-    if(this.profile == null){ 
-      this.updateSub = this.profileService.saveProfile(newProfile).subscribe(res =>{
-        if(res.success){
-          Materialize.toast("Profile Created Successfully!", 3000, 'rounded toast-success');
-          this.router.navigate(['/profile'])
+      if(this.validateSetup(newProfile)){
+          // console.log(newProfile)
+        if(this.profile == null) { 
+          this.updateSub = this.profileService.saveProfile(newProfile).subscribe(res =>{
+            if(res.success){
+              Materialize.toast("Profile Created Successfully!", 3000, 'rounded toast-success');
+              this.router.navigate(['/profile'])
+            } else {
+              Materialize.toast(res.msg || "Something went wrong, try again later!", 5000, 'rounded toast-danger');
+            }
+          });
         } else {
-          Materialize.toast(res.msg || "Something went wrong, try again later!", 5000, 'rounded toast-danger');
+        // console.log("Attempt update")
+          this.updateSub = this.profileService.updateProfile(newProfile).subscribe(res =>{
+            if(res.success){
+              Materialize.toast("Profile Updated Successfully!", 3000, 'rounded toast-success');
+              this.router.navigate(['/profile'])
+            } else {
+              Materialize.toast(res.msg || "Something went wrong, try again later!", 5000, 'rounded toast-danger');
+            }
+          });
         }
-      });
+    } else {
+      console.log('Validation failed')
     }
-   else {
-    // console.log("Attempt update")
-      this.updateSub = this.profileService.updateProfile(newProfile).subscribe(res =>{
-        if(res.success){
-          Materialize.toast("Profile Updated Successfully!", 3000, 'rounded toast-success');
-          this.router.navigate(['/profile'])
-        } else {
-          Materialize.toast(res.msg || "Something went wrong, try again later!", 5000, 'rounded toast-danger');
-        }
-      });
-    }
-  }
   }
 
   validateSetup(profile){
     Materialize.updateTextFields()
     // console.log(profile)
-    if( profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking.length == 0 || profile.interests.length == 0 || profile.dealbreakers.length == 0 || profile.location == undefined){
+    if (profile.fname == undefined || profile.lname == undefined || profile.sex == undefined || profile.sexualOrientation == undefined || profile.birthdate == undefined || profile.seeking.length == 0 || profile.interests.length == 0 || profile.dealbreakers.length == 0 || profile.location == undefined){
       Materialize.toast("Please fill in all fields!", 5000, 'rounded toast-danger');        
       return false;  
     } else if(this.place == null && this.locationData == null || this.coord.length != 2 ){

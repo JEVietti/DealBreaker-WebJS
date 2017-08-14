@@ -58,10 +58,10 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
     ];
     this.sexList = [{ value: 'Any', label: 'Any' }, { value: 'Male', label: 'M' }, { value: 'Female', label: 'F' }]
     this.locationList = [
+      { value: 40075020, label: 'Anywhere' },
       { value: 80468, label: '50/80 mi/km' }, 
       { value: 402336, label: '250/400 mi/km' },
-      { value: 804672, label: '500/805 mi/km' }, 
-      { value: 40075020, label: 'Anywhere' }
+      { value: 804672, label: '500/805 mi/km' }
     ]
 
     this.loadPreferences()

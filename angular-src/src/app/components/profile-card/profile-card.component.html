@@ -5,8 +5,8 @@
    <p> {{profile.age}} </p>
   </div>
     <div class="card-image waves-effect waves-block waves-light">
-       <img *ngIf="!profile.images" class="circle profile-img activator" src="../assets/images/defaultProfilePic.png">
-        <img *ngIf="profile.images" class="circle profile-img activator" src={{profile.images.gallery[0].url}}>  
+       <img *ngIf="!profile.images" class="circle responsive-img profile-img activator" src="../assets/images/defaultProfilePic.png">
+        <img *ngIf="profile.images" class="circle responsive-img profile-img activator" src={{profile.images.gallery[0].url}}>  
     </div>
     <div class="card-content">
       <span class="card-title activator grey-text left-align text-darken-4">{{profile.fname}} {{profile.lname}}<i class="material-icons right grey-text">expand_more</i></span>      
