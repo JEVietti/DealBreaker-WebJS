@@ -31,25 +31,25 @@ import { UpdateEmailComponent } from './components/update-email/update-email.com
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ForgotComponent } from './components/forgot/forgot.component';
 import { TermsComponent } from './components/terms/terms.component';
-import {ProfileCardComponent} from './components/profile-card/profile-card.component';
-import {ImageManageComponent} from './components/image-manage/image-manage.component'
+import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { ImageManageComponent } from './components/image-manage/image-manage.component'
 import { PendingRelationshipComponent } from './components/pending-relationship/pending-relationship.component';
 import { ConfirmedRelationshipComponent } from './components/confirmed-relationship/confirmed-relationship.component';
 import { RejectedRelationshipComponent } from './components/rejected-relationship/rejected-relationship.component';
 import { ActionCardComponent } from './components/action-card/action-card.component';
 import { SentRelationshipComponent } from './components/sent-relationship/sent-relationship.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 // User Created or Customized Services and Providers
-import {ValidateService} from './services/validate.service';
-import {AuthService} from './services/auth.service';
-import {ImagesService} from './services/images.service';
-import {ProfileService} from './services/profile.service';
-import {AuthGuard} from './guards/auth.guard';
+import { ValidateService } from './services/validate.service';
+import { AuthService } from './services/auth.service';
+import { ImagesService } from './services/images.service';
+import { ProfileService } from './services/profile.service';
+import { AuthGuard } from './guards/auth.guard';
 import { RegisterService } from './services/register.service';
 import { BrowseService } from './services/browse.service';
 import { RelationshipService } from './services/relationship.service';
 import { ChatService } from './services/chat.service';
-import { ChatComponent } from './components/chat/chat.component';
 
 
 
@@ -71,7 +71,11 @@ const appRoutes: Routes = [
     { path: 'images', component: ImagesComponent},
     {path: ':id', component: ProfileComponent}
   ]},
-  {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'messages', canActivate: [AuthGuard], children: [
+    { path: '', component: ChatComponent},
+    { path: ':id', component: ChatComponent}
+  ]},
   {path: 'pending', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: 'confirmed', component: PendingRelationshipComponent, canActivate:[AuthGuard]},
   {path: '404', component: NotFoundComponent},

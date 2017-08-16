@@ -149,13 +149,13 @@ function rejectConfirmed (req, res) {
 
   Rejected.createRejector(confirmer._id, confirmer.partnerId)
   .then((result) => {
-    Rejected.createRejectee(confirmee._id, confirmee.partnerId)
+    return Rejected.createRejectee(confirmee._id, confirmee.partnerId)
   })
   .then((result) => {
-    Confirmed.deleteConfirm(confirmer._id, confirmer.partnerId)
+    return Confirmed.deleteConfirm(confirmer._id, confirmer.partnerId)
   })
   .then((result) => {
-    Confirmed.deleteConfirm(confirmee._id, confirmee.partnerId)
+    return Confirmed.deleteConfirm(confirmee._id, confirmee.partnerId)
   })
   .then((result) => {
     if (result) {

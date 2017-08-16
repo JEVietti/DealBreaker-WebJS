@@ -19,6 +19,7 @@ export class RelationshipService {
   private profilesRemoveRequest = new Subject<any>();
   private profilesAdd = new Subject<any>();
   private profilesConfirm = new Subject<any>();
+  private profilesRejectConfirm = new Subject<any>();
   constructor(private http: Http) { this.isDev = true }
 
 
@@ -139,11 +140,11 @@ export class RelationshipService {
       profile: p,
       index: i
     }
-    this.profilesReject.next(profile)
+    this.profilesRejectConfirm.next(profile)
   }
 
   listenProfileToRejectConfirm(): Observable<any> {
-    return this.profilesReject.asObservable()
+    return this.profilesRejectConfirm.asObservable()
   }
 
   profileToAdd(p, i) {

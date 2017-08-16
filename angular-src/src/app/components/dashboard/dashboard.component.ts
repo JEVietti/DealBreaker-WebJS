@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit, AfterContentInit, OnDestroy {
       this.confirmRejectSubListener.unsubscribe()
     }
     if (this.rejectConfirmSub) {
-      this.confirmRejectSub.unsubscribe()
+      this.rejectConfirmSub.unsubscribe()
     }
     if (this.rejectConfirmSubListener) {
       this.rejectConfirmSubListener.unsubscribe()
