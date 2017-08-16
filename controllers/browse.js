@@ -5,6 +5,7 @@
  * pending, confirmed, rejected, and themselves all should be removed.
  */
 const Browse = require('../models/browse')
+const Confirmed = require('../models/confirmed')
 const Rejected = require('../models/rejected')
 const Pending = require('../models/pending')
 
@@ -25,8 +26,16 @@ function getProfiles (req, res) {
   const setNumber = (req.query.page - 1) || (req.params.page - 1) || 0  
   let diffArr = []
   diffArr.push(id)
-
-  Rejected.getRejectorIDList(id)
+  
+  Confirmed.getConfirmIDList(id)
+  .then(confirmed => {
+    if (confirmed) {
+      confirmed.confirm.forEach(function (element) {
+        diffArr.push(element._id)
+      }, this);
+    }
+    return Rejected.getRejectorIDList(id)
+  })
   .then(rejecting => {
     // console.log(rejecting)
     if(rejecting) {
@@ -117,7 +126,15 @@ function getProfilesByQuery (req, res) {
   let diffArr = []
   diffArr.push(id)
 
-  Rejected.getRejectorIDList(id)
+  Confirmed.getConfirmIDList(id)
+    .then(confirmed => {
+      if (confirmed) {
+        confirmed.confirm.forEach(function (element) {
+          diffArr.push(element._id)
+        }, this);
+      }
+      return Rejected.getRejectorIDList(id)
+    })
     .then(rejecting => {
       if(rejecting) {
         console.log(rejecting)

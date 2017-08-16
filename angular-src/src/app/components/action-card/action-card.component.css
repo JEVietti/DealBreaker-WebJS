@@ -1,0 +1,53 @@
+.profile-img {
+  height: 50px;
+}
+
+.card-content {
+padding: 10px 10px 10px 10px;
+}
+
+.content {
+  font-size: 16px;
+}
+.content-loc {
+  font-size: 10px;
+}
+
+.action-text {
+  font-size: 12px;
+}
+
+.card-action {
+  height: 30px;
+  font-size: 15px;
+}
+
+.options {
+  margin-top: -12px;
+  min-width: 150px;
+}
+
+.card i {
+    cursor: hand;
+    cursor: pointer;
+    color: red;
+}
+
+img {
+   cursor: hand;
+    cursor: pointer;
+}
+
+.left {
+  margin-right: 5px !important;
+}
+
+.right {
+  margin-left: 10px !important;
+}
+
+
+
+.circle {
+  border-radius: 50% !important;
+}

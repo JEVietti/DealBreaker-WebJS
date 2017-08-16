@@ -14,14 +14,14 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
 
   private profile: any;
   private profileRejector: Array<any>;
-  private profileRejectee: Array<any>;
+  // private profileRejectee: Array<any>;
 
   constructor( private relationshipService: RelationshipService) {
-    this.profileRejectee = []
-    this.profileRejector = []
+    
   }
 
   ngOnInit() {
+    this.profileRejector = new Array()
     this.fetchRejector()
     // this.fetchRejectee()
   }
@@ -36,7 +36,7 @@ export class RejectedRelationshipComponent implements OnInit, AfterContentInit {
   fetchRejector() {
     this.relationshipService.getRejectorList().subscribe(res => {
       // console.log(res)
-      if (res.profiles && res.profiles.length > 0) {
+      if (res.profiles) {
         console.log(res)
         res.profiles.rejector.forEach(element => {
         element.profile.status = 'reject'

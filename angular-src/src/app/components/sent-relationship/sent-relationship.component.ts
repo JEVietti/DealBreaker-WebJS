@@ -3,7 +3,7 @@ import { RelationshipService } from '../../services/relationship.service'
 import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-
+import {Http} from '@angular/http'
 declare const $: any;
 
 @Component({
@@ -11,12 +11,12 @@ declare const $: any;
   templateUrl: './sent-relationship.component.html',
   styleUrls: ['./sent-relationship.component.css']
 })
-export class SentRelationshipComponent implements OnInit {
+export class SentRelationshipComponent extends RelationshipService implements OnInit {
   private profileRequested: Array<any>;
 
-  constructor(private relationshipService: RelationshipService) {
+  constructor(http: Http) {
+    super(http)
     this.profileRequested = []
-
   }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class SentRelationshipComponent implements OnInit {
   }
 
   fetchRequesting() {
-    this.relationshipService.getRequestedList().subscribe(res => {
+    this.getRequestedList().subscribe(res => {
       console.log(res)
       if (res.profiles) {
         res.profiles.requestor.forEach(element => {
