@@ -57,8 +57,8 @@ const pending = require('./routes/pending')
 const confirmed = require('./routes/confirmed')
 const images = require('./routes/images')
 const browse = require('./routes/browse')
-const AWS = require('aws-sdk')
-AWS.config.loadFromPath('./config/s3Config.json')
+const chat = require('./routes/chat')
+
 
 
 // CORS MiddleWare
@@ -85,6 +85,7 @@ app.use('/api/confirm', confirmed)
 // app.use('/', profiles);
 app.use('/api/images', images)
 app.use('/api/browse', browse)
+app.use('/api/chat', chat)
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'))
