@@ -6,6 +6,13 @@ require('jsonwebtoken')
 require('../config/db')
 const ChatController = require('../controllers/chat')
 
+
+
+router.get('/conversation/:profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  console.log('Username')
+  ChatController.getConversationByUsername(req, res)
+})
+
 /** HTTP GET:
  */
 router.get('/conversation', passport.authenticate('jwt', { session: false }), (req, res, next) => {
@@ -14,15 +21,17 @@ router.get('/conversation', passport.authenticate('jwt', { session: false }), (r
 
 /** HTTP GET Request: 
  */
-router.get('/sent', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  ChatController.getAllSentMessages(req, res)
+router.get('/sent/:profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  ChatController.getSentMessages(req, res)
 })
 
 /** HTTP GET Request: 
  */
-router.get('/sent/:profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  ChatController.getSentMessages(req, res)
+router.get('/sent', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  ChatController.getAllSentMessages(req, res)
 })
+
+
 
 router.get('/received', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   ChatController.getAllReceivedMessages(req, res)

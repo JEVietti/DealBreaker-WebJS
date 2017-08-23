@@ -68,6 +68,10 @@ function getUserById (id) {
   return User.findById(id).exec()
 }
 
+function getIdByUsername(username) {
+  return User.findOne({username: username}, {_id: 1}).exec()
+}
+
 /**
  * Used in basic authentication with user entered username
  * @param {String} username
@@ -166,6 +170,7 @@ function deleteUser (userID) {
 */
 module.exports.getUserById = getUserById
 module.exports.getUserByUsername = getUserByUsername
+module.exports.getIdByUsername = getIdByUsername
 module.exports.checkUsername = checkUsername
 module.exports.checkEmail = checkEmail
 module.exports.deleteUser = deleteUser

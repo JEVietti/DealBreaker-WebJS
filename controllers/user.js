@@ -196,11 +196,11 @@ function authUser (req, res) {
         msg: 'Successfully Logged in!',
         token: 'JWT ' + token,
         user: {
-          id: user._id,
           fname: user.fname,
           lname: user.lname,
           username: user.username,
-          email: user.email
+          email: user.email,
+          birthdate: user.birthdate
         }
       })
     })

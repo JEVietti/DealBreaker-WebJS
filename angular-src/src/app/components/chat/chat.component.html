@@ -1,10 +1,45 @@
+
 <div class="container-fluid">
-  <div class="row">
-    <div class="col s4 m3 l3">
-      List of users
+  <div>
+    <div *ngIf="chatterData" class="head row">
+      <div class="col">
+      <img *ngIf="chatterData.images" class="circle responsive-img profile-img" src={{chatterData.images.gallery[0].url}} alt="Profile Picture">
+      <img *ngIf="!chatterData.images" class="circle responsive-img profile-img" src="../assets/images/defaultProfilePic.png" alt="Profile Picture">      
     </div>
-    <div class="col s8 m9 l9">
-      Chat with messages and <input type="text">
+      <div class="col name">
+     {{chatterData.fname}} {{chatterData.lname}}
+      </div>
+    </div>
+    <div class="col s12 m8 l9 chat-container">
+      <div id="chat" class="chat">
+        <ul>
+          <li *ngFor="let data of chat" class="row">
+            <div *ngIf="data.format === 'sent'" class="sent message ">
+              {{data.msg}}
+              <!-- <div class="time">
+                {{data.time}}
+              </div>
+            -->
+            </div>
+            <div *ngIf="data.format === 'received'" class="received message ">
+              {{data.msg}}
+             <!-- <div class="time">
+                {{data.time}}
+              </div>
+            -->
+            </div>
+          </li>
+        </ul> 
+      </div>
+      <form  #messageForm="ngForm" (ngSubmit)="sendMessage(messageForm)">
+      <div class="input-field col s6">
+        <input [(ngModel)]="message" name="message" placeholder="Message" required>
+      </div>
+        <button class="btn btn-small red">Send</button>
+      </form>
+    </div>
+    <div class="row">
+      <app-confirmed-relationship></app-confirmed-relationship>
     </div>
   </div>
 </div>

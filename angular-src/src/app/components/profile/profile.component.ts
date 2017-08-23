@@ -66,7 +66,9 @@ export class ProfileComponent implements OnInit, AfterContentInit, AfterViewInit
   initMaterialize() {
     $(document).ready(function(){
       $('ul.tabs').tabs();
-      $('.carousel').carousel();
+      $('.carousel').carousel({
+        fullWidth: true
+      });
       $('#profileAttributes').find('.indicator').remove()
       $('.tabs-vertical').find('.indicator').remove()
     });
@@ -139,7 +141,9 @@ initProfile(){
           this.gallery.push(images[i].url);
         }
         $(document).ready(function () {
-          $('.carousel').carousel();
+          $('.carousel').carousel({
+            fullWidth: true
+          });
         });
       }
     } else {

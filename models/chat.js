@@ -15,17 +15,11 @@ const ChatSchema = mongoose.Schema({
   _id: Schema.Types.ObjectId,
   conversations: [{
     _id: {type: Schema.Types.ObjectId},
-    sent: [{
+    messages: [{
       msg : {type: String,
       upsert: true},
+      format: { type: String },      
       createdAt: {type: Date, require: true}
-    }],
-    received: [{
-      msg: {
-        type: String,
-        upsert: true
-      },
-      createdAt: { type: Date, require: true }
     }],
   }]
 })
@@ -41,13 +35,14 @@ const Chat = module.exports = mongoose.model('Chat', ChatSchema)
  * @param {*} message 
  * @param {*} time 
  */
-function sendMessage(senderID, receiverID, message, time) {
+function createSendMessage(senderID, receiverID, message, time) {
   return Chat.findByIdAndUpdate(senderID, { $push: { conversations: 
     {
       _id: receiverID,
-      sent: {
+      messages: {
         _id: new ObjectID(),
         msg: message,
+        format: 'sent',
         createdAt: time
       }
   } }}, { upsert: true, new: true, setDefaultsOnInsert: true }).exec()
@@ -61,20 +56,66 @@ function sendMessage(senderID, receiverID, message, time) {
  * @param {*} message 
  * @param {*} time 
  */
-function receiveMessage(senderID, receiverID, message, time) {
+function sendMessage(senderID, receiverID, message, time) {
+  return Chat.update({ _id: senderID, "conversations._id": receiverID }, {
+    $push: {
+      'conversations.$.messages': {
+        _id: new ObjectID(),
+        msg: message,
+        format: 'sent',        
+        createdAt: time
+      }
+    }
+  }, { upsert: true }).exec()
+
+}
+
+
+
+/**
+ * 
+ * @param {*} senderID 
+ * @param {*} receiverID 
+ * @param {*} message 
+ * @param {*} time 
+ */
+function createReceiveMessage(senderID, receiverID, message, time) {
   return Chat.findByIdAndUpdate(receiverID, {
     $push: {
       conversations:
       {
         _id: senderID,
-        received: {
+        messages: {
           _id: new ObjectID(),
           msg: message,
+          format: 'received',          
           createdAt: time
         }
       }
     }
   }, { upsert: true, new: true, setDefaultsOnInsert: true }).exec()
+
+}
+
+
+/**
+ * 
+ * @param {*} senderID 
+ * @param {*} receiverID 
+ * @param {*} message 
+ * @param {*} time 
+ */
+function receiveMessage(senderID, receiverID, message, time) {
+  return Chat.update({ _id: receiverID, "conversations._id": senderID }, {
+    $push: {
+      'conversations.$.messages': {
+        _id: new ObjectID(),
+        msg: message,
+        format: 'received',        
+        createdAt: time
+      }
+    }
+  }, { upsert: true }).exec()
 
 }
 
@@ -84,7 +125,7 @@ function receiveMessage(senderID, receiverID, message, time) {
  * @param {*} conversationID 
  */
 function getConversation (id, conversationID) {
-  return Chat.find({_id: id, "conversations._id": conversationID },
+  return Chat.findOne({_id: id, "conversations._id": conversationID },
     { _id: id, conversations: { $elemMatch: { _id: conversationID } } }).exec()
 }
 
@@ -98,6 +139,8 @@ function getReceivedMessages(id, conversationID) {
 
 module.exports.sendMessage = sendMessage
 module.exports.receiveMessage = receiveMessage
+module.exports.createSendMessage = createSendMessage
+module.exports.createReceiveMessage = createReceiveMessage
 module.exports.getConversation = getConversation
 module.exports.getSentMessages = getSentMessages
 module.exports.getReceivedMessages = getReceivedMessages

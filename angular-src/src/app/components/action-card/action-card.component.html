@@ -1,6 +1,6 @@
 
 
-  <div class="hide-on-large-only card horizontal col s12 m6 l4">
+  <div class="hide-on-large-only card horizontal col s12 m4 l4">
     <div class="card-image">
       <img [routerLink]="['/profile/'+ profile.username]" *ngIf="!profile.images" class="circle responsive-img profile-img" src="../assets/images/defaultProfilePic.png">
       <img [routerLink]="['/profile/'+ profile.username]" *ngIf="profile.images" class="circle responsive-img profile-img" src={{profile.images.gallery[0].url}}>
@@ -35,7 +35,7 @@
           </div>
 
           <div *ngIf="profile.status === 'confirm'">
-            <i href="/message" class="material-icons right">send</i>
+            <i [routerLink]="['/messages/' + profile.username]" class="material-icons right">send</i>
             <i (click)="quickRejectConfirm(profile)" class="material-icons right">delete</i>
           </div>
 
@@ -81,7 +81,7 @@
                 </div>
 
                 <div *ngIf="profile.status === 'confirm'">
-                  <i href="/message" class="material-icons right">send</i>
+                  <i [routerLink]="['/messages/' + profile.username]" class="material-icons right">send</i>
                   <i (click)="quickRejectConfirm(profile)" class="material-icons right">delete</i>
                 </div>
 
