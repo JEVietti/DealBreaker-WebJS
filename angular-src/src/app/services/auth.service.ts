@@ -119,6 +119,7 @@ export class AuthService {
 
   loadAuthToken(){
     this.authToken = localStorage.getItem('id_token'); 
+    return this.authToken
   }
 
   getName(){

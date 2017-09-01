@@ -1,6 +1,6 @@
 <h2  *ngIf="this.profile == null" class = "header pink-text center flow-text"> Setup Profile </h2>
 <h2  *ngIf="this.profile != null" class = "header pink-text center flow-text"> Update Profile </h2>
-<form #setupForm="ngForm" (submit)="onSetupSubmit(setupForm)" >    
+<form #setupForm="ngForm" (ngSubmit)="onSetupSubmit(setupForm)" >    
       <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix pink-dark">perm_identity</i>                    
@@ -116,8 +116,8 @@
 </div>   
 <br />
 
-  <input *ngIf="this.profile == null" type="button"  (click) = "onSetupSubmit(setupForm)" class="btn btn-primary pink" value="Submit">
-  <input *ngIf="this.profile != null" type="button"  (click) = "onSetupSubmit(setupForm)" class="btn btn-primary pink" value="Update">
+  <button *ngIf="this.profile == null"  class="btn btn-primary pink"> Submit </button>
+  <button *ngIf="this.profile != null"  class="btn btn-primary pink"> Update </button>
   
 </form>
 

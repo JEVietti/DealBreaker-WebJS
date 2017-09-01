@@ -1,0 +1,62 @@
+.chat {
+  height: 55vh;
+  background-color: whitesmoke;
+  margin-bottom: 15px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.chat-container {
+  margin-bottom: 20px;
+}
+
+.sent {
+ 
+  background-color: red;
+  color: white;
+  float: right;
+
+}
+
+.received {
+  background-color: pink;
+  color: white;
+  float: left;
+
+}
+
+.message {
+  -moz-border-radius: 15px; 
+  -webkit-border-radius: 15px; 
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  min-width: 100px;
+  max-width: 40%;
+  margin: 10px 10px 10px 10px;
+  font-size: 1.0em;  
+}
+
+.time {
+  text-align: right;
+  font-size: 10px;
+}
+
+.head {
+  margin-top: 15px;
+  font-size: 28px;
+  color: red;
+  margin-bottom: 0px;
+}
+
+.profile-img {
+  height: 50px;
+  width: 50px;
+ 
+}
+
+.name {
+  margin-top: 8px;
+}

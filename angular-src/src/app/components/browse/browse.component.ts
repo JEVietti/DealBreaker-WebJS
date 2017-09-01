@@ -164,7 +164,7 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
           } else if (profile.sexualOrientation === 'Heterosexual') {
             this.setSexPref(['Female'])
           } else {
-            this.setSexPref(['Male', 'Female'])
+            this.setSexPref('Any')
           }
         } else if (profile.sex === 'Female') {
           if (profile.sexualOrientation === 'Heterosexual') {
@@ -172,7 +172,7 @@ export class BrowseComponent implements OnInit, AfterContentInit, AfterViewInit,
           } else if (profile.sexualOrientation === 'Homosexual') {
             this.setSexPref('Female')
           } else {
-            this.setSexPref(['Male', 'Female'])
+            this.setSexPref('Any')
           }
         }
         this.sexualOrientation = profile.sexualOrientation

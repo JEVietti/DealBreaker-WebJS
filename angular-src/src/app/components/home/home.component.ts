@@ -26,16 +26,17 @@ export class HomeComponent implements OnInit, AfterContentInit {
 //Insert Javascript/Jquery - in this case toggle the navbar on clicks of changing page
   ngAfterContentInit() {
     const options = [
-      {selector: '.main', offset: 200, callback: function(el) {
+      {selector: '.main', offset: 400, callback: function(el) {
         Materialize.showStaggeredList($(el));
       } },
-      {selector: '#showcase-img', offset: 200, callback: function(el) {
+      {selector: '#showcase-img', offset: 400, callback: function(el) {
         Materialize.fadeInImage($(el));
       } }
     ]
 
     $(document).ready(() => {
       $('.parallax').parallax();
+      $('.home-buttons').fadeIn(500).delay(200);
       Materialize.scrollFire(options)
     });
   }

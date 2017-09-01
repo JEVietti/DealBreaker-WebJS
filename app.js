@@ -57,8 +57,8 @@ const pending = require('./routes/pending')
 const confirmed = require('./routes/confirmed')
 const images = require('./routes/images')
 const browse = require('./routes/browse')
-const AWS = require('aws-sdk')
-AWS.config.loadFromPath('./config/s3Config.json')
+const chat = require('./routes/chat')
+
 
 
 // CORS MiddleWare
@@ -85,6 +85,7 @@ app.use('/api/confirm', confirmed)
 // app.use('/', profiles);
 app.use('/api/images', images)
 app.use('/api/browse', browse)
+app.use('/api/chat', chat)
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'))
@@ -98,9 +99,31 @@ server.listen(port, () => {
   console.log('Server started on port ' + port)
 })
 
+const jwt = require('jsonwebtoken');
+
 io.on('connection', (socket) => {
+  socket.on('join',(data)=> {
+   // console.log(data)
+    jwt.verify(data.token, dbConfig.secret, (err, result) => {
+
+    if(result) {
+      socket.join(result._doc.username)
+      console.log(result._doc.username + ' has joined')
+    }
+    })
+  })
   console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
+  socket.on('save-message', (data)=>{
+    console.log('message')
+    io.sockets.to(data.to).emit('new-message', {message: data.message})
+  })
+  socket.on('leave', (data) => {
+    socket.leave(data.username)
+    console.log('Left ' + data.username)
+  })
 });
+
+
 
 module.exports = app
