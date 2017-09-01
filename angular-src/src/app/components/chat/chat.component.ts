@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ChatService } from '../../services/chat.service'
@@ -10,7 +10,7 @@ import * as io from 'socket.io-client';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterContentInit {
 
   chat: Array<Object>;
   joined: boolean;
@@ -30,6 +30,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.username = user.username
     this.getChatRoom()
     this.loadChat()
+  }
+
+  ngAfterContentInit() {
+   
   }
 
   initMessenger() {

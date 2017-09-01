@@ -124,9 +124,9 @@ function receiveMessage(senderID, receiverID, message, time) {
  * @param {*} id 
  * @param {*} conversationID 
  */
-function getConversation (id, conversationID) {
-  return Chat.findOne({_id: id, "conversations._id": conversationID },
-    { _id: id, conversations: { $elemMatch: { _id: conversationID } } }).exec()
+function getConversation(id, conversationID) {
+  return Chat.findOne({ _id: id, "conversations._id": conversationID },
+    { 'conversations.messages': { $slice: -15 } }).exec()
 }
 
 function getSentMessages(id, conversationID) {

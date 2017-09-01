@@ -68,6 +68,9 @@ section {
   font-size: 18px;
 }
 
+.home-buttons {
+  display: none;
+}
 
 .button-front-left {
   position: absolute;
@@ -76,18 +79,19 @@ section {
    left: 50%;
    margin-right:0px;   
    margin-left: 20px;
-   margin-bottom: 10px;
+   margin-bottom: 40px;
+   width: 150px;
 }
 
 .button-front-right {
   position: absolute;
-   margin-top: 50px;
    bottom: 0;
    right:0;
    right: 50%;
    margin-left: 0px;   
    margin-right:0px;
-   margin-bottom: 10px;
+   margin-bottom: 40px;
+   width: 150px;   
 }
 
 
